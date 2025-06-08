@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:grace_ogangwu/constants/sizes.dart';
+import 'package:grace_ogangwu/constants/styles.dart';
 
 void main() {
   runApp(const GraceOgangwu());
@@ -10,7 +12,14 @@ class GraceOgangwu extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(theme: ThemeData(), home: const Index());
+    return MaterialApp(
+      theme: ThemeData(
+        fontFamily: CustomFontFamily.sans,
+        fontFamilyFallback: [CustomFontFamily.sansDisplay],
+        scaffoldBackgroundColor: CustomColors.background,
+      ),
+      home: const Index(),
+    );
   }
 }
 

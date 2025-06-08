@@ -27,20 +27,24 @@ class CustomTextStyle {
   static TextStyle headlineSmall(BuildContext context, {Color? color}) =>
       TextStyle(
         fontSize: FontSizes.headlineSmall(context),
+        letterSpacing: FontSizes.headlineMedium(context) * 0.05,
         fontFamily: CustomFontFamily.sans,
         color: color ?? CustomColors.black,
       );
 
-  static TextStyle headlineMedium(BuildContext context) => TextStyle(
-    fontSize: FontSizes.headlineMedium(context),
-    fontFamily: CustomFontFamily.sansDisplay,
-    height: 0.9,
-    color: CustomColors.black,
-  );
+  static TextStyle headlineMedium(BuildContext context, {Color? color}) =>
+      TextStyle(
+        fontSize: FontSizes.headlineMedium(context),
+        fontFamily: CustomFontFamily.sansDisplay,
+        letterSpacing: FontSizes.headlineMedium(context) * 0.05,
+        height: 0.9,
+        color: color ?? CustomColors.black,
+      );
 
   static TextStyle headlineLarge(BuildContext context) => TextStyle(
     fontSize: FontSizes.headlineLarge(context),
     fontFamily: CustomFontFamily.sansDisplay,
+    letterSpacing: FontSizes.headlineMedium(context) * 0.05,
     height: 0.9,
     color: CustomColors.black,
   );
@@ -48,6 +52,7 @@ class CustomTextStyle {
   static TextStyle title(BuildContext context, {Color? color}) => TextStyle(
     fontSize: FontSizes.title(context),
     fontFamily: CustomFontFamily.sansDisplay,
+    letterSpacing: FontSizes.headlineMedium(context) * 0.05,
     height: 0.9,
     color: color ?? CustomColors.foreground,
   );

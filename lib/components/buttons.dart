@@ -65,6 +65,7 @@ class CustomButton {
     BuildContext context, {
     required String label,
     required VoidCallback onTap,
+
     bool isFullWidth = false,
   }) => SizedBox(
     width: isFullWidth ? double.infinity : null,
@@ -105,7 +106,7 @@ class CustomButton {
             height: 40,
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: CustomColors.foreground,
+              color: CustomColors.primary,
               shape: BoxShape.circle,
             ),
             child: Icon(
@@ -152,6 +153,23 @@ class CustomButton {
       size: 16,
       color: isPrimary ? CustomColors.foreground : CustomColors.black,
     ),
+  );
+  static Widget icon(
+    BuildContext context, {
+    required VoidCallback onTap,
+    required IconData icon,
+    Color? color,
+    bool isPrimary = false,
+  }) => IconButton(
+    onPressed: onTap,
+    style: IconButton.styleFrom(
+      shape: CircleBorder(),
+      visualDensity: VisualDensity.compact,
+      backgroundColor: Colors.transparent,
+      overlayColor: Colors.transparent,
+      hoverColor: Colors.transparent,
+    ),
+    icon: Icon(icon, size: 24, color: color ?? CustomColors.black),
   );
 
   static Widget footerSocials(
