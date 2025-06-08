@@ -11,13 +11,14 @@ class HeroSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Container(
     width: double.infinity,
-    padding: EdgeInsets.symmetric(
-      horizontal: CustomPadding.pageHorizontal(context),
-    ),
+    alignment: Alignment.topCenter,
     decoration: BoxDecoration(
       // TODO: Add background image
     ),
-    child: ConstrainedBox(
+    child: Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: CustomPadding.pageHorizontal(context),
+      ),
       constraints: BoxConstraints(maxWidth: 1500),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

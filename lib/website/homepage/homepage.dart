@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grace_ogangwu/components/app_bar.dart';
-import 'package:grace_ogangwu/website/homepage/hero.dart';
+import 'package:grace_ogangwu/constants/keys.dart';
+import 'package:grace_ogangwu/website/homepage/hero_section.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
@@ -23,8 +24,8 @@ class _HomepageState extends State<Homepage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          HeroSection(),
-          // Hero section
+          HeroSection(key: SectionKeys.hero),
+          
           // About me section
           // Service section
           // How I work section
