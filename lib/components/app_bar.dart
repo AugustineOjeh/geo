@@ -1,14 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:grace_ogangwu/assets/logo.dart';
 import 'package:grace_ogangwu/components/buttons.dart';
+import 'package:grace_ogangwu/constants/sizes.dart';
 import 'package:grace_ogangwu/constants/styles.dart';
 
 class CustomAppBar {
+  static AppBar dynamic(BuildContext context) => Device.isMobile(context)
+      ? CustomAppBar.mobile(context)
+      : Device.isTablet(context)
+      ? CustomAppBar.tablet(context)
+      : CustomAppBar.desktop(context);
+
+  /// Wide appBar with middle navbar
   static AppBar desktop(BuildContext context) => AppBar(
     automaticallyImplyLeading: false,
     backgroundColor: Colors.transparent,
     title: Container(
-      margin: EdgeInsets.only(top: 32),
+      margin: EdgeInsets.symmetric(
+        horizontal: CustomPadding.pageHorizontal(context),
+        vertical: 32,
+      ),
       width: double.infinity,
       child: SizedBox(
         width: double.infinity,
@@ -91,7 +102,10 @@ class CustomAppBar {
     automaticallyImplyLeading: false,
     backgroundColor: Colors.transparent,
     title: Container(
-      margin: EdgeInsets.only(top: 32),
+      margin: EdgeInsets.symmetric(
+        horizontal: CustomPadding.pageHorizontal(context),
+        vertical: 32,
+      ),
       width: double.infinity,
       child: SizedBox(
         width: double.infinity,
@@ -130,7 +144,10 @@ class CustomAppBar {
     automaticallyImplyLeading: false,
     backgroundColor: Colors.transparent,
     title: Container(
-      margin: EdgeInsets.only(top: 32),
+      margin: EdgeInsets.symmetric(
+        horizontal: CustomPadding.pageHorizontal(context),
+        vertical: 32,
+      ),
       width: double.infinity,
       child: SizedBox(
         width: double.infinity,
@@ -149,6 +166,21 @@ class CustomAppBar {
             ),
           ],
         ),
+      ),
+    ),
+  );
+  static AppBar app(BuildContext context) => AppBar(
+    automaticallyImplyLeading: false,
+    backgroundColor: Colors.transparent,
+    title: Container(
+      margin: EdgeInsets.symmetric(
+        horizontal: CustomPadding.pageHorizontal(context),
+        vertical: 32,
+      ),
+      width: double.infinity,
+      child: SizedBox(
+        width: double.infinity,
+        child: Row(children: [SizedBox(child: logo(context, isBlack: false))]),
       ),
     ),
   );
