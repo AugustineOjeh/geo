@@ -4,6 +4,7 @@ import 'package:grace_ogangwu/constants/keys.dart';
 import 'package:grace_ogangwu/website/sections/about_section.dart';
 import 'package:grace_ogangwu/website/sections/hero_section.dart';
 import 'package:grace_ogangwu/website/sections/how_i_work_section.dart';
+import 'package:grace_ogangwu/website/sections/packages_section.dart';
 import 'package:grace_ogangwu/website/sections/partners_section.dart';
 import 'package:grace_ogangwu/website/sections/testimonial_section.dart';
 import 'package:grace_ogangwu/website/sections/what_i_offer_section.dart';
@@ -36,8 +37,8 @@ class _HomepageState extends State<Homepage> {
           WhatIOfferSection(key: SectionKeys.services),
           HowIWorkSection(key: SectionKeys.process),
           PartnersSection(key: SectionKeys.partners),
-          TestimonialSection(key: SectionKeys.testimonial,)
-          // Packages
+          TestimonialSection(key: SectionKeys.testimonial),
+          PackagesSection(key: SectionKeys.bookClass),
           // FAQs
           // Blogs
           // Footer

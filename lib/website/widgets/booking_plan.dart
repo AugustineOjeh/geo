@@ -85,7 +85,7 @@ class _BookingPlanState extends State<BookingPlan> {
               spacing: 4,
               children: [
                 Text(
-                  widget.isCustom ? ' ' : widget.price.toString(),
+                  widget.isCustom ? ' ' : '\$${widget.price.toString()}',
                   style: CustomTextStyle.headlineMedium(
                     context,
                   ).copyWith(fontSize: 40),
