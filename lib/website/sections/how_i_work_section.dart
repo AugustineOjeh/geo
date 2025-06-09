@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:grace_ogangwu/components/section_header.dart';
 import 'package:grace_ogangwu/constants/sizes.dart';
 import 'package:grace_ogangwu/constants/styles.dart';
-import 'package:grace_ogangwu/website/homepage/process_box.dart';
+import 'package:grace_ogangwu/website/widgets/process_box.dart';
 
 Widget _header(BuildContext context) => SectionHeader.full(
   context,

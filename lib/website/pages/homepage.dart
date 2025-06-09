@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:grace_ogangwu/components/app_bar.dart';
 import 'package:grace_ogangwu/constants/keys.dart';
-import 'package:grace_ogangwu/website/homepage/about_section.dart';
-import 'package:grace_ogangwu/website/homepage/hero_section.dart';
-import 'package:grace_ogangwu/website/homepage/how_i_work_section.dart';
-import 'package:grace_ogangwu/website/homepage/what_i_offer_section.dart';
+import 'package:grace_ogangwu/website/sections/about_section.dart';
+import 'package:grace_ogangwu/website/sections/hero_section.dart';
+import 'package:grace_ogangwu/website/sections/how_i_work_section.dart';
+import 'package:grace_ogangwu/website/sections/what_i_offer_section.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
