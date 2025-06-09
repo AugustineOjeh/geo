@@ -4,6 +4,7 @@ class SectionKeys {
   static final aboutMe = GlobalKey();
   static final hero = GlobalKey();
   static final services = GlobalKey();
+  static final process = GlobalKey();
   static final partners = GlobalKey();
   static final bookClass = GlobalKey();
   static final faq = GlobalKey();

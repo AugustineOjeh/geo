@@ -27,7 +27,6 @@ class CustomTextStyle {
   static TextStyle headlineSmall(BuildContext context, {Color? color}) =>
       TextStyle(
         fontSize: FontSizes.headlineSmall(context),
-        letterSpacing: FontSizes.headlineMedium(context),
         fontFamily: CustomFontFamily.sans,
         color: color ?? CustomColors.black,
       );

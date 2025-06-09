@@ -3,6 +3,7 @@ import 'package:grace_ogangwu/components/app_bar.dart';
 import 'package:grace_ogangwu/constants/keys.dart';
 import 'package:grace_ogangwu/website/homepage/about_section.dart';
 import 'package:grace_ogangwu/website/homepage/hero_section.dart';
+import 'package:grace_ogangwu/website/homepage/how_i_work_section.dart';
 import 'package:grace_ogangwu/website/homepage/what_i_offer_section.dart';
 
 class Homepage extends StatefulWidget {
@@ -31,7 +32,8 @@ class _HomepageState extends State<Homepage> {
           HeroSection(key: SectionKeys.hero),
           AboutSection(key: SectionKeys.aboutMe),
           WhatIOfferSection(key: SectionKeys.services),
-          // How I work section
+          HowIWorkSection(key: SectionKeys.process),
+          
           // Tech partners
           // Testimonial
           // Packages
