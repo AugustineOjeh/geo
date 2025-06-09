@@ -159,6 +159,7 @@ class CustomButton {
     required VoidCallback onTap,
     required IconData icon,
     Color? color,
+    double? size,
     bool isPrimary = false,
   }) => IconButton(
     onPressed: onTap,
@@ -169,7 +170,7 @@ class CustomButton {
       overlayColor: Colors.transparent,
       hoverColor: Colors.transparent,
     ),
-    icon: Icon(icon, size: 24, color: color ?? CustomColors.black),
+    icon: Icon(icon, size: size ?? 24, color: color ?? CustomColors.black),
   );
 
   static Widget footerSocials(

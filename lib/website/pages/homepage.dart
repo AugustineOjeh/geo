@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:grace_ogangwu/components/app_bar.dart';
 import 'package:grace_ogangwu/constants/keys.dart';
 import 'package:grace_ogangwu/website/sections/about_section.dart';
+import 'package:grace_ogangwu/website/sections/faq_section.dart';
 import 'package:grace_ogangwu/website/sections/hero_section.dart';
 import 'package:grace_ogangwu/website/sections/how_i_work_section.dart';
 import 'package:grace_ogangwu/website/sections/packages_section.dart';
@@ -39,6 +40,7 @@ class _HomepageState extends State<Homepage> {
           PartnersSection(key: SectionKeys.partners),
           TestimonialSection(key: SectionKeys.testimonial),
           PackagesSection(key: SectionKeys.bookClass),
+          FaqSection(key: SectionKeys.faq),
           // FAQs
           // Blogs
           // Footer
