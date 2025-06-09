@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:grace_ogangwu/components/buttons.dart';
 import 'package:grace_ogangwu/components/section_header.dart';
 import 'package:grace_ogangwu/constants/sizes.dart';
 import 'package:grace_ogangwu/constants/styles.dart';
@@ -133,6 +134,13 @@ class _HowIWorkSectionState extends State<HowIWorkSection> {
         isMobile: true,
         image: _box3Content['image']!,
       ),
+      CustomButton.primary(
+        context,
+        label: 'Book a class',
+        onTap: () {
+          // TODO: Implement Auth
+        },
+      ),
     ],
   );
   Widget _desktopView(BuildContext context) => Column(
@@ -192,6 +200,13 @@ class _HowIWorkSectionState extends State<HowIWorkSection> {
             ),
           ),
         ],
+      ),
+      CustomButton.primary(
+        context,
+        label: 'Book a class',
+        onTap: () {
+          // TODO: Implement Auth
+        },
       ),
     ],
   );
@@ -253,6 +268,13 @@ class _HowIWorkSectionState extends State<HowIWorkSection> {
             image: _box3Content['image']!,
           ),
         ],
+      ),
+      CustomButton.primary(
+        context,
+        label: 'Book a class',
+        onTap: () {
+          // TODO: Implement Auth
+        },
       ),
     ],
   );
