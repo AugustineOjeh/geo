@@ -81,6 +81,7 @@ class AboutSection extends StatelessWidget {
     constraints: BoxConstraints(maxWidth: 1500),
     padding: EdgeInsets.symmetric(
       horizontal: CustomPadding.pageHorizontal(context),
+      vertical: CustomPadding.sectionVertical(context),
     ),
     child: Device.isMobile(context)
         ? _aboutMobile(context)

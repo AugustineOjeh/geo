@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:grace_ogangwu/components/app_bar.dart';
 import 'package:grace_ogangwu/constants/keys.dart';
+import 'package:grace_ogangwu/website/homepage/about_section.dart';
 import 'package:grace_ogangwu/website/homepage/hero_section.dart';
+import 'package:grace_ogangwu/website/homepage/what_i_offer_section.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
@@ -11,6 +13,7 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
+  final _scrollController = ScrollController();
   @override
   void initState() {
     super.initState();
@@ -21,13 +24,13 @@ class _HomepageState extends State<Homepage> {
   Widget build(BuildContext context) => Scaffold(
     appBar: CustomAppBar.dynamic(context),
     body: SingleChildScrollView(
+      controller: _scrollController,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           HeroSection(key: SectionKeys.hero),
-          
-          // About me section
-          // Service section
+          AboutSection(key: SectionKeys.aboutMe),
+          WhatIOfferSection(key: SectionKeys.services),
           // How I work section
           // Tech partners
           // Testimonial
