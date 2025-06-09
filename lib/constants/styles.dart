@@ -15,18 +15,21 @@ class CustomTextStyle {
       TextStyle(
         fontSize: FontSizes.bodyMedium,
         fontFamily: CustomFontFamily.sans,
+        fontWeight: CustomFontWeight.medium,
         color: color ?? CustomColors.text,
       );
 
   static TextStyle bodyLarge(BuildContext context, {Color? color}) => TextStyle(
     fontSize: FontSizes.bodyLarge,
     fontFamily: CustomFontFamily.sans,
+    fontWeight: CustomFontWeight.medium,
     color: color ?? CustomColors.text,
   );
 
   static TextStyle headlineSmall(BuildContext context, {Color? color}) =>
       TextStyle(
         fontSize: FontSizes.headlineSmall(context),
+        fontWeight: CustomFontWeight.medium,
         fontFamily: CustomFontFamily.sans,
         color: color ?? CustomColors.black,
       );
@@ -35,6 +38,7 @@ class CustomTextStyle {
       TextStyle(
         fontSize: FontSizes.headlineMedium(context),
         fontFamily: CustomFontFamily.sansDisplay,
+        fontWeight: CustomFontWeight.medium,
         letterSpacing: FontSizes.headlineMedium(context) * 0.05,
         height: 0.9,
         color: color ?? CustomColors.black,
@@ -43,6 +47,7 @@ class CustomTextStyle {
   static TextStyle headlineLarge(BuildContext context) => TextStyle(
     fontSize: FontSizes.headlineLarge(context),
     fontFamily: CustomFontFamily.sansDisplay,
+    fontWeight: CustomFontWeight.medium,
     letterSpacing: FontSizes.headlineMedium(context) * 0.05,
     height: 0.9,
     color: CustomColors.black,
@@ -51,6 +56,7 @@ class CustomTextStyle {
   static TextStyle title(BuildContext context, {Color? color}) => TextStyle(
     fontSize: FontSizes.title(context),
     fontFamily: CustomFontFamily.sansDisplay,
+    fontWeight: CustomFontWeight.bold,
     letterSpacing: FontSizes.headlineMedium(context) * 0.05,
     height: 0.9,
     color: color ?? CustomColors.foreground,
