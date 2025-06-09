@@ -79,18 +79,21 @@ class CustomPadding {
       ? 56.00
       : 64.00;
 
-  static double containerVertical(BuildContext context) => Device.isMobile(context)
+  static double containerVertical(BuildContext context) =>
+      Device.isMobile(context)
       ? 32.00
       : Device.isTablet(context)
-      ? 40.00
-      : 56.00;
+      ? 48.00
+      : Device.isLaptop(context)
+      ? 56
+      : 64.00;
 
   static double containerHorizontal(BuildContext context) =>
       Device.isMobile(context)
       ? 16.00
       : Device.isTablet(context)
       ? 30.00
-      : 48.00;
+      : 56.00;
 
   static double containerSmall(BuildContext context) => Device.isMobile(context)
       ? 16.00

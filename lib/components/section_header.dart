@@ -34,14 +34,21 @@ class SectionHeader {
     BuildContext context, {
     required String prefixText,
     required String headline,
+    bool isCentered = false,
     bool isWhite = false,
   }) => Column(
     mainAxisSize: MainAxisSize.min,
-    crossAxisAlignment: CrossAxisAlignment.start,
+    crossAxisAlignment: isCentered
+        ? CrossAxisAlignment.center
+        : CrossAxisAlignment.start,
     spacing: Spacing.small(context),
     children: [
       prefix(context, text: prefixText, isWhite: isWhite),
-      Text(headline, style: CustomTextStyle.headlineLarge(context)),
+      Text(
+        headline,
+        style: CustomTextStyle.headlineLarge(context),
+        textAlign: isCentered ? TextAlign.center : TextAlign.left,
+      ),
     ],
   );
 }

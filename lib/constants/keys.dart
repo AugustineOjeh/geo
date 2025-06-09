@@ -7,6 +7,7 @@ class SectionKeys {
   static final process = GlobalKey();
   static final partners = GlobalKey();
   static final bookClass = GlobalKey();
+  static final testimonial = GlobalKey();
   static final faq = GlobalKey();
   static final blog = GlobalKey();
   static final footer = GlobalKey();
