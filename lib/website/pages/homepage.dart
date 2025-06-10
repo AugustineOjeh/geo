@@ -53,7 +53,6 @@ class _HomepageState extends State<Homepage> {
           FaqSection(key: SectionKeys.faq),
           // Blogs
           Footer(key: SectionKeys.footer, backToTop: _backToTop),
-          // Footer
         ],
       ),
     ),
