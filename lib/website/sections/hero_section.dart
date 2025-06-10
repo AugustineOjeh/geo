@@ -6,7 +6,8 @@ import 'package:grace_ogangwu/constants/sizes.dart';
 import 'package:grace_ogangwu/constants/styles.dart';
 
 class HeroSection extends StatelessWidget {
-  const HeroSection({super.key});
+  const HeroSection({required this.navigate, super.key});
+  final void Function(GlobalKey) navigate;
 
   @override
   Widget build(BuildContext context) => Container(
@@ -23,7 +24,7 @@ class HeroSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CustomAppBar.dynamic(context),
+          CustomAppBar.dynamic(context, navigate: navigate),
           SizedBox(height: Spacing.hero(context)),
           CustomButton.secondary(
             context,

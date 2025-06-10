@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grace_ogangwu/constants/styles.dart';
 
-Widget logo(BuildContext context, {required isBlack}) => SizedBox(
+Widget logo(BuildContext context, {required bool isBlack}) => SizedBox(
   child: Column(
     spacing: -2,
     mainAxisSize: MainAxisSize.min,

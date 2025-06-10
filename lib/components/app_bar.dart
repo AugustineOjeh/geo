@@ -1,18 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:grace_ogangwu/assets/logo.dart';
 import 'package:grace_ogangwu/components/buttons.dart';
+import 'package:grace_ogangwu/constants/keys.dart';
 import 'package:grace_ogangwu/constants/sizes.dart';
 import 'package:grace_ogangwu/constants/styles.dart';
 
 class CustomAppBar {
-  static AppBar dynamic(BuildContext context) => Device.isMobile(context)
+  static AppBar dynamic(
+    BuildContext context, {
+    required void Function(GlobalKey) navigate,
+  }) => Device.isMobile(context)
       ? CustomAppBar.mobile(context)
       : Device.isTablet(context)
       ? CustomAppBar.tablet(context)
-      : CustomAppBar.desktop(context);
+      : CustomAppBar.desktop(context, navigate: navigate);
 
   /// Wide appBar with middle navbar
-  static AppBar desktop(BuildContext context) => AppBar(
+  static AppBar desktop(
+    BuildContext context, {
+    required void Function(GlobalKey) navigate,
+  }) => AppBar(
     automaticallyImplyLeading: false,
     backgroundColor: Colors.transparent,
     title: Container(
@@ -41,30 +48,22 @@ class CustomAppBar {
                 children: [
                   customTextButton(
                     context,
-                    onTap: () {
-                      // TODO: Navigate to top
-                    },
+                    onTap: () => navigate(SectionKeys.hero),
                     text: 'Home',
                   ),
                   customTextButton(
                     context,
-                    onTap: () {
-                      // TODO: Navigate to About me
-                    },
+                    onTap: () => navigate(SectionKeys.aboutMe),
                     text: 'About me',
                   ),
                   customTextButton(
                     context,
-                    onTap: () {
-                      // TODO: Navigate to Services
-                    },
+                    onTap: () => navigate(SectionKeys.services),
                     text: 'Services',
                   ),
                   customTextButton(
                     context,
-                    onTap: () {
-                      // TODO: Open overlay for social contacts
-                    },
+                    onTap: () => navigate(SectionKeys.footer),
                     text: 'Contact me',
                   ),
                 ],
@@ -86,9 +85,7 @@ class CustomAppBar {
                   CustomButton.secondary(
                     context,
                     label: 'Book a trial class',
-                    onTap: () {
-                      // TODO: Implement Auth
-                    },
+                    onTap: () => navigate(SectionKeys.bookClass),
                   ),
                 ],
               ),

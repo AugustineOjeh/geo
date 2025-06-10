@@ -86,7 +86,7 @@ class CustomFields {
     ),
   );
 
-  static newsLetterInput(
+  static newsletterInput(
     BuildContext context, {
     required TextEditingController controller,
     void Function(String)? onSubmit,
