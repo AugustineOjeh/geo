@@ -26,6 +26,12 @@ class _CalendarPageState extends State<CalendarPage> {
   bool _loading = false;
   int _bookedSlots = 0;
 
+  @override
+  void initState() {
+    super.initState();
+    // TODO: Implement calendar webview and updated booked slots with responses.
+  }
+
   void _onBookingCompleted() async {
     setState(() => _loading = true);
     try {

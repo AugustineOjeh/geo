@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grace_ogangwu/app/core/navigation_manager.dart';
 import 'package:grace_ogangwu/constants/constants.dart';
 import 'package:grace_ogangwu/website/widgets/booking_plan.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -21,9 +22,15 @@ class _BookingPackagesPageState extends State<BookingPackagesPage> {
     _firstName = user.userMetadata?['first-name'] ?? '';
   }
 
-  void _onPackageTap(int bookingCount, double price, String tierName) {
-    // TODO: Initiate booking.
-  }
+  void _onPackageTap(int bookingCount, double price, String tierName) =>
+      NavigationManager.push(
+        PageNames.chooseStudent,
+        arguments: {
+          'tier': tierName,
+          'pricing': price,
+          'booking-count': bookingCount,
+        },
+      );
 
   @override
   Widget build(BuildContext context) {

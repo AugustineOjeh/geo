@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:grace_ogangwu/app/core/student_model.dart';
 import 'package:grace_ogangwu/app/pages/booking_packages_page.dart';
 import 'package:grace_ogangwu/app/pages/auth_page.dart';
+import 'package:grace_ogangwu/app/pages/booking_success_page.dart';
 import 'package:grace_ogangwu/app/pages/calendar_page.dart';
 import 'package:grace_ogangwu/app/pages/payment_page.dart';
+import 'package:grace_ogangwu/app/pages/questionniare_page.dart';
+import 'package:grace_ogangwu/app/pages/select_student_page.dart';
 import 'package:grace_ogangwu/app/pages/student_onboarding_page.dart';
 import 'package:grace_ogangwu/app/pages/user_onboarding_page.dart';
 
@@ -90,7 +93,7 @@ class CustomRoutes {
       bookingCount: args['booking-count'] as int?,
     ),
     PageNames.payment: (context, args) => PaymentPage(
-      studentId: args['student-id'] as String?,
+      student: args['student'] as Student?,
       tier: args['tier'] as String?,
       price: args['pricing'] as double?,
       bookingCount: args['booking-count'] as int?,
@@ -106,6 +109,21 @@ class CustomRoutes {
       student: args['student'] as Student,
       bookingId: args['booking-id'] as String,
       tier: args['tier'],
+      bookingCount: args['booking-count'] as int,
+    ),
+    PageNames.bookingCompleted: (context, args) => BookingSuccessPage(
+      student: args['student'] as Student,
+      tier: args['tier'],
+      bookingCount: args['booking-count'] as int,
+    ),
+    PageNames.questionnaire: (context, args) => QuestionniarePage(
+      student: args['student'] as Student,
+      tier: args['tier'],
+      bookingCount: args['booking-count'] as int,
+    ),
+    PageNames.chooseStudent: (context, args) => SelectStudentPage(
+      price: args['pricing'] as double,
+      tier: args['tier'] as String,
       bookingCount: args['booking-count'] as int,
     ),
   };

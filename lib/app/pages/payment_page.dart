@@ -7,13 +7,13 @@ import 'package:grace_ogangwu/constants/constants.dart';
 
 class PaymentPage extends StatefulWidget {
   const PaymentPage({
-    this.studentId,
+    this.student,
     this.tier,
     this.price,
     this.bookingCount,
     super.key,
   });
-  final String? studentId;
+  final Student? student;
   final String? tier;
   final double? price;
   final int? bookingCount;
@@ -25,6 +25,7 @@ class PaymentPage extends StatefulWidget {
 class _PaymentPageState extends State<PaymentPage> {
   Map<String, dynamic>? _booking;
   bool _loadingPage = false;
+  
   @override
   void initState() {
     super.initState();
@@ -40,7 +41,7 @@ class _PaymentPageState extends State<PaymentPage> {
         NavigationManager.pushReplacement(PageNames.booking);
         return;
       }
-      if (widget.studentId == null) {
+      if (widget.student == null) {
         NavigationManager.pushReplacement(
           PageNames.chooseStudent,
           arguments: {
@@ -64,7 +65,7 @@ class _PaymentPageState extends State<PaymentPage> {
     final res = await AppHelper.createBooking(
       context,
       tier: widget.tier!,
-      studentId: widget.studentId!,
+      studentId: widget.student!.id,
       maxSlots: widget.bookingCount!,
     );
     setState(() => _booking = res);

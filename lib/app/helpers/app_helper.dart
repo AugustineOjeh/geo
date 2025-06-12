@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grace_ogangwu/app/core/navigation_manager.dart';
+import 'package:grace_ogangwu/app/core/student_model.dart';
 import 'package:grace_ogangwu/utils/request_handler.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -47,7 +48,7 @@ class AppHelper {
     NavigationManager.push(
       PageNames.payment,
       arguments: {
-        'student-id': res['id'],
+        'student': Student.fromMap(res),
         'tier': tier,
         'pricing': price,
         'booking-count': bookingCount,
