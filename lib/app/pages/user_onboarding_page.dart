@@ -4,7 +4,15 @@ import 'package:grace_ogangwu/components/components.dart';
 import 'package:grace_ogangwu/constants/constants.dart';
 
 class UserOnboardingPage extends StatefulWidget {
-  const UserOnboardingPage({super.key});
+  const UserOnboardingPage({
+    this.bookingCount,
+    this.tier,
+    this.tierPrice,
+    super.key,
+  });
+  final double? tierPrice;
+  final String? tier;
+  final int? bookingCount;
 
   @override
   State<UserOnboardingPage> createState() => _UserOnboardingPageState();
@@ -24,10 +32,13 @@ class _UserOnboardingPageState extends State<UserOnboardingPage> {
     if (!_validateForm()) return;
     setState(() => _loading = true);
     try {
-      await UserAndStudentHelper.updateUserData(
+      await AppHelper.updateUserData(
         context,
         firstName: _firstNameController.text.trim(),
         lastName: _lastNameController.text.trim(),
+        tier: widget.tier,
+        price: widget.tierPrice,
+        bookingCount: widget.bookingCount,
       );
     } finally {
       setState(() => _loading = false);

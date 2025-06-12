@@ -4,15 +4,24 @@ import 'package:grace_ogangwu/assets/logo.dart';
 import 'package:grace_ogangwu/constants/constants.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class AppScaffold extends StatefulWidget {
-  const AppScaffold({required this.child, super.key});
-  final Widget child;
+class AppPage extends StatefulWidget {
+  const AppPage({
+    this.showSignUpWidget = true,
+    this.bookingCount,
+    this.tier,
+    this.tierPrice,
+    super.key,
+  });
+  final bool showSignUpWidget;
+  final double? tierPrice;
+  final String? tier;
+  final int? bookingCount;
 
   @override
-  State<AppScaffold> createState() => _AppScaffoldState();
+  State<AppPage> createState() => _AppPageState();
 }
 
-class _AppScaffoldState extends State<AppScaffold> {
+class _AppPageState extends State<AppPage> {
   String? _initialRoute;
 
   @override
@@ -20,7 +29,15 @@ class _AppScaffoldState extends State<AppScaffold> {
     super.initState();
     final session = Supabase.instance.client.auth.currentSession;
     if (session == null) {
-      _initialRoute = PageNames.auth;
+      NavigationManager.push(
+        PageNames.auth,
+        arguments: {
+          'show-signup': widget.showSignUpWidget,
+          'tier': widget.tier,
+          'pricing': widget.tierPrice,
+          'booking-count': widget.bookingCount,
+        },
+      );
     } else {
       _initialRoute = PageNames.booking;
     }

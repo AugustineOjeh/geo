@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:grace_ogangwu/app/pages/auth_page.dart';
+import 'package:grace_ogangwu/app/core/app_page.dart';
 import 'package:grace_ogangwu/components/section_header.dart';
 import 'package:grace_ogangwu/constants/offers.dart';
 import 'package:grace_ogangwu/constants/sizes.dart';
@@ -38,7 +38,7 @@ class _PackagesSectionState extends State<PackagesSection> {
       context,
       MaterialPageRoute(
         builder: (context) =>
-            AuthPage(tier: tier, bookingCount: bookingCount, tierPrice: price),
+            AppPage(tier: tier, bookingCount: bookingCount, tierPrice: price),
       ),
     );
   }

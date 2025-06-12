@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:grace_ogangwu/app/pages/auth_page.dart';
+import 'package:grace_ogangwu/app/core/app_page.dart';
 import 'package:grace_ogangwu/assets/logo.dart';
 import 'package:grace_ogangwu/components/buttons.dart';
 import 'package:grace_ogangwu/constants/keys.dart';
@@ -80,7 +80,7 @@ class CustomAppBar {
                     onTap: () => Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => AuthPage(showSignUpWidget: false),
+                        builder: (context) => AppPage(showSignUpWidget: false),
                       ),
                     ),
                     text: 'Sign in',
@@ -126,7 +126,7 @@ class CustomAppBar {
                     onTap: () => Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => AuthPage(showSignUpWidget: false),
+                        builder: (context) => AppPage(showSignUpWidget: false),
                       ),
                     ),
                     text: 'Sign in',

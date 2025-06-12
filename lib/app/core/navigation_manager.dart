@@ -1,35 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:grace_ogangwu/app/pages/booking_packages_page.dart';
 import 'package:grace_ogangwu/app/pages/auth_page.dart';
+import 'package:grace_ogangwu/app/pages/payment_page.dart';
+import 'package:grace_ogangwu/app/pages/student_onboarding_page.dart';
 import 'package:grace_ogangwu/app/pages/user_onboarding_page.dart';
-
-class PageNames {
-  static const booking = '/booking';
-  static const auth = '/auth';
-  static const calendar = '/calendar';
-  static const userOnboarding = '/user-onboarding';
-  static const studentOnboarding = '/student-onboarding';
-  static const questionnaire = '/questionnaire';
-  static const contact = '/contact';
-  static const chooseStudent = '/choose-student';
-  static const payment = '/payment';
-  static const bookingCompleted = '/booking-completes';
-  static const resetPassword = '/reset-password';
-}
-
-class CustomRoutes {
-  // Map of routes to page widgets
-  static final Map<String, Widget Function(BuildContext, dynamic)> appRoutes = {
-    PageNames.auth: (context, args) => AuthPage(
-      showSignUpWidget: args['show-signup'] as bool,
-      tier: args['tier'] as String,
-      tierPrice: args['pricing'] as double,
-      bookingCount: args['booking-count'] as int,
-    ),
-    PageNames.booking: (context, args) => BookingPackagesPage(),
-    PageNames.userOnboarding: (context, args) => UserOnboardingPage(),
-  };
-}
 
 class NavigationManager {
   // Global key for the nested navigator
@@ -82,4 +56,48 @@ class NavigationManager {
       settings: settings,
     );
   }
+}
+
+class PageNames {
+  static const booking = '/booking';
+  static const auth = '/auth';
+  static const calendar = '/calendar';
+  static const userOnboarding = '/user-onboarding';
+  static const studentOnboarding = '/student-onboarding';
+  static const questionnaire = '/questionnaire';
+  static const contact = '/contact';
+  static const chooseStudent = '/choose-student';
+  static const payment = '/payment';
+  static const bookingCompleted = '/booking-completed';
+  static const resetPassword = '/reset-password';
+}
+
+class CustomRoutes {
+  // Map of routes to page widgets
+  static final Map<String, Widget Function(BuildContext, dynamic)> appRoutes = {
+    PageNames.auth: (context, args) => AuthPage(
+      showSignUpWidget: args['show-signup'] as bool? ?? false,
+      tier: args['tier'] as String?,
+      tierPrice: args['pricing'] as double?,
+      bookingCount: args['booking-count'] as int?,
+    ),
+    PageNames.booking: (context, args) => BookingPackagesPage(),
+    PageNames.userOnboarding: (context, args) => UserOnboardingPage(
+      tier: args['tier'] as String?,
+      tierPrice: args['pricing'] as double?,
+      bookingCount: args['booking-count'] as int?,
+    ),
+    PageNames.payment: (context, args) => PaymentPage(
+      studentId: args['student-id'] as String?,
+      tier: args['tier'] as String?,
+      price: args['pricing'] as double?,
+      bookingCount: args['booking-count'] as int?,
+    ),
+    PageNames.studentOnboarding: (context, args) => StudentOnboardingPage(
+      userFirstName: args['parent-name'] as String? ?? '',
+      tier: args['tier'] as String?,
+      tierPrice: args['pricing'] as double?,
+      bookingCount: args['booking-count'] as int?,
+    ),
+  };
 }

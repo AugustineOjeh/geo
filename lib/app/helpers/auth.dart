@@ -11,11 +11,21 @@ class AuthHelper {
     BuildContext context, {
     required String email,
     required String password,
+    String? tier,
+    double? price,
+    int? bookingCount,
   }) async {
     final req = supabase.auth.signUp(email: email, password: password);
     final res = await RequestHandler.req(context, request: () => req);
     if (res == null) return;
-    NavigationManager.push('user-onboarding');
+    NavigationManager.push(
+      'user-onboarding',
+      arguments: {
+        'tier': tier,
+        'pricing': price,
+        'booking-count': bookingCount,
+      },
+    );
   }
 
   static Future<void> signIn(
@@ -29,7 +39,7 @@ class AuthHelper {
     );
     final res = await RequestHandler.req(context, request: () => req);
     if (res == null) return;
-    NavigationManager.push('user-onboarding');
+    NavigationManager.push(PageNames.booking);
   }
 
   static Future<void> signOut(BuildContext context) async {

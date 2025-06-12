@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:grace_ogangwu/app/core/app_page.dart';
 import 'package:grace_ogangwu/app/widgets/sign_in.dart';
 import 'package:grace_ogangwu/app/widgets/sign_up.dart';
 
@@ -33,9 +32,7 @@ class _AuthPageState extends State<AuthPage> {
       setState(() => _showSignUpWidget = !_showSignUpWidget);
 
   @override
-  Widget build(BuildContext context) => AppScaffold(
-    child: _showSignUpWidget
-        ? SignUp(switchToSignIn: _toggleWidget)
-        : SignIn(switchToSignUp: _toggleWidget),
-  );
+  Widget build(BuildContext context) => _showSignUpWidget
+      ? SignUp(switchToSignIn: _toggleWidget)
+      : SignIn(switchToSignUp: _toggleWidget);
 }

@@ -5,17 +5,69 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 final supabase = Supabase.instance.client;
 
-class UserAndStudentHelper {
+class AppHelper {
   static Future<void> updateUserData(
     BuildContext context, {
     required String firstName,
     required String lastName,
+    String? tier,
+    double? price,
+    int? bookingCount,
   }) async {
     final req = supabase.auth.updateUser(
       UserAttributes(data: {'first_name': firstName, 'last_name': lastName}),
     );
     final res = await RequestHandler.req(context, request: () => req);
     if (res == null) return;
-    NavigationManager.push('student-onboarding');
+    NavigationManager.push(
+      PageNames.studentOnboarding,
+      arguments: {
+        'parent-name': firstName,
+        'tier': tier,
+        'pricing': price,
+        'booking-count': bookingCount,
+      },
+    );
+  }
+
+  static Future<void> addStudent(
+    BuildContext context, {
+    required String name,
+    required int age,
+    String? tier,
+    double? price,
+    int? bookingCount,
+  }) async {
+    final user = supabase.auth.currentUser;
+    if (user == null) return;
+    final data = {'name': name, 'age': age, 'parent_id': user.id};
+    final req = supabase.from('occl.students').insert(data).select().single();
+    final res = await RequestHandler.req(context, request: () => req);
+    if (res == null) return;
+    NavigationManager.push(
+      PageNames.payment,
+      arguments: {
+        'student-id': res['id'],
+        'tier': tier,
+        'pricing': price,
+        'booking-count': bookingCount,
+      },
+    );
+  }
+
+  static Future<Map<String, dynamic>?> createBooking(
+    BuildContext context, {
+    required String tier,
+    required String studentId,
+    required int maxSlots,
+  }) async {
+    final data = {'tier': tier, 'student_id': studentId, 'max_slots': maxSlots};
+    final req = supabase
+        .from('occl.bookings')
+        .insert(data)
+        .select('*, students(*)')
+        .single();
+    final res = await RequestHandler.req(context, request: () => req);
+    return res;
   }
 }
