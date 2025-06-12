@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:grace_ogangwu/assets/logo.dart';
 import 'package:grace_ogangwu/components/buttons.dart';
-import 'package:grace_ogangwu/constants/sizes.dart';
-import 'package:grace_ogangwu/constants/styles.dart';
+import 'package:grace_ogangwu/constants/constants.dart';
 import 'package:grace_ogangwu/website/widgets/newsletter_subscription.dart';
 import 'package:ionicons/ionicons.dart';
 
 class Footer extends StatelessWidget {
-  const Footer({required this.backToTop, super.key});
+  const Footer({required this.backToTop, required this.navigate, super.key});
   final VoidCallback backToTop;
+  final void Function(GlobalKey) navigate;
 
   @override
   Widget build(BuildContext context) => Container(
@@ -18,142 +18,148 @@ class Footer extends StatelessWidget {
       vertical: CustomPadding.sectionVertical(context),
     ),
     child: Device.isMobile(context)
-        ? _mobileView(context, backToTop: backToTop)
-        : _desktopView(context, backToTop: backToTop),
+        ? _mobileView(context, backToTop: backToTop, navigate: navigate)
+        : _desktopView(context, backToTop: backToTop, navigate: navigate),
   );
 }
 
-Widget _mobileView(BuildContext context, {required VoidCallback backToTop}) =>
-    Column(
-      mainAxisSize: MainAxisSize.min,
-      spacing: 64,
-      children: [
-        _cta(context),
-        Container(
-          width: double.infinity,
-          padding: EdgeInsets.fromLTRB(16, 48, 16, 24),
-          decoration: BoxDecoration(
-            color: CustomColors.black,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(24),
-              topRight: Radius.circular(24),
-            ),
+Widget _mobileView(
+  BuildContext context, {
+  required VoidCallback backToTop,
+  required void Function(GlobalKey) navigate,
+}) => Column(
+  mainAxisSize: MainAxisSize.min,
+  spacing: 64,
+  children: [
+    _cta(context, navigate: navigate),
+    Container(
+      width: double.infinity,
+      padding: EdgeInsets.fromLTRB(16, 48, 16, 24),
+      decoration: BoxDecoration(
+        color: CustomColors.black,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(24),
+          topRight: Radius.circular(24),
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        spacing: 48,
+        children: [
+          NewsletterSubscription(),
+          _footerLogo(context),
+          Container(
+            width: double.infinity,
+            height: 1,
+            color: CustomColors.background.withValues(alpha: 0.15),
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          Column(
+            spacing: 16,
+            children: [
+              Text(
+                'Copyright © OCCL, ${DateTime.now().year.toString()}',
+                style: CustomTextStyle.bodyMedium(context),
+              ),
+              GestureDetector(
+                onTap: backToTop,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  spacing: 12,
+                  children: [
+                    Text(
+                      'Back to top',
+                      style: CustomTextStyle.bodyMedium(context),
+                    ),
+                    CustomButton.icon(
+                      context,
+                      onTap: backToTop,
+                      icon: Icons.arrow_upward,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    ),
+  ],
+);
+
+Widget _desktopView(
+  BuildContext context, {
+  required VoidCallback backToTop,
+  required void Function(GlobalKey) navigate,
+}) => Stack(
+  clipBehavior: Clip.none,
+  children: [
+    Container(
+      width: double.infinity,
+      padding: EdgeInsets.fromLTRB(40, 190, 40, 32),
+      margin: EdgeInsets.only(top: Device.isTablet(context) ? 200 : 220),
+      decoration: BoxDecoration(
+        color: CustomColors.black,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(24),
+          topRight: Radius.circular(24),
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        spacing: 40,
+        children: [
+          Row(
             spacing: 48,
             children: [
-              NewsletterSubscription(),
               _footerLogo(context),
-              Container(
-                width: double.infinity,
-                height: 1,
-                color: CustomColors.background.withValues(alpha: 0.15),
-              ),
-              Column(
-                spacing: 16,
-                children: [
-                  Text(
-                    'Copyright © OCCL, ${DateTime.now().year.toString()}',
-                    style: CustomTextStyle.bodyMedium(context),
-                  ),
-                  GestureDetector(
-                    onTap: backToTop,
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      spacing: 12,
-                      children: [
-                        Text(
-                          'Back to top',
-                          style: CustomTextStyle.bodyMedium(context),
-                        ),
-                        CustomButton.icon(
-                          context,
-                          onTap: backToTop,
-                          icon: Icons.arrow_upward,
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+              Spacer(),
+              NewsletterSubscription(),
             ],
           ),
-        ),
-      ],
-    );
-
-Widget _desktopView(BuildContext context, {required VoidCallback backToTop}) =>
-    Stack(
-      clipBehavior: Clip.none,
-      children: [
-        Container(
-          width: double.infinity,
-          padding: EdgeInsets.fromLTRB(40, 190, 40, 32),
-          margin: EdgeInsets.only(top: Device.isTablet(context) ? 200 : 220),
-          decoration: BoxDecoration(
-            color: CustomColors.black,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(24),
-              topRight: Radius.circular(24),
-            ),
+          Container(
+            width: double.infinity,
+            height: 1,
+            color: CustomColors.background.withValues(alpha: 0.15),
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: 40,
+          Row(
+            spacing: 48,
             children: [
-              Row(
-                spacing: 48,
-                children: [
-                  _footerLogo(context),
-                  Spacer(),
-                  NewsletterSubscription(),
-                ],
+              Text(
+                'Copyright © OCCL, ${DateTime.now().year.toString()}',
+                style: CustomTextStyle.bodyMedium(context),
               ),
-              Container(
-                width: double.infinity,
-                height: 1,
-                color: CustomColors.background.withValues(alpha: 0.15),
-              ),
-              Row(
-                spacing: 48,
-                children: [
-                  Text(
-                    'Copyright © OCCL, ${DateTime.now().year.toString()}',
-                    style: CustomTextStyle.bodyMedium(context),
-                  ),
-                  Spacer(),
-                  GestureDetector(
-                    onTap: backToTop,
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      spacing: 12,
-                      children: [
-                        Text(
-                          'Back to top',
-                          style: CustomTextStyle.bodyMedium(context),
-                        ),
-                        CustomButton.icon(
-                          context,
-                          onTap: backToTop,
-                          icon: Icons.arrow_upward,
-                        ),
-                      ],
+              Spacer(),
+              GestureDetector(
+                onTap: backToTop,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  spacing: 12,
+                  children: [
+                    Text(
+                      'Back to top',
+                      style: CustomTextStyle.bodyMedium(context),
                     ),
-                  ),
-                ],
+                    CustomButton.icon(
+                      context,
+                      onTap: backToTop,
+                      icon: Icons.arrow_upward,
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
-        ),
-        Positioned(
-          top: Device.isTablet(context) ? -200 : -220,
-          left: 0,
-          right: 0,
-          child: Center(child: _cta(context)),
-        ),
-      ],
-    );
+        ],
+      ),
+    ),
+    Positioned(
+      top: Device.isTablet(context) ? -200 : -220,
+      left: 0,
+      right: 0,
+      child: Center(child: _cta(context, navigate: navigate)),
+    ),
+  ],
+);
 
 Widget _footerLogo(BuildContext context) => SizedBox(
   width: 200,
@@ -201,7 +207,10 @@ Widget _footerLogo(BuildContext context) => SizedBox(
   ),
 );
 
-Widget _cta(BuildContext context) => Container(
+Widget _cta(
+  BuildContext context, {
+  required void Function(GlobalKey) navigate,
+}) => Container(
   width: double.infinity,
   margin: Device.isMobile(context)
       ? null
@@ -241,9 +250,7 @@ Widget _cta(BuildContext context) => Container(
         CustomButton.primary(
           context,
           label: 'Book the first class 50% OFF',
-          onTap: () {
-            // TODO: Implement Auth
-          },
+          onTap: () => navigate(SectionKeys.bookClass),
         ),
       ],
     ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grace_ogangwu/app/pages/auth_page.dart';
 import 'package:grace_ogangwu/assets/logo.dart';
 import 'package:grace_ogangwu/components/buttons.dart';
 import 'package:grace_ogangwu/constants/keys.dart';
@@ -12,7 +13,7 @@ class CustomAppBar {
   }) => Device.isMobile(context)
       ? CustomAppBar.mobile(context)
       : Device.isTablet(context)
-      ? CustomAppBar.tablet(context)
+      ? CustomAppBar.tablet(context, navigate: navigate)
       : CustomAppBar.desktop(context, navigate: navigate);
 
   /// Wide appBar with middle navbar
@@ -76,9 +77,12 @@ class CustomAppBar {
                 children: [
                   customTextButton(
                     context,
-                    onTap: () {
-                      // TODO: Implement Auth
-                    },
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AuthPage(showSignUpWidget: false),
+                      ),
+                    ),
                     text: 'Sign in',
                     hasIcon: true,
                   ),
@@ -95,7 +99,10 @@ class CustomAppBar {
       ),
     ),
   );
-  static AppBar tablet(BuildContext context) => AppBar(
+  static AppBar tablet(
+    BuildContext context, {
+    required void Function(GlobalKey) navigate,
+  }) => AppBar(
     automaticallyImplyLeading: false,
     backgroundColor: Colors.transparent,
     title: Container(
@@ -116,18 +123,19 @@ class CustomAppBar {
                 children: [
                   customTextButton(
                     context,
-                    onTap: () {
-                      // TODO: Implement Auth
-                    },
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AuthPage(showSignUpWidget: false),
+                      ),
+                    ),
                     text: 'Sign in',
                     hasIcon: true,
                   ),
                   CustomButton.secondary(
                     context,
                     label: 'Book a trial class',
-                    onTap: () {
-                      // TODO: Implement Auth
-                    },
+                    onTap: () => navigate(SectionKeys.bookClass),
                   ),
                 ],
               ),

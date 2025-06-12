@@ -22,7 +22,7 @@ class BookingPlan extends StatefulWidget {
   final int minimumBooking;
   final bool isPopular;
   final bool isCustom;
-  final void Function(int, String) onButtonTap;
+  final void Function(int, double, String) onButtonTap;
   final List<Map<String, dynamic>> benefits;
   final String benefitPrefix;
 
@@ -123,7 +123,11 @@ class _BookingPlanState extends State<BookingPlan> {
                   : _bookingCount > 1
                   ? 'Book classes'
                   : 'Book a class',
-              onTap: () => widget.onButtonTap(_bookingCount, widget.planName),
+              onTap: () => widget.onButtonTap(
+                _bookingCount,
+                widget.price,
+                widget.planName,
+              ),
             ),
             Padding(
               padding: EdgeInsetsGeometry.only(top: 16),

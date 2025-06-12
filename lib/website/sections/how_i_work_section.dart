@@ -2,8 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:grace_ogangwu/components/buttons.dart';
 import 'package:grace_ogangwu/components/section_header.dart';
-import 'package:grace_ogangwu/constants/sizes.dart';
-import 'package:grace_ogangwu/constants/styles.dart';
+import 'package:grace_ogangwu/constants/constants.dart';
 import 'package:grace_ogangwu/website/widgets/process_box.dart';
 
 Widget _header(BuildContext context) => SectionHeader.full(
@@ -50,7 +49,8 @@ const _box3Content = <String, String>{
 };
 
 class HowIWorkSection extends StatefulWidget {
-  const HowIWorkSection({super.key});
+  const HowIWorkSection({required this.navigate, super.key});
+  final void Function(GlobalKey) navigate;
 
   @override
   State<HowIWorkSection> createState() => _HowIWorkSectionState();
@@ -93,13 +93,16 @@ class _HowIWorkSectionState extends State<HowIWorkSection> {
       vertical: CustomPadding.sectionVertical(context),
     ),
     child: Device.isMobile(context)
-        ? _mobileView(context)
+        ? _mobileView(context, navigate: widget.navigate)
         : Device.isTablet(context)
-        ? _tabletView(context)
-        : _desktopView(context),
+        ? _tabletView(context, navigate: widget.navigate)
+        : _desktopView(context, navigate: widget.navigate),
   );
 
-  Widget _mobileView(BuildContext context) => Column(
+  Widget _mobileView(
+    BuildContext context, {
+    required void Function(GlobalKey) navigate,
+  }) => Column(
     spacing: 24,
     children: [
       _header(context),
@@ -137,13 +140,14 @@ class _HowIWorkSectionState extends State<HowIWorkSection> {
       CustomButton.primary(
         context,
         label: 'Book a class',
-        onTap: () {
-          // TODO: Implement Auth
-        },
+        onTap: () => navigate(SectionKeys.bookClass),
       ),
     ],
   );
-  Widget _desktopView(BuildContext context) => Column(
+  Widget _desktopView(
+    BuildContext context, {
+    required void Function(GlobalKey) navigate,
+  }) => Column(
     spacing: Spacing.large(context),
     children: [
       Row(
@@ -204,14 +208,15 @@ class _HowIWorkSectionState extends State<HowIWorkSection> {
       CustomButton.primary(
         context,
         label: 'Book a class',
-        onTap: () {
-          // TODO: Implement Auth
-        },
+        onTap: () => navigate(SectionKeys.bookClass),
       ),
     ],
   );
 
-  Widget _tabletView(BuildContext context) => Column(
+  Widget _tabletView(
+    BuildContext context, {
+    required void Function(GlobalKey) navigate,
+  }) => Column(
     spacing: 48,
     children: [
       Row(
@@ -272,9 +277,7 @@ class _HowIWorkSectionState extends State<HowIWorkSection> {
       CustomButton.primary(
         context,
         label: 'Book a class',
-        onTap: () {
-          // TODO: Implement Auth
-        },
+        onTap: () => navigate(SectionKeys.bookClass),
       ),
     ],
   );

@@ -7,6 +7,7 @@ class CustomFields {
   static text(
     BuildContext context, {
     required TextEditingController controller,
+    String? label,
     bool autofocus = false,
     bool autocorrect = false,
     bool expands = false,
@@ -21,69 +22,83 @@ class CustomFields {
     bool obscureText = false,
     TextCapitalization textCapitalization = TextCapitalization.none,
     void Function(String)? onChanged,
+    String? Function(String?)? validator,
     void Function(String)? onSubmit,
-  }) => TextFormField(
-    controller: controller,
-    textInputAction: actionKey,
-    keyboardType: keyboardType,
-    onChanged: onChanged,
-    onFieldSubmitted: onSubmit,
-    autocorrect: autocorrect,
-    autofocus: autofocus,
-    expands: expands,
-    buildCounter:
-        (
-          context, {
-          required currentLength,
-          required isFocused,
-          required maxLength,
-        }) => null,
-    onTapOutside: (event) => FocusScope.of(context).unfocus(),
-    textCapitalization: textCapitalization,
-    inputFormatters: inputFormatters,
-    obscureText: obscureText,
-    obscuringCharacter: '*',
-    maxLength: maxLength,
-    maxLines: maxLines,
-    enabled: enabled,
-    style: CustomTextStyle.bodyLarge(context, color: CustomColors.black),
-    decoration: InputDecoration(
-      contentPadding: EdgeInsets.symmetric(horizontal: 14, vertical: 16),
-      isCollapsed: true,
-      isDense: true,
-      suffix: suffix,
-      hint: hintText != null
-          ? Text(
-              hintText,
-              style: CustomTextStyle.bodyLarge(
-                context,
-                color: CustomColors.black.withValues(alpha: 0.2),
-              ),
-            )
-          : null,
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(16),
-        borderSide: BorderSide(
-          color: CustomColors.black.withValues(alpha: 0.2),
+  }) => Column(
+    mainAxisSize: MainAxisSize.min,
+    crossAxisAlignment: CrossAxisAlignment.start,
+    spacing: 16,
+    children: [
+      if (label != null)
+        Text(
+          label,
+          style: CustomTextStyle.bodyMedium(context, color: CustomColors.black),
+        ),
+      TextFormField(
+        controller: controller,
+        textInputAction: actionKey,
+        keyboardType: keyboardType,
+        onChanged: onChanged,
+        onFieldSubmitted: onSubmit,
+        autocorrect: autocorrect,
+        autofocus: autofocus,
+        expands: expands,
+        validator: validator,
+        buildCounter:
+            (
+              context, {
+              required currentLength,
+              required isFocused,
+              required maxLength,
+            }) => null,
+        onTapOutside: (event) => FocusScope.of(context).unfocus(),
+        textCapitalization: textCapitalization,
+        inputFormatters: inputFormatters,
+        obscureText: obscureText,
+        obscuringCharacter: '*',
+        maxLength: maxLength,
+        maxLines: maxLines,
+        enabled: enabled,
+        style: CustomTextStyle.bodyLarge(context, color: CustomColors.black),
+        decoration: InputDecoration(
+          contentPadding: EdgeInsets.symmetric(horizontal: 14, vertical: 16),
+          isCollapsed: true,
+          isDense: true,
+          suffix: suffix,
+          hint: hintText != null
+              ? Text(
+                  hintText,
+                  style: CustomTextStyle.bodyLarge(
+                    context,
+                    color: CustomColors.black.withValues(alpha: 0.2),
+                  ),
+                )
+              : null,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(16),
+            borderSide: BorderSide(
+              color: CustomColors.black.withValues(alpha: 0.2),
+            ),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(16),
+            borderSide: BorderSide(
+              color: CustomColors.black.withValues(alpha: 0.2),
+            ),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(16),
+            borderSide: BorderSide(
+              color: CustomColors.black.withValues(alpha: 0.5),
+            ),
+          ),
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(16),
+            borderSide: BorderSide(color: Colors.red.withValues(alpha: 0.6)),
+          ),
         ),
       ),
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(16),
-        borderSide: BorderSide(
-          color: CustomColors.black.withValues(alpha: 0.2),
-        ),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(16),
-        borderSide: BorderSide(
-          color: CustomColors.black.withValues(alpha: 0.5),
-        ),
-      ),
-      errorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(16),
-        borderSide: BorderSide(color: Colors.red.withValues(alpha: 0.6)),
-      ),
-    ),
+    ],
   );
 
   static newsletterInput(

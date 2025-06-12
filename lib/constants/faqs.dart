@@ -225,3 +225,17 @@ TextSpan linkSpan(
     decoration: TextDecoration.underline,
   ),
 );
+
+TextSpan redirectSpan(
+  BuildContext context, {
+  required String text,
+  required VoidCallback onTap,
+}) => TextSpan(
+  text: text,
+  mouseCursor: SystemMouseCursors.click,
+  recognizer: TapGestureRecognizer()..onTap = onTap,
+  style: TextStyle(
+    color: CustomColors.black,
+    decoration: TextDecoration.underline,
+  ),
+);

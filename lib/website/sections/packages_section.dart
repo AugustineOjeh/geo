@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grace_ogangwu/app/pages/auth_page.dart';
 import 'package:grace_ogangwu/components/section_header.dart';
 import 'package:grace_ogangwu/constants/offers.dart';
 import 'package:grace_ogangwu/constants/sizes.dart';
@@ -32,8 +33,14 @@ class PackagesSection extends StatefulWidget {
 }
 
 class _PackagesSectionState extends State<PackagesSection> {
-  void _onButtonTap(int price, String tier) {
-    // TODO: Implement Auth and pass price and tier into app for booking.
+  void _onButtonTap(int bookingCount, double price, String tier) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) =>
+            AuthPage(tier: tier, bookingCount: bookingCount, tierPrice: price),
+      ),
+    );
   }
 
   @override
@@ -53,7 +60,7 @@ class _PackagesSectionState extends State<PackagesSection> {
 
 Widget _mobileView(
   BuildContext context,
-  void Function(int, String) onButtonTap,
+  void Function(int, double, String) onButtonTap,
 ) => Column(
   spacing: 24,
   crossAxisAlignment: CrossAxisAlignment.start,
@@ -105,7 +112,7 @@ Widget _mobileView(
 
 Widget _tabletView(
   BuildContext context,
-  void Function(int, String) onButtonTap,
+  void Function(int, double, String) onButtonTap,
 ) => Column(
   spacing: 24,
   crossAxisAlignment: CrossAxisAlignment.start,
@@ -184,7 +191,7 @@ Widget _tabletView(
 
 Widget _desktopView(
   BuildContext context,
-  void Function(int, String) onButtonTap,
+  void Function(int, double, String) onButtonTap,
 ) => Column(
   spacing: Spacing.extraLarge(context),
   crossAxisAlignment: CrossAxisAlignment.start,

@@ -7,6 +7,7 @@ class CustomButton {
     BuildContext context, {
     required String label,
     required VoidCallback onTap,
+    bool? isLoading,
     bool isFullWidth = false,
   }) => SizedBox(
     width: isFullWidth ? double.infinity : null,
@@ -50,11 +51,16 @@ class CustomButton {
               color: CustomColors.foreground,
               shape: BoxShape.circle,
             ),
-            child: Icon(
-              Icons.arrow_forward_ios,
-              size: 16,
-              color: CustomColors.primary,
-            ),
+            child: isLoading == true
+                ? CircularProgressIndicator(
+                    strokeWidth: 2,
+                    color: CustomColors.primary,
+                  )
+                : Icon(
+                    Icons.arrow_forward_ios,
+                    size: 16,
+                    color: CustomColors.primary,
+                  ),
           ),
         ],
       ),
