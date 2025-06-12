@@ -1,10 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:grace_ogangwu/app/core/page_names.dart';
 import 'package:grace_ogangwu/assets/logo.dart';
 import 'package:grace_ogangwu/constants/constants.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-class AppScaffold extends StatelessWidget {
+final GlobalKey<NavigatorState> internalNavKey = GlobalKey<NavigatorState>();
+
+class AppScaffold extends StatefulWidget {
   const AppScaffold({required this.child, super.key});
   final Widget child;
+
+  @override
+  State<AppScaffold> createState() => _AppScaffoldState();
+}
+
+class _AppScaffoldState extends State<AppScaffold> {
+  String? _initialRoute;
+
+  @override
+  void initState() {
+    super.initState();
+    final session = Supabase.instance.client.auth.currentSession;
+    if (session == null) {
+      _initialRoute = PageNames.auth;
+    } else {
+      _initialRoute = PageNames.booking;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +53,13 @@ class AppScaffold extends StatelessWidget {
               constraints: BoxConstraints(
                 minHeight: Device.screenHeight(context) - 180,
               ),
-              child: Center(child: child),
+              child: Center(
+                child: Navigator(
+                  key: internalNavKey,
+                  initialRoute: _initialRoute,
+                  onGenerateRoute: NavigationManager.generateRoute,
+                ),
+              ),
             ),
             Container(
               width: double.infinity,

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:grace_ogangwu/app/core/canvas.dart';
+import 'package:grace_ogangwu/app/core/app_page.dart';
 import 'package:grace_ogangwu/app/widgets/sign_in.dart';
 import 'package:grace_ogangwu/app/widgets/sign_up.dart';
 
