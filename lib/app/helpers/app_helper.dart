@@ -86,7 +86,7 @@ class AppHelper {
 
   static Future<bool> submitQuestionnaire(
     BuildContext context, {
-    required Map<String, String> data,
+    required Map<String, dynamic> data,
   }) async {
     final req = supabase
         .from('occl.questionnaires')
