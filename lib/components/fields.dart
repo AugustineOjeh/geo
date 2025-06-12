@@ -106,11 +106,21 @@ class CustomFields {
     required TextEditingController controller,
     void Function(String)? onSubmit,
     required VoidCallback submit,
+    bool? loading,
   }) => TextFormField(
     controller: controller,
     textInputAction: TextInputAction.go,
     keyboardType: TextInputType.emailAddress,
     onFieldSubmitted: onSubmit,
+    validator: (value) {
+      final regex = RegExp(r"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$");
+      if (value == null ||
+          value.trim().isEmpty ||
+          !regex.hasMatch(value.trim())) {
+        return 'Enter a valid email';
+      }
+      return null;
+    },
     onTapOutside: (event) => FocusScope.of(context).unfocus(),
     style: CustomTextStyle.bodyLarge(context, color: CustomColors.foreground),
     decoration: InputDecoration(
@@ -124,12 +134,26 @@ class CustomFields {
       contentPadding: EdgeInsets.fromLTRB(16, 4, 4, 4),
       isCollapsed: true,
       isDense: true,
-      suffix: CustomButton.arrowIcon(
-        context,
-        isRight: true,
-        isPrimary: true,
-        onTap: submit,
-      ),
+      suffix: loading == true
+          ? Container(
+              height: 32,
+              width: 32,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: CustomColors.primary,
+                shape: BoxShape.circle,
+              ),
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                color: CustomColors.foreground,
+              ),
+            )
+          : CustomButton.arrowIcon(
+              context,
+              isRight: true,
+              isPrimary: true,
+              onTap: submit,
+            ),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(24),
         borderSide: BorderSide(

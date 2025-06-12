@@ -20,11 +20,12 @@ class CustomRoutes {
   // Map of routes to page widgets
   static final Map<String, Widget Function(BuildContext, dynamic)> appRoutes = {
     PageNames.auth: (context, args) => AuthPage(
-      showSignUpWidget: args['show-signup'],
-      tier: args['tier'],
-      tierPrice: args['pricing'],
-      bookingCount: args['booking-count'],
+      showSignUpWidget: args['show-signup'] as bool,
+      tier: args['tier'] as String,
+      tierPrice: args['pricing'] as double,
+      bookingCount: args['booking-count'] as int,
     ),
+    PageNames.booking: (context, args) => AppHome(),
   };
 }
 

@@ -4,8 +4,6 @@ import 'package:grace_ogangwu/assets/logo.dart';
 import 'package:grace_ogangwu/constants/constants.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-final GlobalKey<NavigatorState> internalNavKey = GlobalKey<NavigatorState>();
-
 class AppScaffold extends StatefulWidget {
   const AppScaffold({required this.child, super.key});
   final Widget child;
@@ -47,36 +45,39 @@ class _AppScaffoldState extends State<AppScaffold> {
         padding: EdgeInsets.symmetric(
           horizontal: CustomPadding.pageHorizontal(context),
         ),
-        child: Column(
-          children: [
-            ConstrainedBox(
-              constraints: BoxConstraints(
-                minHeight: Device.screenHeight(context) - 180,
-              ),
-              child: Center(
-                child: Navigator(
-                  key: internalNavKey,
-                  initialRoute: _initialRoute,
-                  onGenerateRoute: NavigationManager.generateRoute,
+        child: Container(
+          constraints: BoxConstraints(maxWidth: 1500),
+          child: Column(
+            children: [
+              ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: Device.screenHeight(context) - 180,
                 ),
-              ),
-            ),
-            Container(
-              width: double.infinity,
-              padding: EdgeInsets.symmetric(vertical: 24),
-              decoration: BoxDecoration(
-                border: Border(
-                  top: BorderSide(
-                    width: 1,
-                    color: CustomColors.black.withValues(alpha: 0.2),
+                child: Center(
+                  child: Navigator(
+                    key: NavigationManager.navigatorKey,
+                    initialRoute: _initialRoute,
+                    onGenerateRoute: NavigationManager.generateRoute,
                   ),
                 ),
               ),
-              child: Device.isMobile(context)
-                  ? _mobileFooter(context)
-                  : _desktopFooter(context),
-            ),
-          ],
+              Container(
+                width: double.infinity,
+                padding: EdgeInsets.symmetric(vertical: 24),
+                decoration: BoxDecoration(
+                  border: Border(
+                    top: BorderSide(
+                      width: 1,
+                      color: CustomColors.black.withValues(alpha: 0.2),
+                    ),
+                  ),
+                ),
+                child: Device.isMobile(context)
+                    ? _mobileFooter(context)
+                    : _desktopFooter(context),
+              ),
+            ],
+          ),
         ),
       ),
     );
