@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:grace_ogangwu/app/core/student_model.dart';
 import 'package:grace_ogangwu/app/pages/booking_packages_page.dart';
 import 'package:grace_ogangwu/app/pages/auth_page.dart';
+import 'package:grace_ogangwu/app/pages/calendar_page.dart';
 import 'package:grace_ogangwu/app/pages/payment_page.dart';
 import 'package:grace_ogangwu/app/pages/student_onboarding_page.dart';
 import 'package:grace_ogangwu/app/pages/user_onboarding_page.dart';
@@ -98,6 +100,13 @@ class CustomRoutes {
       tier: args['tier'] as String?,
       tierPrice: args['pricing'] as double?,
       bookingCount: args['booking-count'] as int?,
+    ),
+
+    PageNames.calendar: (context, args) => CalendarPage(
+      student: args['student'] as Student,
+      bookingId: args['booking-id'] as String,
+      tier: args['tier'],
+      bookingCount: args['booking-count'] as int,
     ),
   };
 }

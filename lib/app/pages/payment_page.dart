@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grace_ogangwu/app/core/navigation_manager.dart';
 import 'package:grace_ogangwu/app/core/student_model.dart';
-import 'package:grace_ogangwu/app/helpers/user_and_student.dart';
+import 'package:grace_ogangwu/app/helpers/app_helper.dart';
 import 'package:grace_ogangwu/components/components.dart';
 import 'package:grace_ogangwu/constants/constants.dart';
 
@@ -83,40 +83,36 @@ class _PaymentPageState extends State<PaymentPage> {
       arguments: {
         'student': Student.fromMap(_booking?['students']),
         'booking-count': widget.bookingCount,
+        'tier': widget.tier,
         'booking-id': _booking?['id'],
       },
     );
   }
 
   @override
-  Widget build(BuildContext context) => Container(
-    constraints: Device.isMobile(context)
-        ? null
-        : BoxConstraints(maxWidth: 320),
-    child: SizedBox(
-      width: double.infinity,
-      child: Column(
-        spacing: 32,
-        children: [
-          SectionHeader.full(
-            context,
-            prefixText: 'Book classes',
-            headline: 'Complete payment',
-          ),
-          _loadingPage
-              ? SizedBox(
-                  child: Center(
-                    child: CircularProgressIndicator(
-                      color: CustomColors.primary,
-                      strokeWidth: 2,
-                    ),
+  Widget build(BuildContext context) => SizedBox(
+    width: double.infinity,
+    child: Column(
+      spacing: 32,
+      children: [
+        SectionHeader.full(
+          context,
+          prefixText: 'Book classes',
+          headline: 'Complete payment',
+        ),
+        _loadingPage
+            ? SizedBox(
+                child: Center(
+                  child: CircularProgressIndicator(
+                    color: CustomColors.primary,
+                    strokeWidth: 2,
                   ),
-                )
-              : SizedBox(
-                  // TODO: Implement the Stripe check out logic
                 ),
-        ],
-      ),
+              )
+            : SizedBox(
+                // TODO: Implement the Stripe check out logic
+              ),
+      ],
     ),
   );
 }

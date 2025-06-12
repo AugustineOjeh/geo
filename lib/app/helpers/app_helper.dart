@@ -70,4 +70,29 @@ class AppHelper {
     final res = await RequestHandler.req(context, request: () => req);
     return res;
   }
+
+  static Future<bool> checkStudentQuestionnaire(
+    BuildContext context, {
+    required String studentId,
+  }) async {
+    final req = supabase
+        .from('occl.questionnaires')
+        .select('id')
+        .eq('student_id', studentId);
+    final res = await RequestHandler.req(context, request: () => req);
+    return res == null || res.isEmpty ? false : true;
+  }
+
+  static Future<bool> submitQuestionnaire(
+    BuildContext context, {
+    required Map<String, String> data,
+  }) async {
+    final req = supabase
+        .from('occl.questionnaires')
+        .insert(data)
+        .select()
+        .single();
+    final res = await RequestHandler.req(context, request: () => req);
+    return res == null ? false : true;
+  }
 }
