@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:grace_ogangwu/app/pages/app_home.dart';
+import 'package:grace_ogangwu/app/pages/booking_packages_page.dart';
 import 'package:grace_ogangwu/app/pages/auth_page.dart';
+import 'package:grace_ogangwu/app/pages/user_onboarding_page.dart';
 
 class PageNames {
   static const booking = '/booking';
@@ -25,7 +26,8 @@ class CustomRoutes {
       tierPrice: args['pricing'] as double,
       bookingCount: args['booking-count'] as int,
     ),
-    PageNames.booking: (context, args) => AppHome(),
+    PageNames.booking: (context, args) => BookingPackagesPage(),
+    PageNames.userOnboarding: (context, args) => UserOnboardingPage(),
   };
 }
 
@@ -76,7 +78,7 @@ class NavigationManager {
     }
 
     return MaterialPageRoute(
-      builder: (context) => AppHome(),
+      builder: (context) => BookingPackagesPage(),
       settings: settings,
     );
   }

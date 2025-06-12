@@ -3,14 +3,14 @@ import 'package:grace_ogangwu/constants/constants.dart';
 import 'package:grace_ogangwu/website/widgets/booking_plan.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class AppHome extends StatefulWidget {
-  const AppHome({super.key});
+class BookingPackagesPage extends StatefulWidget {
+  const BookingPackagesPage({super.key});
 
   @override
-  State<AppHome> createState() => _AppHomeState();
+  State<BookingPackagesPage> createState() => _BookingPackagesPageState();
 }
 
-class _AppHomeState extends State<AppHome> {
+class _BookingPackagesPageState extends State<BookingPackagesPage> {
   String _firstName = '';
 
   @override

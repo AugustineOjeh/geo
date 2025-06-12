@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:grace_ogangwu/app/core/page_names.dart';
+import 'package:grace_ogangwu/app/core/navigation_manager.dart';
 import 'package:grace_ogangwu/utils/request_handler.dart';
+import 'package:grace_ogangwu/website/pages/homepage.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 final supabase = Supabase.instance.client;
@@ -29,5 +30,16 @@ class AuthHelper {
     final res = await RequestHandler.req(context, request: () => req);
     if (res == null) return;
     NavigationManager.push('user-onboarding');
+  }
+
+  static Future<void> signOut(BuildContext context) async {
+    final req = supabase.auth.signOut();
+    await RequestHandler.req(context, request: () => req);
+    if (!context.mounted) return;
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => Homepage()),
+      (route) => false,
+    );
   }
 }

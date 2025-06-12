@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:grace_ogangwu/app/core/page_names.dart';
+import 'package:grace_ogangwu/app/core/navigation_manager.dart';
 import 'package:grace_ogangwu/assets/logo.dart';
 import 'package:grace_ogangwu/constants/constants.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
