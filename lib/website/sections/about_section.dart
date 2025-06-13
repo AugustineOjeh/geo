@@ -12,7 +12,12 @@ const String _aboutText =
 Widget _aboutMobile(BuildContext context) => Column(
   spacing: 24,
   children: [
-    SectionHeader.full(context, prefixText: 'About me', headline: _headline),
+    SectionHeader.full(
+      context,
+      prefixText: 'About me',
+      isCentered: true,
+      headline: _headline,
+    ),
     _headshot(),
     Text(_aboutText, style: CustomTextStyle.bodyMedium(context)),
     CustomButton.primary(context, label: 'Read my full story', onTap: () {}),
@@ -21,11 +26,14 @@ Widget _aboutMobile(BuildContext context) => Column(
 
 Widget _aboutDesktop(BuildContext context) => Row(
   spacing: Spacing.extraLarge(context),
+  mainAxisSize: MainAxisSize.min,
   children: [
     _headshot(),
-    Expanded(
-      child: SizedBox(
+    Flexible(
+      child: ConstrainedBox(
+        constraints: BoxConstraints(maxWidth: 500),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           spacing: 32,
           children: [
             SectionHeader.full(
@@ -34,10 +42,13 @@ Widget _aboutDesktop(BuildContext context) => Row(
               headline: 'Grace\'s experience & expertise',
             ),
             Text(_aboutText, style: CustomTextStyle.bodyMedium(context)),
-            CustomButton.primary(
-              context,
-              label: 'Read my full story',
-              onTap: () {},
+            SizedBox(
+              width: 220,
+              child: CustomButton.primary(
+                context,
+                label: 'Read my full story',
+                onTap: () {},
+              ),
             ),
           ],
         ),
@@ -47,26 +58,27 @@ Widget _aboutDesktop(BuildContext context) => Row(
 );
 
 Widget _headshot() => Column(
-  spacing: 12,
+  spacing: 4,
   children: [
     Container(
       width: 300,
-      height: 500,
+      height: 400,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(32),
         image: DecorationImage(
           image: AssetImage('lib/assets/images/headshot.jpg'),
-          fit: BoxFit.fill,
+          fit: BoxFit.cover,
         ),
       ),
     ),
     Container(
       height: 80,
+      width: 300,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(32),
         image: DecorationImage(
-          image: AssetImage('lib/assets/images/signature.jpg'),
-          fit: BoxFit.fill,
+          image: AssetImage('lib/assets/images/signature.png'),
+          fit: BoxFit.cover,
         ),
       ),
     ),

@@ -83,7 +83,7 @@ Widget _mobileProposition(BuildContext context) => Column(
     _uvp(
       context,
       number: 1,
-      title: '13k',
+      title: '13k+',
       description: [
         TextSpan(text: 'Hours of'),
         TextSpan(
@@ -119,11 +119,11 @@ Widget _mobileProposition(BuildContext context) => Column(
     _uvp(
       context,
       number: 3,
-      title: 'Diverse culture',
+      title: '5+',
       description: [
         TextSpan(text: 'Teaches students across'),
         TextSpan(
-          text: ' 5 different cultures ',
+          text: ' 5 cultures ',
           style: TextStyle(fontWeight: CustomFontWeight.bold),
         ),
         TextSpan(text: 'and languages'),
@@ -147,7 +147,7 @@ Widget _tabletProposition(BuildContext context) => SizedBox(
               child: _uvp(
                 context,
                 number: 1,
-                title: '13k',
+                title: '13k+',
                 description: [
                   TextSpan(text: 'Hours of'),
                   TextSpan(
@@ -200,11 +200,11 @@ Widget _tabletProposition(BuildContext context) => SizedBox(
               child: _uvp(
                 context,
                 number: 3,
-                title: 'Diverse culture',
+                title: '5+',
                 description: [
                   TextSpan(text: 'Teaches students across'),
                   TextSpan(
-                    text: ' 5 different cultures ',
+                    text: ' 5 cultures ',
                     style: TextStyle(fontWeight: CustomFontWeight.bold),
                   ),
                   TextSpan(text: 'and languages'),
@@ -221,71 +221,64 @@ Widget _tabletProposition(BuildContext context) => SizedBox(
 Widget _desktopProposition(BuildContext context) => SizedBox(
   width: double.infinity,
   child: Row(
-    spacing: 48,
+    crossAxisAlignment: CrossAxisAlignment.start,
+    spacing: 64,
     children: [
-      Expanded(
-        child: SizedBox(
-          child: _uvp(
-            context,
-            number: 1,
-            title: '13k',
-            description: [
-              TextSpan(text: 'Hours of'),
-              TextSpan(
-                text: ' teaching experience',
-                style: TextStyle(fontWeight: CustomFontWeight.bold),
-              ),
-            ],
-          ),
+      Flexible(
+        child: _uvp(
+          context,
+          number: 1,
+          title: '13k+',
+          description: [
+            TextSpan(text: 'Hours of'),
+            TextSpan(
+              text: ' teaching experience',
+              style: TextStyle(fontWeight: CustomFontWeight.bold),
+            ),
+          ],
         ),
       ),
-      Expanded(
-        child: SizedBox(
-          child: _uvp(
-            context,
-            number: 2,
-            title: '100+',
-            description: [
-              TextSpan(
-                text: 'Successful learners ',
-                style: TextStyle(fontWeight: CustomFontWeight.bold),
-              ),
-              TextSpan(text: 'and satisfied parents'),
-            ],
-          ),
+      Flexible(
+        child: _uvp(
+          context,
+          number: 2,
+          title: '100+',
+          description: [
+            TextSpan(
+              text: 'Successful learners ',
+              style: TextStyle(fontWeight: CustomFontWeight.bold),
+            ),
+            TextSpan(text: 'and satisfied parents'),
+          ],
         ),
       ),
-      Expanded(
-        child: SizedBox(
-          child: _uvp(
-            context,
-            number: 3,
-            title: '10+',
-            description: [
-              TextSpan(
-                text: 'Awards ',
-                style: TextStyle(fontWeight: CustomFontWeight.bold),
-              ),
-              TextSpan(text: 'and certifications'),
-            ],
-          ),
+      Flexible(
+        child: _uvp(
+          context,
+          number: 3,
+          title: '10+',
+          description: [
+            TextSpan(
+              text: 'Awards ',
+              style: TextStyle(fontWeight: CustomFontWeight.bold),
+            ),
+            TextSpan(text: 'and certifications'),
+          ],
         ),
       ),
-      Expanded(
-        child: SizedBox(
-          child: _uvp(
-            context,
-            number: 3,
-            title: 'Diverse culture',
-            description: [
-              TextSpan(text: 'Teaches students across'),
-              TextSpan(
-                text: ' 5 different cultures ',
-                style: TextStyle(fontWeight: CustomFontWeight.bold),
-              ),
-              TextSpan(text: 'and languages'),
-            ],
-          ),
+      Flexible(
+        child: _uvp(
+          context,
+          number: 3,
+          title: '5+',
+          description: [
+            TextSpan(text: 'Teaches students across'),
+            TextSpan(
+              text: ' 5 cultures ',
+              style: TextStyle(fontWeight: CustomFontWeight.bold),
+            ),
+            TextSpan(text: 'and languages'),
+          ],
         ),
       ),
     ],
@@ -300,14 +293,14 @@ Widget _uvp(
 }) => Column(
   crossAxisAlignment: CrossAxisAlignment.start,
   mainAxisSize: MainAxisSize.min,
-  spacing: 12,
+  spacing: 4,
   children: [
     Row(
       mainAxisSize: MainAxisSize.min,
       spacing: 16,
       children: [
         Container(
-          padding: EdgeInsets.all(8),
+          padding: EdgeInsets.all(12),
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             border: Border.all(
@@ -317,17 +310,21 @@ Widget _uvp(
           ),
           child: Text(
             number.toString(),
-            style: CustomTextStyle.bodyMedium(
+            style: CustomTextStyle.bodyLarge(
               context,
               color: CustomColors.foreground.withValues(alpha: 0.4),
             ),
           ),
         ),
-        Text(
-          title,
-          style: CustomTextStyle.headlineSmall(
-            context,
-          ).copyWith(fontSize: 40, color: CustomColors.foreground),
+        Flexible(
+          child: Text(
+            title,
+            style: CustomTextStyle.headlineSmall(context).copyWith(
+              fontSize: 32,
+              height: 0.9,
+              color: CustomColors.foreground,
+            ),
+          ),
         ),
       ],
     ),
@@ -336,7 +333,7 @@ Widget _uvp(
         children: description,
         style: CustomTextStyle.bodyLarge(
           context,
-          color: CustomColors.foreground,
+          color: CustomColors.background,
         ),
       ),
     ),

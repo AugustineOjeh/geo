@@ -16,11 +16,15 @@ class SectionHeader {
         size: 14,
         color: isWhite ? CustomColors.background : CustomColors.black,
       ),
-      Text(
-        text,
-        style: CustomTextStyle.bodyLarge(
-          context,
-          color: isWhite ? CustomColors.background : CustomColors.black,
+      Flexible(
+        child: SizedBox(
+          child: Text(
+            text,
+            style: CustomTextStyle.bodyLarge(
+              context,
+              color: isWhite ? CustomColors.background : CustomColors.black,
+            ),
+          ),
         ),
       ),
       Icon(

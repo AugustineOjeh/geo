@@ -133,10 +133,10 @@ class Spacing {
       : 64.00;
 
   static double small(BuildContext context) => Device.isMobile(context)
-      ? 24.00
+      ? 16.00
       : Device.isTablet(context)
-      ? 32.00
+      ? 24.00
       : Device.isLaptop(context)
-      ? 32.00
-      : 32.00;
+      ? 24.00
+      : 24.00;
 }
