@@ -185,7 +185,7 @@ class _HowIWorkSectionState extends State<HowIWorkSection> {
               prefix: _box2Content['prefix']!,
               title: _box2Content['title']!,
               description: _box2Content['description']!,
-              hideDescrition: _focusedIndex != 0,
+              hideDescrition: _focusedIndex != 1,
               isMobile: false,
               isSelected: _focusedIndex == 1,
               image: _box2Content['image']!,
@@ -199,7 +199,7 @@ class _HowIWorkSectionState extends State<HowIWorkSection> {
               prefix: _box3Content['prefix']!,
               title: _box3Content['title']!,
               description: _box3Content['description']!,
-              hideDescrition: _focusedIndex != 0,
+              hideDescrition: _focusedIndex != 2,
               isMobile: false,
               isSelected: _focusedIndex == 2,
               image: _box3Content['image']!,
@@ -207,10 +207,13 @@ class _HowIWorkSectionState extends State<HowIWorkSection> {
           ),
         ],
       ),
-      CustomButton.primary(
-        context,
-        label: 'Book a class',
-        onTap: () => navigate(SectionKeys.bookClass),
+      SizedBox(
+        width: 180,
+        child: CustomButton.primary(
+          context,
+          label: 'Book a class',
+          onTap: () => navigate(SectionKeys.bookClass),
+        ),
       ),
     ],
   );
@@ -276,10 +279,13 @@ class _HowIWorkSectionState extends State<HowIWorkSection> {
           ),
         ],
       ),
-      CustomButton.primary(
-        context,
-        label: 'Book a class',
-        onTap: () => navigate(SectionKeys.bookClass),
+      SizedBox(
+        width: 180,
+        child: CustomButton.primary(
+          context,
+          label: 'Book a class',
+          onTap: () => navigate(SectionKeys.bookClass),
+        ),
       ),
     ],
   );

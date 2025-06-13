@@ -44,10 +44,15 @@ class _ProcessBoxState extends State<ProcessBox> {
       child: AnimatedContainer(
         duration: Duration(milliseconds: 500),
         curve: Curves.easeInOut,
+        clipBehavior: Clip.hardEdge,
+        height: 500,
         padding:
             widget.padding ??
-            EdgeInsets.symmetric(horizontal: 20, vertical: 24),
-        decoration: BoxDecoration(color: _backgroundColor()),
+            EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+        decoration: BoxDecoration(
+          color: _backgroundColor(),
+          borderRadius: BorderRadius.circular(24),
+        ),
         child: widget.isMobile ? _mobileView(context) : _desktopView(context),
       ),
     ),
@@ -77,7 +82,7 @@ class _ProcessBoxState extends State<ProcessBox> {
                 style: CustomTextStyle.bodyMedium(
                   context,
                   color: _foregroundColor(opacity: 0.5),
-                ),
+                ).copyWith(fontSize: 14),
               ),
             ),
             if (widget.willNavigate) const Spacer(),
@@ -93,7 +98,9 @@ class _ProcessBoxState extends State<ProcessBox> {
         child: Text(
           widget.title,
           style: CustomTextStyle.headlineSmall(context).copyWith(
-            letterSpacing: FontSizes.headlineSmall(context) * 0.05,
+            letterSpacing: FontSizes.headlineSmall(context) * -0.05,
+            height: 1,
+            fontSize: 24,
             color: _foregroundColor(),
           ),
         ),
@@ -110,7 +117,24 @@ class _ProcessBoxState extends State<ProcessBox> {
             ).copyWith(color: _foregroundColor()),
           ),
         ),
-      Image.asset(widget.image, width: double.infinity, fit: BoxFit.fill),
+      Expanded(
+        child: Container(
+          width: double.infinity,
+          margin: EdgeInsets.only(right: widget.hideDescrition ? 0 : 16),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(16),
+              topRight: widget.hideDescrition
+                  ? Radius.circular(0)
+                  : Radius.circular(16),
+            ),
+            image: DecorationImage(
+              image: AssetImage(widget.image),
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
+      ),
     ],
   );
 
@@ -122,62 +146,81 @@ class _ProcessBoxState extends State<ProcessBox> {
         padding: widget.padding != null
             ? const EdgeInsets.only(right: 20)
             : null,
-        child: Row(
-          spacing: Spacing.medium(context),
+        child: Column(
+          spacing: 12,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              spacing: 24,
+            Row(
+              spacing: 16,
               children: [
-                Row(
-                  spacing: 16,
-                  children: [
-                    Container(
-                      padding: EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          width: 1,
-                          color: _foregroundColor(opacity: 0.3),
-                        ),
-                      ),
-                      child: Text(
-                        widget.prefix,
-                        style: CustomTextStyle.bodyMedium(
-                          context,
-                          color: _foregroundColor(opacity: 0.5),
-                        ),
-                      ),
+                Container(
+                  padding: EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      width: 1,
+                      color: _foregroundColor(opacity: 0.3),
                     ),
-                    if (widget.willNavigate) const Spacer(),
-                    if (widget.willNavigate)
-                      CustomButton.arrowIcon(
-                        context,
-                        isRight: true,
-                        onTap: () {},
-                      ),
-                  ],
-                ),
-                Text(
-                  widget.title,
-                  style: CustomTextStyle.headlineSmall(context).copyWith(
-                    letterSpacing: FontSizes.headlineSmall(context) * 0.05,
-                    color: _foregroundColor(),
+                  ),
+                  child: Text(
+                    widget.prefix,
+                    style: CustomTextStyle.bodyMedium(
+                      context,
+                      color: _foregroundColor(opacity: 0.5),
+                    ).copyWith(fontSize: 14),
                   ),
                 ),
+                if (widget.willNavigate) const Spacer(),
+                if (widget.willNavigate)
+                  CustomButton.arrowIcon(context, isRight: true, onTap: () {}),
               ],
             ),
-            if (!widget.hideDescrition)
-              Text(
-                widget.description,
-                style: CustomTextStyle.bodyMedium(
-                  context,
-                ).copyWith(color: _foregroundColor()),
-              ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              spacing: Spacing.medium(context),
+              children: [
+                Expanded(
+                  child: Text(
+                    widget.title,
+                    style: CustomTextStyle.headlineSmall(context).copyWith(
+                      letterSpacing: FontSizes.headlineSmall(context) * -0.05,
+                      height: 0.95,
+                      color: _foregroundColor(),
+                    ),
+                  ),
+                ),
+                if (!widget.hideDescrition)
+                  Expanded(
+                    child: Text(
+                      widget.description,
+                      style: CustomTextStyle.bodyMedium(
+                        context,
+                      ).copyWith(color: _foregroundColor()),
+                    ),
+                  ),
+              ],
+            ),
           ],
         ),
       ),
-      Image.asset(widget.image, width: double.infinity, fit: BoxFit.fill),
+      Expanded(
+        child: Container(
+          width: double.infinity,
+          margin: EdgeInsets.only(right: widget.hideDescrition ? 0 : 20),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(16),
+              topRight: widget.hideDescrition
+                  ? Radius.circular(0)
+                  : Radius.circular(16),
+            ),
+            image: DecorationImage(
+              image: AssetImage(widget.image),
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
+      ),
     ],
   );
 
