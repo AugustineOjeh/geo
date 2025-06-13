@@ -65,6 +65,19 @@ flutter:
     - lib/assets/images/signature.png
     - lib/assets/images/headshot.jpg
     - lib/assets/images/footer_background.png
+    - lib/assets/images/logos/fireflies.ai_logo.png
+    - lib/assets/images/logos/stripe_logo.png
+    - lib/assets/images/logos/google_logo.png
+    - lib/assets/images/logos/openai_logo.png
+    - lib/assets/images/logos/miro_logo.png
+    - lib/assets/images/logos/quizizz_logo.png
+    - lib/assets/images/hero_background.png
+    - lib/assets/images/english_students.jpg
+    - lib/assets/images/non_english_students.jpg
+    - lib/assets/images/high_achievers.jpg
+    - lib/assets/images/questionnaire_skeleton.webp
+    - lib/assets/images/workflow.webp
+    - lib/assets/images/progress_report.webp
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

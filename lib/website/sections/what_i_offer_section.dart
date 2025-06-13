@@ -24,21 +24,21 @@ Widget _description(BuildContext context) => RichText(
 );
 
 const _box1Content = <String, String>{
-  'image': '', // TODO: Update image file
+  'image': 'lib/assets/images/english_students.jpg',
   'title': 'Early-grade learners',
   'description':
       'Kids under 7 years old ready to learn the fundamentals of reading and writing the English Language.',
 };
 
 const _box2Content = <String, String>{
-  'image': '', // TODO: Update image file
+  'image': 'lib/assets/images/non_english_students.jpg',
   'title': 'Speakers of other languages',
   'description':
       'Non-English kids and adolescents hungry to acquire the skills to communicate in English.',
 };
 
 const _box3Content = <String, String>{
-  'image': '', // TODO: Update image file
+  'image': 'lib/assets/images/high_achievers.jpg',
   'title': 'High achievers',
   'description':
       '7 to 15 years-olds eager to refine their grammar, improve spelling, and compete in a range of English-related competitions.',

@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:grace_ogangwu/components/app_bar.dart';
 import 'package:grace_ogangwu/components/buttons.dart';
 import 'package:grace_ogangwu/components/section_header.dart';
-import 'package:grace_ogangwu/constants/sizes.dart';
-import 'package:grace_ogangwu/constants/styles.dart';
+import 'package:grace_ogangwu/constants/constants.dart';
 
 class HeroSection extends StatelessWidget {
   const HeroSection({required this.navigate, super.key});
@@ -14,7 +13,10 @@ class HeroSection extends StatelessWidget {
     width: double.infinity,
     alignment: Alignment.topCenter,
     decoration: BoxDecoration(
-      // TODO: Add background image
+      image: DecorationImage(
+        image: AssetImage('lib/assets/images/hero_background.png'),
+        fit: BoxFit.fill,
+      ),
     ),
     child: Container(
       padding: EdgeInsets.symmetric(
@@ -29,9 +31,7 @@ class HeroSection extends StatelessWidget {
           CustomButton.secondary(
             context,
             label: 'Book a class',
-            onTap: () {
-              // Implement Auth
-            },
+            onTap: () => navigate(SectionKeys.bookClass),
           ),
           SizedBox(height: 48),
           SectionHeader.prefix(
@@ -65,7 +65,6 @@ class HeroSection extends StatelessWidget {
               : Device.isTablet(context)
               ? _tabletProposition(context)
               : _desktopProposition(context),
-          // More widgets
         ],
       ),
     ),

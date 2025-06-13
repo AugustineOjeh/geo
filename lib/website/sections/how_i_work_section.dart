@@ -28,22 +28,24 @@ Widget _descritpion(BuildContext context) => RichText(
 
 const _box1Content = <String, String>{
   'prefix': '01',
-  'title': 'Tell me about your child by completing a 3-min student assessment.',
-  'image': '', // TODO: Add image file.
+  'title': 'Tell me about your child by completing a 2-min student assessment.',
+  'image': 'lib/assets/images/questionnaire_skeleton.webp',
   'description':
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse a purus id justo egestas fermentum dictum ut arcu. Donec at ipsum quis dui ullamcorper suscipit vitae et ex.',
 };
 const _box2Content = <String, String>{
   'prefix': '02',
-  'title': 'Tell me about your child by completing a 3-min student assessment.',
-  'image': '', // TODO: Add image file.
+  'title':
+      'I\'ll design a learning plan tailored to your child\'s learning style and goals.',
+  'image': 'lib/assets/images/workflow.webp',
   'description':
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse a purus id justo egestas fermentum dictum ut arcu. Donec at ipsum quis dui ullamcorper suscipit vitae et ex.',
 };
 const _box3Content = <String, String>{
   'prefix': '03',
-  'title': 'Tell me about your child by completing a 3-min student assessment.',
-  'image': '', // TODO: Add image file.
+  'title':
+      'I\'ll teach, track progress, iterate and share reports with parents.',
+  'image': 'lib/assets/images/progress_report.webp',
   'description':
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse a purus id justo egestas fermentum dictum ut arcu. Donec at ipsum quis dui ullamcorper suscipit vitae et ex.',
 };

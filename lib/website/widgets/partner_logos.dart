@@ -3,12 +3,12 @@ import 'package:grace_ogangwu/constants/sizes.dart';
 import 'package:grace_ogangwu/constants/styles.dart';
 
 Color _borderColor = CustomColors.black.withValues(alpha: 0.15);
-String _fireflies = ''; // TODO: Add Fireflies logo
-String _google = ''; // TODO: Add Google logo
-String _miro = ''; // TODO: Add Miro logo
-String _openai = ''; // TODO: Add openAI logo
-String _quizizz = ''; // TODO: Add Quizizz logo
-String _stripe = ''; // TODO: Add Stripe logo
+String _fireflies = 'lib/assets/images/fireflies.ai_logo.png';
+String _google = 'lib/assets/images/google_logo.png';
+String _miro = 'lib/assets/images/miro_logo.png';
+String _openai = 'lib/assets/images/openai_logo.png';
+String _quizizz = 'lib/assets/images/quizizz_logo.png';
+String _stripe = 'lib/assets/images/stripe_logo.png';
 
 class PartnerLogos {
   static Widget logoHolder(
@@ -22,7 +22,7 @@ class PartnerLogos {
     child: Image.asset(
       logo,
       height: Device.isMobile(context) ? 32 : 48,
-      fit: BoxFit.contain,
+      fit: BoxFit.fill,
     ),
   );
   static Widget desktopView(BuildContext context) => SizedBox(
