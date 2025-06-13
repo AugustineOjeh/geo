@@ -53,10 +53,10 @@ class CustomFontWeight {
 }
 
 class CustomSizes {
-  static partnerLogo(BuildContext context) =>
+  static double partnerLogo(BuildContext context) =>
       Device.isMobile(context) ? 32.00 : 48.00;
 
-  static borderRadius(BuildContext context) => Device.isMobile(context)
+  static double borderRadius(BuildContext context) => Device.isMobile(context)
       ? 24.00
       : Device.isTablet(context)
       ? 32.00

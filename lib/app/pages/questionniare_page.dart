@@ -256,7 +256,6 @@ class _QuestionniarePageState extends State<QuestionniarePage> {
           ),
           CustomButton.primary(
             context,
-            isFullWidth: true,
             isLoading: _loading,
             label: 'Submit',
             onTap: _submit,

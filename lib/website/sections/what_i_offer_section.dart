@@ -52,7 +52,7 @@ Widget _mobileView(BuildContext context) => Container(
   ),
   decoration: BoxDecoration(
     color: CustomColors.foreground,
-    borderRadius: CustomSizes.borderRadius(context),
+    borderRadius: BorderRadius.circular(CustomSizes.borderRadius(context)),
   ),
   child: Column(
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -94,7 +94,7 @@ Widget _desktopView(BuildContext context) => Container(
   ),
   decoration: BoxDecoration(
     color: CustomColors.foreground,
-    borderRadius: CustomSizes.borderRadius(context),
+    borderRadius: BorderRadius.circular(CustomSizes.borderRadius(context)),
   ),
   child: Column(
     crossAxisAlignment: CrossAxisAlignment.start,

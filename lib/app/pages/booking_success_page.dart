@@ -62,7 +62,6 @@ class BookingSuccessPage extends StatelessWidget {
                 CustomButton.primary(
                   context,
                   label: 'Book another class',
-                  isFullWidth: true,
                   onTap: () =>
                       NavigationManager.pushReplacement(PageNames.booking),
                 ),

@@ -41,7 +41,6 @@ class _HomepageState extends State<Homepage> {
     body: SingleChildScrollView(
       controller: _scrollController,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           HeroSection(key: SectionKeys.hero, navigate: _navigate),
           AboutSection(key: SectionKeys.aboutMe),

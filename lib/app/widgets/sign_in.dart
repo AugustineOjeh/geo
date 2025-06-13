@@ -99,7 +99,6 @@ class _SignInState extends State<SignIn> {
             ),
             CustomButton.primary(
               context,
-              isFullWidth: true,
               isLoading: _loading,
               label: 'Sign in',
               onTap: _submit,

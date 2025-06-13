@@ -117,7 +117,6 @@ class _BookingPlanState extends State<BookingPlan> {
                   ),
             CustomButton.primary(
               context,
-              isFullWidth: true,
               label: widget.isCustom
                   ? 'Contact me'
                   : _bookingCount > 1

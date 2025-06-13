@@ -12,10 +12,11 @@ class HeroSection extends StatelessWidget {
   Widget build(BuildContext context) => Container(
     width: double.infinity,
     alignment: Alignment.topCenter,
+    padding: EdgeInsets.only(top: 32, bottom: 64),
     decoration: BoxDecoration(
       image: DecorationImage(
         image: AssetImage('lib/assets/images/hero_background.png'),
-        fit: BoxFit.fill,
+        fit: BoxFit.cover,
       ),
     ),
     child: Container(
@@ -28,10 +29,13 @@ class HeroSection extends StatelessWidget {
         children: [
           CustomAppBar.dynamic(context, navigate: navigate),
           SizedBox(height: Spacing.hero(context)),
-          CustomButton.secondary(
-            context,
-            label: 'Book a class',
-            onTap: () => navigate(SectionKeys.bookClass),
+          SizedBox(
+            width: 180,
+            child: CustomButton.secondary(
+              context,
+              label: 'Book a class',
+              onTap: () => navigate(SectionKeys.bookClass),
+            ),
           ),
           SizedBox(height: 48),
           SectionHeader.prefix(

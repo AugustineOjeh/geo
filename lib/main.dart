@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grace_ogangwu/constants/sizes.dart';
 import 'package:grace_ogangwu/constants/styles.dart';
+import 'package:grace_ogangwu/website/pages/homepage.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
@@ -25,29 +26,7 @@ class GraceOgangwu extends StatelessWidget {
         fontFamilyFallback: [CustomFontFamily.sansDisplay],
         scaffoldBackgroundColor: CustomColors.background,
       ),
-      home: const Index(),
-    );
-  }
-}
-
-class Index extends StatefulWidget {
-  const Index({super.key});
-
-  @override
-  State<Index> createState() => _IndexState();
-}
-
-class _IndexState extends State<Index> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[],
-        ),
-      ),
+      home: const Homepage(),
     );
   }
 }

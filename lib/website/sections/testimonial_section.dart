@@ -207,45 +207,47 @@ class _TestimonialSectionState extends State<TestimonialSection> {
               ),
             ),
           ),
-          Column(
-            spacing: 24,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                spacing: 32,
-                children: [
-                  Expanded(
-                    child: _nameAndLocation(
-                      context,
-                      name: testimonial['name'] as String,
-                      location: testimonial['location'] as String,
+          Expanded(
+            child: Column(
+              spacing: 24,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  spacing: 32,
+                  children: [
+                    Expanded(
+                      child: _nameAndLocation(
+                        context,
+                        name: testimonial['name'] as String,
+                        location: testimonial['location'] as String,
+                      ),
                     ),
-                  ),
-                  _stars(),
-                ],
-              ),
-              Container(
-                width: double.infinity,
-                height: 1,
-                color: CustomColors.black.withValues(alpha: 0.2),
-              ),
-              Text(
-                testimonial['comment'] as String,
-                style: CustomTextStyle.headlineSmall(
-                  context,
-                ).copyWith(fontSize: 24, fontFamily: CustomFontFamily.sans),
-              ),
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 40),
-            child: _navigations(
-              context,
-              next: _nextIndex,
-              previous: _previousIndex,
+                    _stars(),
+                  ],
+                ),
+                Container(
+                  width: double.infinity,
+                  height: 1,
+                  color: CustomColors.black.withValues(alpha: 0.2),
+                ),
+                Text(
+                  testimonial['comment'] as String,
+                  style: CustomTextStyle.headlineSmall(
+                    context,
+                  ).copyWith(fontSize: 24, fontFamily: CustomFontFamily.sans),
+                ),
+              ],
             ),
           ),
         ],
+      ),
+      Padding(
+        padding: const EdgeInsets.only(top: 40),
+        child: _navigations(
+          context,
+          next: _nextIndex,
+          previous: _previousIndex,
+        ),
       ),
     ],
   );
@@ -256,6 +258,7 @@ Widget _nameAndLocation(
   required String name,
   required String location,
 }) => SizedBox(
+  width: double.infinity,
   child: Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     spacing: 4,

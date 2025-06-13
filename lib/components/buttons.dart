@@ -8,62 +8,51 @@ class CustomButton {
     required String label,
     required VoidCallback onTap,
     bool? isLoading,
-    bool isFullWidth = false,
-  }) => SizedBox(
-    width: isFullWidth ? double.infinity : null,
-    child: ElevatedButton(
-      onPressed: onTap,
-      style: ElevatedButton.styleFrom(
-        elevation: 0,
-        backgroundColor: CustomColors.primary,
-        overlayColor: Colors.transparent,
-        alignment: Alignment.centerLeft,
-        padding: const EdgeInsets.fromLTRB(16, 4, 4, 4),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadiusGeometry.circular(24),
-        ),
+  }) => ElevatedButton(
+    onPressed: onTap,
+    style: ElevatedButton.styleFrom(
+      elevation: 0,
+      backgroundColor: CustomColors.primary,
+      overlayColor: Colors.transparent,
+      alignment: Alignment.centerLeft,
+      padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadiusGeometry.circular(24),
       ),
-      child: Row(
-        spacing: 16,
-        children: [
-          isFullWidth
-              ? Expanded(
-                  child: Text(
-                    label,
-                    style: CustomTextStyle.bodyMedium(
-                      context,
-                      color: CustomColors.foreground,
-                    ),
-                  ),
-                )
-              : Text(
-                  label,
-                  style: CustomTextStyle.bodyMedium(
-                    context,
-                    color: CustomColors.foreground,
-                  ),
-                ),
-          Container(
-            width: 40,
-            height: 40,
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
+    ),
+    child: Row(
+      spacing: 16,
+      children: [
+        Expanded(
+          child: Text(
+            label,
+            style: CustomTextStyle.bodyMedium(
+              context,
               color: CustomColors.foreground,
-              shape: BoxShape.circle,
             ),
-            child: isLoading == true
-                ? CircularProgressIndicator(
-                    strokeWidth: 2,
-                    color: CustomColors.primary,
-                  )
-                : Icon(
-                    Icons.arrow_forward_ios,
-                    size: 16,
-                    color: CustomColors.primary,
-                  ),
           ),
-        ],
-      ),
+        ),
+        Container(
+          width: 40,
+          height: 40,
+          padding: const EdgeInsets.all(12),
+          margin: EdgeInsets.all(4),
+          decoration: BoxDecoration(
+            color: CustomColors.foreground,
+            shape: BoxShape.circle,
+          ),
+          child: isLoading == true
+              ? CircularProgressIndicator(
+                  strokeWidth: 2,
+                  color: CustomColors.primary,
+                )
+              : Icon(
+                  Icons.arrow_forward_ios,
+                  size: 16,
+                  color: CustomColors.primary,
+                ),
+        ),
+      ],
     ),
   );
 
@@ -71,58 +60,46 @@ class CustomButton {
     BuildContext context, {
     required String label,
     required VoidCallback onTap,
-
-    bool isFullWidth = false,
-  }) => SizedBox(
-    width: isFullWidth ? double.infinity : null,
-    child: ElevatedButton(
-      onPressed: onTap,
-      style: ElevatedButton.styleFrom(
-        elevation: 0,
-        backgroundColor: CustomColors.foreground,
-        overlayColor: Colors.transparent,
-        alignment: Alignment.centerLeft,
-        padding: const EdgeInsets.fromLTRB(16, 4, 4, 4),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadiusGeometry.circular(24),
-        ),
+  }) => ElevatedButton(
+    onPressed: onTap,
+    style: ElevatedButton.styleFrom(
+      elevation: 0,
+      backgroundColor: CustomColors.foreground,
+      overlayColor: Colors.transparent,
+      alignment: Alignment.centerLeft,
+      padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadiusGeometry.circular(24),
       ),
-      child: Row(
-        spacing: 16,
-        children: [
-          isFullWidth
-              ? Expanded(
-                  child: Text(
-                    label,
-                    style: CustomTextStyle.bodyMedium(
-                      context,
-                      color: CustomColors.black,
-                    ),
-                  ),
-                )
-              : Text(
-                  label,
-                  style: CustomTextStyle.bodyMedium(
-                    context,
-                    color: CustomColors.black,
-                  ),
-                ),
-          Container(
-            width: 40,
-            height: 40,
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: CustomColors.primary,
-              shape: BoxShape.circle,
-            ),
-            child: Icon(
-              Icons.arrow_forward_ios,
-              size: 16,
+    ),
+    child: Row(
+      spacing: 12,
+      children: [
+        Expanded(
+          child: Text(
+            label,
+            style: CustomTextStyle.bodyMedium(
+              context,
               color: CustomColors.black,
             ),
           ),
-        ],
-      ),
+        ),
+        Container(
+          width: 40,
+          height: 40,
+          padding: const EdgeInsets.all(12),
+          margin: EdgeInsets.all(4),
+          decoration: BoxDecoration(
+            color: CustomColors.primary,
+            shape: BoxShape.circle,
+          ),
+          child: Icon(
+            Icons.arrow_forward_ios,
+            size: 16,
+            color: CustomColors.foreground,
+          ),
+        ),
+      ],
     ),
   );
 

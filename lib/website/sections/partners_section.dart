@@ -78,23 +78,25 @@ Widget _desktopView(BuildContext context) => Row(
   spacing: Spacing.large(context),
   crossAxisAlignment: CrossAxisAlignment.start,
   children: [
-    Column(
-      spacing: 48,
-      children: [
-        SectionHeader.full(
-          context,
-          prefixText: 'Partners',
-          headline: _headline,
-        ),
-        Text(
-          _description,
-          style: CustomTextStyle.headlineSmall(
+    Expanded(
+      child: Column(
+        spacing: 48,
+        children: [
+          SectionHeader.full(
             context,
-            color: CustomColors.text,
+            prefixText: 'Partners',
+            headline: _headline,
           ),
-        ),
-      ],
+          Text(
+            _description,
+            style: CustomTextStyle.headlineSmall(
+              context,
+              color: CustomColors.text,
+            ),
+          ),
+        ],
+      ),
     ),
-    PartnerLogos.desktopView(context),
+    Expanded(child: PartnerLogos.desktopView(context)),
   ],
 );

@@ -3,12 +3,12 @@ import 'package:grace_ogangwu/constants/sizes.dart';
 import 'package:grace_ogangwu/constants/styles.dart';
 
 Color _borderColor = CustomColors.black.withValues(alpha: 0.15);
-String _fireflies = 'lib/assets/images/fireflies.ai_logo.png';
-String _google = 'lib/assets/images/google_logo.png';
-String _miro = 'lib/assets/images/miro_logo.png';
-String _openai = 'lib/assets/images/openai_logo.png';
-String _quizizz = 'lib/assets/images/quizizz_logo.png';
-String _stripe = 'lib/assets/images/stripe_logo.png';
+String _fireflies = 'lib/assets/images/logos/fireflies.ai_logo.png';
+String _google = 'lib/assets/images/logos/google_logo.png';
+String _miro = 'lib/assets/images/logos/miro_logo.png';
+String _openai = 'lib/assets/images/logos/openai_logo.png';
+String _quizizz = 'lib/assets/images/logos/quizizz_logo.png';
+String _stripe = 'lib/assets/images/logos/stripe_logo.png';
 
 class PartnerLogos {
   static Widget logoHolder(
@@ -26,6 +26,7 @@ class PartnerLogos {
     ),
   );
   static Widget desktopView(BuildContext context) => SizedBox(
+    width: double.infinity,
     child: Column(
       mainAxisSize: MainAxisSize.min,
       children: [

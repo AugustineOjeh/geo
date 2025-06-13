@@ -7,7 +7,7 @@ import 'package:grace_ogangwu/constants/sizes.dart';
 import 'package:grace_ogangwu/constants/styles.dart';
 
 class CustomAppBar {
-  static AppBar dynamic(
+  static Widget dynamic(
     BuildContext context, {
     required void Function(GlobalKey) navigate,
   }) => Device.isMobile(context)
@@ -17,161 +17,136 @@ class CustomAppBar {
       : CustomAppBar.desktop(context, navigate: navigate);
 
   /// Wide appBar with middle navbar
-  static AppBar desktop(
+  static Widget desktop(
     BuildContext context, {
     required void Function(GlobalKey) navigate,
-  }) => AppBar(
-    automaticallyImplyLeading: false,
-    backgroundColor: Colors.transparent,
-    title: Container(
-      margin: EdgeInsets.symmetric(
-        horizontal: CustomPadding.pageHorizontal(context),
-        vertical: 32,
-      ),
-      width: double.infinity,
-      child: SizedBox(
-        width: double.infinity,
-        child: Row(
-          children: [
-            SizedBox(child: logo(context, isBlack: false)),
-            Spacer(),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(32),
-                border: Border.all(
-                  width: 1,
-                  color: CustomColors.foreground.withValues(alpha: 0.2),
+  }) => SizedBox(
+    width: double.infinity,
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      spacing: 24,
+      children: [
+        logo(context, isBlack: false),
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(32),
+            border: Border.all(
+              width: 1,
+              color: CustomColors.foreground.withValues(alpha: 0.2),
+            ),
+          ),
+          child: IntrinsicWidth(
+            child: Row(
+              spacing: 16,
+              children: [
+                customTextButton(
+                  context,
+                  onTap: () => navigate(SectionKeys.hero),
+                  text: 'Home',
+                ),
+                customTextButton(
+                  context,
+                  onTap: () => navigate(SectionKeys.aboutMe),
+                  text: 'About me',
+                ),
+                customTextButton(
+                  context,
+                  onTap: () => navigate(SectionKeys.services),
+                  text: 'Services',
+                ),
+                customTextButton(
+                  context,
+                  onTap: () => navigate(SectionKeys.footer),
+                  text: 'Contact me',
+                ),
+              ],
+            ),
+          ),
+        ),
+        SizedBox(
+          child: Row(
+            spacing: 16,
+            children: [
+              customTextButton(
+                context,
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AppPage(showSignUpWidget: false),
+                  ),
+                ),
+                text: 'Sign in',
+                hasIcon: true,
+              ),
+              SizedBox(
+                width: 204,
+                child: CustomButton.secondary(
+                  context,
+                  label: 'Book a trial class',
+                  onTap: () => navigate(SectionKeys.bookClass),
                 ),
               ),
-              child: Row(
-                spacing: 40,
-                children: [
-                  customTextButton(
-                    context,
-                    onTap: () => navigate(SectionKeys.hero),
-                    text: 'Home',
-                  ),
-                  customTextButton(
-                    context,
-                    onTap: () => navigate(SectionKeys.aboutMe),
-                    text: 'About me',
-                  ),
-                  customTextButton(
-                    context,
-                    onTap: () => navigate(SectionKeys.services),
-                    text: 'Services',
-                  ),
-                  customTextButton(
-                    context,
-                    onTap: () => navigate(SectionKeys.footer),
-                    text: 'Contact me',
-                  ),
-                ],
-              ),
-            ),
-            Spacer(),
-            SizedBox(
-              child: Row(
-                spacing: 32,
-                children: [
-                  customTextButton(
-                    context,
-                    onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => AppPage(showSignUpWidget: false),
-                      ),
-                    ),
-                    text: 'Sign in',
-                    hasIcon: true,
-                  ),
-                  CustomButton.secondary(
-                    context,
-                    label: 'Book a trial class',
-                    onTap: () => navigate(SectionKeys.bookClass),
-                  ),
-                ],
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
+      ],
     ),
   );
-  static AppBar tablet(
+  static Widget tablet(
     BuildContext context, {
     required void Function(GlobalKey) navigate,
-  }) => AppBar(
-    automaticallyImplyLeading: false,
-    backgroundColor: Colors.transparent,
-    title: Container(
-      margin: EdgeInsets.symmetric(
-        horizontal: CustomPadding.pageHorizontal(context),
-        vertical: 32,
-      ),
-      width: double.infinity,
-      child: SizedBox(
-        width: double.infinity,
-        child: Row(
-          children: [
-            SizedBox(child: logo(context, isBlack: false)),
-            Spacer(),
-            SizedBox(
-              child: Row(
-                spacing: 32,
-                children: [
-                  customTextButton(
-                    context,
-                    onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => AppPage(showSignUpWidget: false),
-                      ),
-                    ),
-                    text: 'Sign in',
-                    hasIcon: true,
+  }) => SizedBox(
+    width: double.infinity,
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      spacing: 32,
+      children: [
+        logo(context, isBlack: false),
+        IntrinsicWidth(
+          child: Row(
+            spacing: 16,
+            children: [
+              customTextButton(
+                context,
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AppPage(showSignUpWidget: false),
                   ),
-                  CustomButton.secondary(
-                    context,
-                    label: 'Book a trial class',
-                    onTap: () => navigate(SectionKeys.bookClass),
-                  ),
-                ],
+                ),
+                text: 'Sign in',
+                hasIcon: true,
               ),
-            ),
-          ],
+              SizedBox(
+                width: 204,
+                child: CustomButton.secondary(
+                  context,
+                  label: 'Book a trial class',
+                  onTap: () => navigate(SectionKeys.bookClass),
+                ),
+              ),
+            ],
+          ),
         ),
-      ),
+      ],
     ),
   );
-  static AppBar mobile(BuildContext context) => AppBar(
-    automaticallyImplyLeading: false,
-    backgroundColor: Colors.transparent,
-    title: Container(
-      margin: EdgeInsets.symmetric(
-        horizontal: CustomPadding.pageHorizontal(context),
-        vertical: 32,
-      ),
-      width: double.infinity,
-      child: SizedBox(
-        width: double.infinity,
-        child: Row(
-          children: [
-            SizedBox(child: logo(context, isBlack: false)),
-            Spacer(),
-            SizedBox(
-              child: CustomButton.icon(
-                context,
-                icon: Icons.dehaze,
-                onTap: () {
-                  // TODO: Open popup menu
-                },
-              ),
-            ),
-          ],
+  static Widget mobile(BuildContext context) => SizedBox(
+    width: double.infinity,
+    child: Row(
+      spacing: 32,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        logo(context, isBlack: false),
+        CustomButton.icon(
+          context,
+          icon: Icons.dehaze,
+          onTap: () {
+            // TODO: Open popup menu
+          },
         ),
-      ),
+      ],
     ),
   );
   static AppBar app(BuildContext context) => AppBar(
@@ -182,11 +157,7 @@ class CustomAppBar {
         horizontal: CustomPadding.pageHorizontal(context),
         vertical: 32,
       ),
-      width: double.infinity,
-      child: SizedBox(
-        width: double.infinity,
-        child: Row(children: [SizedBox(child: logo(context, isBlack: false))]),
-      ),
+      child: logo(context, isBlack: false),
     ),
   );
 }
@@ -212,7 +183,7 @@ Widget customTextButton(
           style: CustomTextStyle.bodyMedium(
             context,
             color: CustomColors.background,
-          ),
+          ).copyWith(fontWeight: CustomFontWeight.regular),
         )
       : Row(
           spacing: 12,

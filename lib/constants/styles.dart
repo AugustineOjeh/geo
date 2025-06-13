@@ -39,7 +39,7 @@ class CustomTextStyle {
         fontSize: FontSizes.headlineMedium(context),
         fontFamily: CustomFontFamily.sansDisplay,
         fontWeight: CustomFontWeight.medium,
-        letterSpacing: FontSizes.headlineMedium(context) * 0.05,
+        letterSpacing: FontSizes.headlineMedium(context) * -0.05,
         height: 0.9,
         color: color ?? CustomColors.black,
       );
@@ -48,7 +48,7 @@ class CustomTextStyle {
     fontSize: FontSizes.headlineLarge(context),
     fontFamily: CustomFontFamily.sansDisplay,
     fontWeight: CustomFontWeight.medium,
-    letterSpacing: FontSizes.headlineMedium(context) * 0.05,
+    letterSpacing: FontSizes.headlineMedium(context) * -0.05,
     height: 0.9,
     color: CustomColors.black,
   );
@@ -57,7 +57,7 @@ class CustomTextStyle {
     fontSize: FontSizes.title(context),
     fontFamily: CustomFontFamily.sansDisplay,
     fontWeight: CustomFontWeight.bold,
-    letterSpacing: FontSizes.headlineMedium(context) * 0.05,
+    letterSpacing: FontSizes.headlineMedium(context) * -0.05,
     height: 0.9,
     color: color ?? CustomColors.foreground,
   );

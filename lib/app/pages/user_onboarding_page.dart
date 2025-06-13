@@ -92,7 +92,6 @@ class _UserOnboardingPageState extends State<UserOnboardingPage> {
           ),
           CustomButton.primary(
             context,
-            isFullWidth: true,
             isLoading: _loading,
             label: 'Save',
             onTap: _submit,
