@@ -81,8 +81,7 @@ class _TestimonialSectionState extends State<TestimonialSection> {
   );
 
   Widget _mobileView(Map<String, String> testimonial) => Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    spacing: 32,
+    spacing: 40,
     children: [
       SectionHeader.full(
         context,
@@ -101,7 +100,7 @@ class _TestimonialSectionState extends State<TestimonialSection> {
               borderRadius: BorderRadius.circular(32),
               image: DecorationImage(
                 image: AssetImage(testimonial['image'] as String),
-                fit: BoxFit.contain,
+                fit: BoxFit.cover,
               ),
             ),
           ),
@@ -148,7 +147,7 @@ class _TestimonialSectionState extends State<TestimonialSection> {
               borderRadius: BorderRadius.circular(32),
               image: DecorationImage(
                 image: AssetImage(testimonial['image'] as String),
-                fit: BoxFit.contain,
+                fit: BoxFit.cover,
               ),
             ),
           ),
@@ -183,8 +182,8 @@ class _TestimonialSectionState extends State<TestimonialSection> {
   );
 
   Widget _desktopView(Map<String, String> testimonial) => Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    spacing: 48,
+    // crossAxisAlignment: CrossAxisAlignment.start,
+    spacing: 64,
     children: [
       SectionHeader.full(
         context,
@@ -192,61 +191,69 @@ class _TestimonialSectionState extends State<TestimonialSection> {
         prefixText: 'Testimonials',
         headline: _headline,
       ),
-      Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        spacing: Spacing.medium(context),
-        children: [
-          Container(
-            width: 600,
-            height: 400,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(32),
-              image: DecorationImage(
-                image: AssetImage(testimonial['image'] as String),
-                fit: BoxFit.contain,
+      ConstrainedBox(
+        constraints: BoxConstraints(maxWidth: 1200),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          spacing: Spacing.medium(context),
+          children: [
+            Container(
+              width: 500,
+              height: 300,
+              clipBehavior: Clip.hardEdge,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(32),
+                image: DecorationImage(
+                  image: AssetImage(testimonial['image'] as String),
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
-          ),
-          Expanded(
-            child: Column(
-              spacing: 24,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  spacing: 32,
-                  children: [
-                    Expanded(
-                      child: _nameAndLocation(
-                        context,
-                        name: testimonial['name'] as String,
-                        location: testimonial['location'] as String,
+            Expanded(
+              child: Column(
+                spacing: 16,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    spacing: 32,
+                    children: [
+                      Expanded(
+                        child: _nameAndLocation(
+                          context,
+                          name: testimonial['name'] as String,
+                          location: testimonial['location'] as String,
+                        ),
+                      ),
+                      _stars(),
+                    ],
+                  ),
+                  Container(
+                    width: double.infinity,
+                    height: 1,
+                    color: CustomColors.black.withValues(alpha: 0.2),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                    child: Text(
+                      testimonial['comment'] as String,
+                      style: CustomTextStyle.headlineSmall(context).copyWith(
+                        fontSize: 24,
+                        fontFamily: CustomFontFamily.sans,
                       ),
                     ),
-                    _stars(),
-                  ],
-                ),
-                Container(
-                  width: double.infinity,
-                  height: 1,
-                  color: CustomColors.black.withValues(alpha: 0.2),
-                ),
-                Text(
-                  testimonial['comment'] as String,
-                  style: CustomTextStyle.headlineSmall(
-                    context,
-                  ).copyWith(fontSize: 24, fontFamily: CustomFontFamily.sans),
-                ),
-              ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 40),
+                    child: _navigations(
+                      context,
+                      next: _nextIndex,
+                      previous: _previousIndex,
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
-      ),
-      Padding(
-        padding: const EdgeInsets.only(top: 40),
-        child: _navigations(
-          context,
-          next: _nextIndex,
-          previous: _previousIndex,
+          ],
         ),
       ),
     ],
@@ -265,10 +272,12 @@ Widget _nameAndLocation(
     children: [
       Text(
         name,
-        style: CustomTextStyle.headlineSmall(context).copyWith(fontSize: 24),
+        style: CustomTextStyle.headlineSmall(
+          context,
+        ).copyWith(fontSize: 24, letterSpacing: 24 * -0.05),
       ),
       Row(
-        spacing: 8,
+        spacing: 4,
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(Icons.flag, color: CustomColors.primary, size: 20),

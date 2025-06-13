@@ -117,7 +117,8 @@ class CustomButton {
     style: IconButton.styleFrom(
       shape: CircleBorder(),
       visualDensity: VisualDensity.compact,
-      padding: EdgeInsets.all(12),
+      padding: EdgeInsets.all(10),
+      alignment: Alignment.center,
       backgroundColor: isPrimary
           ? CustomColors.primary
           : CustomColors.background,
@@ -125,16 +126,18 @@ class CustomButton {
       hoverColor: Colors.transparent,
       fixedSize: Size(size, size),
     ),
-    icon: Icon(
-      isUp
-          ? Icons.arrow_drop_up
-          : isDown
-          ? Icons.arrow_drop_down
-          : isLeft
-          ? Icons.arrow_back_ios
-          : Icons.arrow_forward_ios,
-      size: 16,
-      color: isPrimary ? CustomColors.foreground : CustomColors.black,
+    icon: Center(
+      child: Icon(
+        isUp
+            ? Icons.arrow_drop_up
+            : isDown
+            ? Icons.arrow_drop_down
+            : isLeft
+            ? Icons.arrow_back_ios
+            : Icons.arrow_forward_ios,
+        size: 16,
+        color: isPrimary ? CustomColors.foreground : CustomColors.black,
+      ),
     ),
   );
   static Widget icon(
