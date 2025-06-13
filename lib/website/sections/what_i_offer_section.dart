@@ -3,7 +3,7 @@ import 'package:grace_ogangwu/components/section_header.dart';
 import 'package:grace_ogangwu/constants/sizes.dart';
 import 'package:grace_ogangwu/constants/styles.dart';
 
-const String _headline = 'Who this is for';
+const String _headline = 'Who is this for?';
 
 // TODO: Update the copy for description
 Widget _description(BuildContext context) => RichText(
@@ -69,18 +69,21 @@ Widget _mobileView(BuildContext context) => Container(
         title: _box1Content['title']!,
         description: _box1Content['description']!,
         image: _box1Content['image']!,
+        height: 360,
       ),
       _targetStudents(
         context,
         title: _box2Content['title']!,
         description: _box2Content['description']!,
         image: _box2Content['image']!,
+        height: 360,
       ),
       _targetStudents(
         context,
         title: _box3Content['title']!,
         description: _box3Content['description']!,
         image: _box3Content['image']!,
+        height: 360,
       ),
     ],
   ),
@@ -98,7 +101,7 @@ Widget _desktopView(BuildContext context) => Container(
   ),
   child: Column(
     crossAxisAlignment: CrossAxisAlignment.start,
-    spacing: 32,
+    spacing: 24,
     children: [
       Row(
         spacing: Spacing.small(context),
@@ -106,7 +109,8 @@ Widget _desktopView(BuildContext context) => Container(
           Expanded(
             child: SizedBox(
               child: Column(
-                spacing: 32,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: 24,
                 children: [
                   SectionHeader.full(
                     context,
@@ -124,6 +128,7 @@ Widget _desktopView(BuildContext context) => Container(
               title: _box1Content['title']!,
               description: _box1Content['description']!,
               image: _box1Content['image']!,
+              height: 340,
             ),
           ),
         ],
@@ -137,6 +142,7 @@ Widget _desktopView(BuildContext context) => Container(
               title: _box2Content['title']!,
               description: _box2Content['description']!,
               image: _box2Content['image']!,
+              height: 280,
             ),
           ),
           Expanded(
@@ -145,6 +151,7 @@ Widget _desktopView(BuildContext context) => Container(
               title: _box3Content['title']!,
               description: _box3Content['description']!,
               image: _box3Content['image']!,
+              height: 280,
             ),
           ),
         ],
@@ -158,36 +165,48 @@ Widget _targetStudents(
   required String title,
   required String description,
   required String image,
+  required double height,
 }) => Container(
+  clipBehavior: Clip.hardEdge,
+  height: height,
   width: double.infinity,
   alignment: Alignment.bottomLeft,
-  padding: EdgeInsets.symmetric(
-    horizontal: Device.isMobile(context) ? 16 : 24,
-    vertical: Device.isTablet(context) ? 16 : 24,
-  ),
   decoration: BoxDecoration(
-    borderRadius: BorderRadius.circular(32),
-    image: DecorationImage(image: AssetImage(image)),
+    borderRadius: BorderRadius.circular(24),
+    image: DecorationImage(image: AssetImage(image), fit: BoxFit.cover),
   ),
-  child: Column(
-    mainAxisSize: MainAxisSize.min,
-    crossAxisAlignment: CrossAxisAlignment.start,
-    spacing: 12,
-    children: [
-      Text(
-        title,
-        style: CustomTextStyle.headlineSmall(
-          context,
-        ).copyWith(fontSize: 24, color: CustomColors.foreground),
-      ),
-      Text(
-        description,
-        style: CustomTextStyle.bodyMedium(
-          context,
-          color: CustomColors.foreground,
+  child: Container(
+    height: height,
+    width: double.infinity,
+    alignment: Alignment.bottomLeft,
+    padding: EdgeInsets.symmetric(
+      horizontal: Device.isMobile(context) ? 16 : 24,
+      vertical: Device.isTablet(context) ? 16 : 24,
+    ),
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(24),
+      color: CustomColors.black.withValues(alpha: 0.40),
+    ),
+    child: Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: 6,
+      children: [
+        Text(
+          title,
+          style: CustomTextStyle.headlineSmall(
+            context,
+          ).copyWith(fontSize: 20, color: CustomColors.foreground),
         ),
-      ),
-    ],
+        Text(
+          description,
+          style: CustomTextStyle.bodyMedium(
+            context,
+            color: CustomColors.foreground,
+          ),
+        ),
+      ],
+    ),
   ),
 );
 
