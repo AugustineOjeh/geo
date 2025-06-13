@@ -46,7 +46,8 @@ Widget _tabletView(BuildContext context) => Column(
   crossAxisAlignment: CrossAxisAlignment.start,
   children: [
     Row(
-      spacing: 48,
+      spacing: 32,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
           child: SizedBox(

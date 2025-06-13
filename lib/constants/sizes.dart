@@ -111,12 +111,12 @@ class Spacing {
       ? 180.00
       : 240.00;
   static double extraLarge(BuildContext context) => Device.isMobile(context)
-      ? 56.00
+      ? 40.00
       : Device.isTablet(context)
-      ? 64.00
+      ? 48.00
       : Device.isLaptop(context)
-      ? 96.00
-      : 128.00;
+      ? 56.00
+      : 96.00;
   static double large(BuildContext context) => Device.isMobile(context)
       ? 40.00
       : Device.isTablet(context)

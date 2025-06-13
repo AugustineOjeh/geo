@@ -31,7 +31,9 @@ Widget _aboutDesktop(BuildContext context) => Row(
     _headshot(),
     Flexible(
       child: ConstrainedBox(
-        constraints: BoxConstraints(maxWidth: 500),
+        constraints: BoxConstraints(
+          maxWidth: Device.isTablet(context) ? 428 : 500,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           spacing: 32,

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:grace_ogangwu/constants/sizes.dart';
 import 'package:grace_ogangwu/constants/styles.dart';
 
-Color _borderColor = CustomColors.black.withValues(alpha: 0.15);
+Color _borderColor = CustomColors.black.withValues(alpha: 0.07);
 String _fireflies = 'lib/assets/images/logos/fireflies.ai_logo.png';
 String _google = 'lib/assets/images/logos/google_logo.png';
 String _miro = 'lib/assets/images/logos/miro_logo.png';
@@ -22,7 +22,7 @@ class PartnerLogos {
     child: Image.asset(
       logo,
       height: Device.isMobile(context) ? 32 : 48,
-      fit: BoxFit.fill,
+      fit: BoxFit.contain,
     ),
   );
   static Widget desktopView(BuildContext context) => SizedBox(
