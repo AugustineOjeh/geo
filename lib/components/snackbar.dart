@@ -14,6 +14,7 @@ class CustomSnackbar {
         ),
         duration: Duration(seconds: 4),
         elevation: 8,
+        behavior: SnackBarBehavior.floating,
         backgroundColor: CustomColors.text,
         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         width: 300,

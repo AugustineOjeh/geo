@@ -11,16 +11,20 @@ class RequestHandler {
   }) async {
     try {
       final result = await request();
+      print(result);
       return result;
     } on PostgrestException catch (e) {
+      print(e);
       if (!context.mounted) return null;
       CustomSnackbar.main(context, message: e.message);
       return null;
     } on AuthException catch (e) {
+      print(e);
       if (!context.mounted) return null;
       CustomSnackbar.main(context, message: e.message);
       return null;
     } catch (e) {
+      print(e);
       if (!context.mounted) return null;
       CustomSnackbar.main(context, message: e.toString());
       return null;

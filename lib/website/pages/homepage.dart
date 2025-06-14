@@ -37,7 +37,6 @@ class _HomepageState extends State<Homepage> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    // appBar: CustomAppBar.dynamic(context, navigate: _navigate),
     body: SingleChildScrollView(
       controller: _scrollController,
       child: Column(

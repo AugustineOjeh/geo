@@ -8,7 +8,8 @@ class WebsiteHelper {
     required String email,
   }) async {
     final req = Supabase.instance.client
-        .from('occl.subscribers')
+        .schema('occl')
+        .from('subscribers')
         .insert({'email': email})
         .select()
         .single();

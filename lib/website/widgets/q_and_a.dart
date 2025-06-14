@@ -19,12 +19,12 @@ class QAndA extends StatelessWidget {
     duration: Duration(milliseconds: 500),
     curve: Curves.easeInOut,
     width: double.infinity,
-    padding: EdgeInsets.symmetric(vertical: 24),
+    padding: EdgeInsets.symmetric(vertical: 20),
     decoration: BoxDecoration(
       border: Border(
         bottom: BorderSide(
           width: 1,
-          color: CustomColors.black.withValues(alpha: 0.15),
+          color: CustomColors.black.withValues(alpha: 0.07),
         ),
       ),
     ),

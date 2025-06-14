@@ -31,6 +31,7 @@ class _NewsletterSubscriptionState extends State<NewsletterSubscription> {
       );
       if (res) {
         setState(() => _message = 'Successful!');
+        _controller.clear();
       }
     } finally {
       setState(() => _loading = false);
@@ -53,10 +54,14 @@ class _NewsletterSubscriptionState extends State<NewsletterSubscription> {
         children: [
           Text(
             'Subscribe to my newsletter',
-            style: CustomTextStyle.headlineSmall(
-              context,
-              color: CustomColors.background.withValues(alpha: 0.8),
-            ),
+            style:
+                CustomTextStyle.headlineSmall(
+                  context,
+                  color: CustomColors.background.withValues(alpha: 0.8),
+                ).copyWith(
+                  height: 0.95,
+                  letterSpacing: FontSizes.headlineSmall(context) * -0.05,
+                ),
           ),
           CustomFields.newsletterInput(
             context,

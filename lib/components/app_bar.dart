@@ -23,62 +23,62 @@ class CustomAppBar {
   }) => SizedBox(
     width: double.infinity,
     child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
       spacing: 24,
       children: [
         logo(context, isBlack: false),
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(32),
-            border: Border.all(
-              width: 1,
-              color: CustomColors.foreground.withValues(alpha: 0.2),
-            ),
-          ),
-          child: IntrinsicWidth(
-            child: Row(
-              spacing: 16,
-              children: [
-                customTextButton(
-                  context,
-                  onTap: () => navigate(SectionKeys.hero),
-                  text: 'Home',
+        Expanded(
+          child: Center(
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(32),
+                border: Border.all(
+                  width: 1,
+                  color: CustomColors.foreground.withValues(alpha: 0.2),
                 ),
-                customTextButton(
-                  context,
-                  onTap: () => navigate(SectionKeys.aboutMe),
-                  text: 'About me',
+              ),
+              child: IntrinsicWidth(
+                child: Row(
+                  spacing: 16,
+                  children: [
+                    customTextButton(
+                      context,
+                      onTap: () => navigate(SectionKeys.aboutMe),
+                      text: 'About me',
+                    ),
+                    customTextButton(
+                      context,
+                      onTap: () => navigate(SectionKeys.services),
+                      text: 'Services',
+                    ),
+                    customTextButton(
+                      context,
+                      onTap: () => navigate(SectionKeys.footer),
+                      text: 'Contact me',
+                    ),
+                  ],
                 ),
-                customTextButton(
-                  context,
-                  onTap: () => navigate(SectionKeys.services),
-                  text: 'Services',
-                ),
-                customTextButton(
-                  context,
-                  onTap: () => navigate(SectionKeys.footer),
-                  text: 'Contact me',
-                ),
-              ],
+              ),
             ),
           ),
         ),
         SizedBox(
           child: Row(
             spacing: 16,
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              customTextButton(
-                context,
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => AppPage(showSignUpWidget: false),
-                  ),
-                ),
-                text: 'Sign in',
-                hasIcon: true,
-              ),
+              // customTextButton(
+              //   context,
+              //   onTap: () => Navigator.push(
+              //     context,
+              //     MaterialPageRoute(
+              //       builder: (context) => AppPage(showSignUpWidget: false),
+              //     ),
+              //   ),
+              //   text: 'Sign in',
+              //   hasIcon: true,
+              // ),
               SizedBox(
                 width: 204,
                 child: CustomButton.secondary(

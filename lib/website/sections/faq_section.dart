@@ -38,7 +38,7 @@ class _FaqSectionState extends State<FaqSection> {
       vertical: CustomPadding.sectionVertical(context),
     ),
     child: Column(
-      spacing: Spacing.large(context),
+      spacing: Spacing.medium(context),
       children: [
         SectionHeader.full(
           context,
