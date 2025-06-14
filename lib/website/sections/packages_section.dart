@@ -212,7 +212,7 @@ Widget _desktopView(
       ],
     ),
     Row(
-      spacing: 24,
+      spacing: 16,
       children: [
         Expanded(
           child: BookingPlan(

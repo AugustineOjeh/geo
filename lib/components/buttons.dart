@@ -152,11 +152,18 @@ class CustomButton {
     style: IconButton.styleFrom(
       shape: CircleBorder(),
       visualDensity: VisualDensity.compact,
-      backgroundColor: Colors.transparent,
+      backgroundColor: isPrimary
+          ? CustomColors.primary
+          : CustomColors.background,
       overlayColor: Colors.transparent,
       hoverColor: Colors.transparent,
     ),
-    icon: Icon(icon, size: size ?? 24, color: color ?? CustomColors.black),
+    icon: Icon(
+      icon,
+      size: size ?? 24,
+      color:
+          color ?? (isPrimary ? CustomColors.foreground : CustomColors.black),
+    ),
   );
 
   static Widget footerSocials(

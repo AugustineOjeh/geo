@@ -51,8 +51,10 @@ class _BookingPlanState extends State<BookingPlan> {
     clipBehavior: Clip.none,
     children: [
       Container(
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 48),
-        height: 600,
+        padding: EdgeInsets.fromLTRB(16, 40, 16, 24),
+        clipBehavior: Clip.hardEdge,
+        constraints: BoxConstraints(minHeight: 600),
+        // height: 600,
         width: double.infinity,
         decoration: BoxDecoration(
           color: CustomColors.foreground,
@@ -66,41 +68,45 @@ class _BookingPlanState extends State<BookingPlan> {
         ),
         child: Column(
           spacing: 24,
-          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              spacing: 16,
-              children: [
-                Text(
-                  widget.planName,
-                  style: CustomTextStyle.headlineMedium(
-                    context,
-                  ).copyWith(fontSize: 26),
-                ),
-                if (widget.discount != null && widget.discount! > 0)
-                  _discountDisplay(context, discount: widget.discount!),
-              ],
+            SizedBox(
+              height: 30,
+              child: Row(
+                spacing: 8,
+                children: [
+                  Text(
+                    widget.planName,
+                    style: CustomTextStyle.headlineMedium(
+                      context,
+                    ).copyWith(fontSize: 24),
+                  ),
+                  if (widget.discount != null && widget.discount! > 0)
+                    _discountDisplay(context, discount: widget.discount!),
+                ],
+              ),
             ),
             Row(
               spacing: 4,
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
-                  widget.isCustom ? ' ' : '\$${widget.price.toString()}',
+                  widget.isCustom ? '' : '\$${widget.price.toString()}',
                   style: CustomTextStyle.headlineMedium(
                     context,
-                  ).copyWith(fontSize: 40),
+                  ).copyWith(fontSize: 32),
                 ),
                 Text(
                   widget.isCustom ? 'Custom pricing' : '/class',
                   style: CustomTextStyle.bodyLarge(
                     context,
-                  ).copyWith(fontSize: 20),
+                  ).copyWith(fontSize: 20, height: 0.95),
                 ),
               ],
             ),
             widget.isCustom
                 ? SizedBox(
-                    height: 34,
+                    height: 36,
                     child: Text(
                       'For students with unique needs.',
                       style: CustomTextStyle.bodyMedium(
@@ -128,46 +134,63 @@ class _BookingPlanState extends State<BookingPlan> {
                 widget.planName,
               ),
             ),
-            Padding(
-              padding: EdgeInsetsGeometry.only(top: 16),
-              child: Text(
-                widget.benefitPrefix,
-                style: CustomTextStyle.bodyMedium(
-                  context,
-                  color: CustomColors.foreground,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              spacing: 8,
+              children: [
+                Padding(
+                  padding: EdgeInsetsGeometry.only(top: 8),
+                  child: Text(
+                    widget.benefitPrefix,
+                    style: CustomTextStyle.bodyMedium(
+                      context,
+                      color: CustomColors.black,
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            ListView.builder(
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              itemCount: widget.benefits.length,
-              itemBuilder: (context, index) {
-                final map = widget.benefits[index];
-                final Widget icon = Icon(
-                  map['available'] as bool ? Icons.info : Icons.close,
-                  size: 16,
-                  color: CustomColors.text,
-                );
-                final benefit = map['benefit'] as String;
-                return Row(
-                  spacing: 8,
-                  children: [
-                    icon,
-                    Text(benefit, style: CustomTextStyle.bodyMedium(context)),
-                  ],
-                );
-              },
+                ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: widget.benefits.length,
+                  itemBuilder: (context, index) {
+                    final map = widget.benefits[index];
+                    final Widget icon = Icon(
+                      map['available'] as bool
+                          ? Icons.info_outline
+                          : Icons.close,
+                      size: 16,
+                      color: CustomColors.text,
+                    );
+                    final benefit = map['benefit'] as String;
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 3),
+                      child: Row(
+                        spacing: 8,
+                        children: [
+                          icon,
+                          Flexible(
+                            child: Text(
+                              benefit,
+                              style: CustomTextStyle.bodyMedium(context),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ],
             ),
           ],
         ),
       ),
-      Positioned(
-        top: -17,
-        left: 0,
-        right: 0,
-        child: Center(child: _mostPopularLabel(context)),
-      ),
+      if (widget.isPopular)
+        Positioned(
+          top: -17,
+          left: 0,
+          right: 0,
+          child: Center(child: _mostPopularLabel(context)),
+        ),
     ],
   );
 }
@@ -182,9 +205,9 @@ Widget _bookingCounter(
   spacing: 8,
   children: [
     Container(
-      padding: EdgeInsets.all(8),
-      width: 72,
-      height: 34,
+      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      width: 64,
+      height: 36,
       alignment: Alignment.center,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
@@ -210,7 +233,7 @@ Widget _bookingCounter(
 
 Widget _discountDisplay(BuildContext context, {required double discount}) =>
     Container(
-      padding: EdgeInsets.all(8),
+      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
         color: CustomColors.primary,
@@ -224,7 +247,7 @@ Widget _discountDisplay(BuildContext context, {required double discount}) =>
     );
 
 Widget _mostPopularLabel(BuildContext context) => Container(
-  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
   decoration: BoxDecoration(
     borderRadius: BorderRadius.circular(8),
     border: Border.all(width: 1, color: CustomColors.primary),
