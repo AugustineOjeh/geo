@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grace_ogangwu/app/core/app_page.dart';
 import 'package:grace_ogangwu/constants/keys.dart';
 import 'package:grace_ogangwu/website/sections/about_section.dart';
 import 'package:grace_ogangwu/website/sections/faq_section.dart';
@@ -9,6 +10,7 @@ import 'package:grace_ogangwu/website/sections/packages_section.dart';
 import 'package:grace_ogangwu/website/sections/partners_section.dart';
 import 'package:grace_ogangwu/website/sections/testimonial_section.dart';
 import 'package:grace_ogangwu/website/sections/what_i_offer_section.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
@@ -19,10 +21,19 @@ class Homepage extends StatefulWidget {
 
 class _HomepageState extends State<Homepage> {
   final _scrollController = ScrollController();
+
   @override
   void initState() {
     super.initState();
-    // Check if user has active session and navigate to app
+    final user = Supabase.instance.client.auth.currentUser;
+    if (user != null) {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => AppPage()),
+        (route) => false,
+      );
+      return;
+    }
   }
 
   void _backToTop() => _navigate(SectionKeys.hero);

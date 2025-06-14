@@ -57,7 +57,7 @@ class NavigationManager {
     }
 
     return MaterialPageRoute(
-      builder: (context) => BookingPackagesPage(),
+      builder: (context) => AuthPage(),
       settings: settings,
     );
   }

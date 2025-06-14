@@ -27,9 +27,13 @@ class _AppPageState extends State<AppPage> {
   @override
   void initState() {
     super.initState();
+    _navigate();
+  }
+
+  void _navigate() {
     final session = Supabase.instance.client.auth.currentSession;
     if (session == null) {
-      NavigationManager.push(
+      NavigationManager.pushReplacement(
         PageNames.auth,
         arguments: {
           'show-signup': widget.showSignUpWidget,
@@ -39,7 +43,7 @@ class _AppPageState extends State<AppPage> {
         },
       );
     } else {
-      _initialRoute = PageNames.booking;
+      setState(() => _initialRoute = PageNames.booking);
     }
   }
 
@@ -49,13 +53,15 @@ class _AppPageState extends State<AppPage> {
       appBar: AppBar(
         forceMaterialTransparency: true,
         automaticallyImplyLeading: false,
+        clipBehavior: Clip.none,
+        backgroundColor: CustomColors.background,
+        centerTitle: false,
         title: Container(
           padding: EdgeInsets.symmetric(
             horizontal: CustomPadding.pageHorizontal(context),
-            vertical: 32,
+            // vertical: 24,
           ),
-          width: double.infinity,
-          child: Row(children: [logo(context, isBlack: true)]),
+          child: logo(context, isBlack: true),
         ),
       ),
       body: SingleChildScrollView(
@@ -73,7 +79,7 @@ class _AppPageState extends State<AppPage> {
                 child: Center(
                   child: Navigator(
                     key: NavigationManager.navigatorKey,
-                    initialRoute: _initialRoute,
+                    // initialRoute: _initialRoute,
                     onGenerateRoute: NavigationManager.generateRoute,
                   ),
                 ),
