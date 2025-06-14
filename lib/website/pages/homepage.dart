@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grace_ogangwu/app/core/app_page.dart';
+import 'package:grace_ogangwu/app/core/navigation_manager.dart';
 import 'package:grace_ogangwu/constants/keys.dart';
 import 'package:grace_ogangwu/website/sections/about_section.dart';
 import 'package:grace_ogangwu/website/sections/faq_section.dart';
@@ -29,7 +30,9 @@ class _HomepageState extends State<Homepage> {
     if (user != null) {
       Navigator.pushAndRemoveUntil(
         context,
-        MaterialPageRoute(builder: (context) => AppPage()),
+        MaterialPageRoute(
+          builder: (context) => AppPage(initialPage: PageNames.booking),
+        ),
         (route) => false,
       );
       return;

@@ -2,20 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:grace_ogangwu/app/core/navigation_manager.dart';
 import 'package:grace_ogangwu/assets/logo.dart';
 import 'package:grace_ogangwu/constants/constants.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AppPage extends StatefulWidget {
   const AppPage({
-    this.showSignUpWidget = true,
+    required this.initialPage,
     this.bookingCount,
     this.tier,
     this.tierPrice,
     super.key,
   });
-  final bool showSignUpWidget;
   final double? tierPrice;
   final String? tier;
   final int? bookingCount;
+
+  /// Must be a [PageNames] value.
+  final String initialPage;
 
   @override
   State<AppPage> createState() => _AppPageState();
@@ -27,24 +28,7 @@ class _AppPageState extends State<AppPage> {
   @override
   void initState() {
     super.initState();
-    _navigate();
-  }
-
-  void _navigate() {
-    final session = Supabase.instance.client.auth.currentSession;
-    if (session == null) {
-      NavigationManager.pushReplacement(
-        PageNames.auth,
-        arguments: {
-          'show-signup': widget.showSignUpWidget,
-          'tier': widget.tier,
-          'pricing': widget.tierPrice,
-          'booking-count': widget.bookingCount,
-        },
-      );
-    } else {
-      setState(() => _initialRoute = PageNames.booking);
-    }
+    _initialRoute = widget.initialPage;
   }
 
   @override
@@ -79,7 +63,7 @@ class _AppPageState extends State<AppPage> {
                 child: Center(
                   child: Navigator(
                     key: NavigationManager.navigatorKey,
-                    // initialRoute: _initialRoute,
+                    initialRoute: _initialRoute,
                     onGenerateRoute: NavigationManager.generateRoute,
                   ),
                 ),

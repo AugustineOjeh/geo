@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grace_ogangwu/app/core/student_model.dart';
 import 'package:grace_ogangwu/app/pages/booking_packages_page.dart';
-import 'package:grace_ogangwu/app/pages/auth_page.dart';
 import 'package:grace_ogangwu/app/pages/booking_success_page.dart';
 import 'package:grace_ogangwu/app/pages/calendar_page.dart';
 import 'package:grace_ogangwu/app/pages/payment_page.dart';
@@ -47,25 +46,16 @@ class NavigationManager {
   }
 
   // Generate routes for the navigator
-  static Route<dynamic> generateRoute(RouteSettings settings) {
-    final routeBuilder = CustomRoutes.appRoutes[settings.name];
-    if (routeBuilder != null) {
-      return MaterialPageRoute(
-        builder: (context) => routeBuilder(context, settings.arguments),
+  static Route<dynamic> generateRoute(RouteSettings settings) =>
+      MaterialPageRoute(
+        builder: (context) =>
+            CustomRoutes.appRoutes[settings.name]!(context, settings.arguments),
         settings: settings,
       );
-    }
-
-    return MaterialPageRoute(
-      builder: (context) => AuthPage(),
-      settings: settings,
-    );
-  }
 }
 
 class PageNames {
   static const booking = '/booking';
-  static const auth = '/auth';
   static const calendar = '/calendar';
   static const userOnboarding = '/user-onboarding';
   static const studentOnboarding = '/student-onboarding';
@@ -80,12 +70,6 @@ class PageNames {
 class CustomRoutes {
   // Map of routes to page widgets
   static final Map<String, Widget Function(BuildContext, dynamic)> appRoutes = {
-    PageNames.auth: (context, args) => AuthPage(
-      showSignUpWidget: args['show-signup'] as bool? ?? false,
-      tier: args['tier'] as String?,
-      tierPrice: args['pricing'] as double?,
-      bookingCount: args['booking-count'] as int?,
-    ),
     PageNames.booking: (context, args) => BookingPackagesPage(),
     PageNames.userOnboarding: (context, args) => UserOnboardingPage(
       tier: args['tier'] as String?,

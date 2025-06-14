@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:grace_ogangwu/app/core/app_page.dart';
 import 'package:grace_ogangwu/components/section_header.dart';
 import 'package:grace_ogangwu/constants/offers.dart';
 import 'package:grace_ogangwu/constants/sizes.dart';
 import 'package:grace_ogangwu/constants/styles.dart';
+import 'package:grace_ogangwu/website/pages/auth_page.dart';
 import 'package:grace_ogangwu/website/widgets/booking_plan.dart';
 
 const String _headline = 'Pay less per class when you book more';
@@ -38,7 +38,7 @@ class _PackagesSectionState extends State<PackagesSection> {
       context,
       MaterialPageRoute(
         builder: (context) =>
-            AppPage(tier: tier, bookingCount: bookingCount, tierPrice: price),
+            AuthPage(tier: tier, bookingCount: bookingCount, tierPrice: price),
       ),
     );
   }

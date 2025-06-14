@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:grace_ogangwu/app/widgets/sign_in.dart';
-import 'package:grace_ogangwu/app/widgets/sign_up.dart';
+import 'package:grace_ogangwu/website/widgets/sign_in.dart';
+import 'package:grace_ogangwu/website/widgets/sign_up.dart';
 
 class AuthPage extends StatefulWidget {
   const AuthPage({
@@ -32,7 +32,13 @@ class _AuthPageState extends State<AuthPage> {
       setState(() => _showSignUpWidget = !_showSignUpWidget);
 
   @override
-  Widget build(BuildContext context) => _showSignUpWidget
-      ? SignUp(switchToSignIn: _toggleWidget)
-      : SignIn(switchToSignUp: _toggleWidget);
+  Widget build(BuildContext context) => Scaffold(
+    body: Center(
+      child: SingleChildScrollView(
+        child: _showSignUpWidget
+            ? SignUp(switchToSignIn: _toggleWidget)
+            : SignIn(switchToSignUp: _toggleWidget),
+      ),
+    ),
+  );
 }

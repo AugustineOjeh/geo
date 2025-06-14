@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grace_ogangwu/app/core/app_page.dart';
 import 'package:grace_ogangwu/app/core/navigation_manager.dart';
 import 'package:grace_ogangwu/utils/request_handler.dart';
 import 'package:grace_ogangwu/website/pages/homepage.dart';
@@ -17,14 +18,17 @@ class AuthHelper {
   }) async {
     final req = supabase.auth.signUp(email: email, password: password);
     final res = await RequestHandler.req(context, request: () => req);
-    if (res == null) return;
-    NavigationManager.push(
-      'user-onboarding',
-      arguments: {
-        'tier': tier,
-        'pricing': price,
-        'booking-count': bookingCount,
-      },
+    if (res == null || !context.mounted) return;
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => AppPage(
+          initialPage: PageNames.userOnboarding,
+          tier: tier,
+          tierPrice: price,
+          bookingCount: bookingCount,
+        ),
+      ),
     );
   }
 
@@ -32,14 +36,27 @@ class AuthHelper {
     BuildContext context, {
     required String email,
     required String password,
+    String? tier,
+    double? price,
+    int? bookingCount,
   }) async {
     final req = supabase.auth.signInWithPassword(
       email: email,
       password: password,
     );
     final res = await RequestHandler.req(context, request: () => req);
-    if (res == null) return;
-    NavigationManager.push(PageNames.booking);
+    if (res == null || !context.mounted) return;
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => AppPage(
+          initialPage: PageNames.booking,
+          tier: tier,
+          tierPrice: price,
+          bookingCount: bookingCount,
+        ),
+      ),
+    );
   }
 
   static Future<void> signOut(BuildContext context) async {

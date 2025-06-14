@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:grace_ogangwu/app/core/app_page.dart';
 import 'package:grace_ogangwu/assets/logo.dart';
 import 'package:grace_ogangwu/components/buttons.dart';
 import 'package:grace_ogangwu/constants/keys.dart';
 import 'package:grace_ogangwu/constants/sizes.dart';
 import 'package:grace_ogangwu/constants/styles.dart';
+import 'package:grace_ogangwu/website/pages/auth_page.dart';
 
 class CustomAppBar {
   static Widget dynamic(
@@ -112,7 +112,7 @@ class CustomAppBar {
                 onTap: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => AppPage(showSignUpWidget: false),
+                    builder: (context) => AuthPage(showSignUpWidget: false),
                   ),
                 ),
                 text: 'Sign in',

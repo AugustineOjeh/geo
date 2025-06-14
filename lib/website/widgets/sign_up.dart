@@ -3,15 +3,15 @@ import 'package:grace_ogangwu/app/helpers/auth.dart';
 import 'package:grace_ogangwu/components/components.dart';
 import 'package:grace_ogangwu/constants/constants.dart';
 
-class SignIn extends StatefulWidget {
-  const SignIn({required this.switchToSignUp, super.key});
-  final VoidCallback switchToSignUp;
+class SignUp extends StatefulWidget {
+  const SignUp({required this.switchToSignIn, super.key});
+  final VoidCallback switchToSignIn;
 
   @override
-  State<SignIn> createState() => _SignInState();
+  State<SignUp> createState() => _SignUpState();
 }
 
-class _SignInState extends State<SignIn> {
+class _SignUpState extends State<SignUp> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -26,7 +26,7 @@ class _SignInState extends State<SignIn> {
     if (!_validateForm()) return;
     setState(() => _loading = true);
     try {
-      await AuthHelper.signIn(
+      await AuthHelper.signUp(
         context,
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
@@ -46,11 +46,12 @@ class _SignInState extends State<SignIn> {
         width: double.infinity,
         child: Column(
           spacing: 32,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SectionHeader.full(
               context,
               prefixText: 'Get started',
-              headline: 'Sign in',
+              headline: 'Sign up',
             ),
             Form(
               key: _formKey,
@@ -100,7 +101,7 @@ class _SignInState extends State<SignIn> {
             CustomButton.primary(
               context,
               isLoading: _loading,
-              label: 'Sign in',
+              label: 'Sign up',
               onTap: _submit,
             ),
             Center(
@@ -108,14 +109,14 @@ class _SignInState extends State<SignIn> {
                 text: TextSpan(
                   style: CustomTextStyle.bodyMedium(context),
                   children: [
-                    TextSpan(text: 'Don\'t have account?'),
+                    TextSpan(text: 'Have account?'),
                     redirectSpan(
                       context,
-                      text: 'Sign up',
+                      text: 'Sign in',
                       onTap: () {
                         _emailController.clear();
                         _passwordController.clear();
-                        widget.switchToSignUp();
+                        widget.switchToSignIn();
                       },
                     ),
                   ],
