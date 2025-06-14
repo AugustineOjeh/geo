@@ -27,7 +27,7 @@ class FontSizes {
       ? 32.00
       : Device.isTablet(context)
       ? 36.00
-      : 48.00;
+      : 40.00;
 
   static double headlineMedium(BuildContext context) => Device.isMobile(context)
       ? 24.00

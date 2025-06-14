@@ -42,7 +42,12 @@ class AppHelper {
     final user = supabase.auth.currentUser;
     if (user == null) return;
     final data = {'name': name, 'age': age, 'parent_id': user.id};
-    final req = supabase.from('occl.students').insert(data).select().single();
+    final req = supabase
+        .schema('occl')
+        .from('students')
+        .insert(data)
+        .select()
+        .single();
     final res = await RequestHandler.req(context, request: () => req);
     if (res == null) return;
     NavigationManager.push(
@@ -64,7 +69,8 @@ class AppHelper {
   }) async {
     final data = {'tier': tier, 'student_id': studentId, 'max_slots': maxSlots};
     final req = supabase
-        .from('occl.bookings')
+        .schema('occl')
+        .from('bookings')
         .insert(data)
         .select('*, students(*)')
         .single();
@@ -77,7 +83,8 @@ class AppHelper {
     required String studentId,
   }) async {
     final req = supabase
-        .from('occl.questionnaires')
+        .schema('occl')
+        .from('questionnaires')
         .select('id')
         .eq('student_id', studentId);
     final res = await RequestHandler.req(context, request: () => req);
@@ -89,7 +96,8 @@ class AppHelper {
     required Map<String, dynamic> data,
   }) async {
     final req = supabase
-        .from('occl.questionnaires')
+        .schema('occl')
+        .from('questionnaires')
         .insert(data)
         .select()
         .single();

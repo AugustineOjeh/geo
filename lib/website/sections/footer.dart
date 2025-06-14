@@ -54,32 +54,34 @@ Widget _mobileView(
             height: 1,
             color: CustomColors.background.withValues(alpha: 0.15),
           ),
-          Column(
-            spacing: 16,
-            children: [
-              Text(
-                'Copyright © OCCL, ${DateTime.now().year.toString()}',
-                style: CustomTextStyle.bodyMedium(context),
-              ),
-              GestureDetector(
-                onTap: backToTop,
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  spacing: 12,
-                  children: [
-                    Text(
-                      'Back to top',
-                      style: CustomTextStyle.bodyMedium(context),
-                    ),
-                    CustomButton.icon(
-                      context,
-                      onTap: backToTop,
-                      icon: Icons.arrow_upward,
-                    ),
-                  ],
+          Center(
+            child: Column(
+              spacing: 16,
+              children: [
+                Text(
+                  'Copyright © OCCL, ${DateTime.now().year.toString()}',
+                  style: CustomTextStyle.bodyMedium(context),
                 ),
-              ),
-            ],
+                GestureDetector(
+                  onTap: backToTop,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    spacing: 12,
+                    children: [
+                      Text(
+                        'Back to top',
+                        style: CustomTextStyle.bodyMedium(context),
+                      ),
+                      CustomButton.icon(
+                        context,
+                        onTap: backToTop,
+                        icon: Icons.arrow_upward,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),
@@ -99,7 +101,6 @@ Widget _desktopView(
       Container(
         width: double.infinity,
         padding: EdgeInsets.fromLTRB(40, 200, 40, 32),
-        // margin: EdgeInsets.only(top: Device.isTablet(context) ? 200 : 220),
         decoration: BoxDecoration(
           color: CustomColors.black,
           borderRadius: BorderRadius.only(
@@ -113,10 +114,11 @@ Widget _desktopView(
           children: [
             Row(
               spacing: 48,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 _footerLogo(context),
                 Spacer(),
-                NewsletterSubscription(),
+                Flexible(child: NewsletterSubscription()),
               ],
             ),
             Container(
@@ -126,6 +128,7 @@ Widget _desktopView(
             ),
             Row(
               spacing: 48,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   'Copyright © OCCL, ${DateTime.now().year.toString()}',

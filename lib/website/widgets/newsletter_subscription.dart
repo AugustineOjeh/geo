@@ -44,7 +44,7 @@ class _NewsletterSubscriptionState extends State<NewsletterSubscription> {
 
   @override
   Widget build(BuildContext context) => SizedBox(
-    width: Device.isMobile(context) ? double.infinity : 300,
+    width: Device.isMobile(context) ? double.infinity : 250,
     child: Form(
       key: _formKey,
       child: Column(

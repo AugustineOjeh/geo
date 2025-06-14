@@ -109,7 +109,7 @@ class _SignInState extends State<SignIn> {
                 text: TextSpan(
                   style: CustomTextStyle.bodyMedium(context),
                   children: [
-                    TextSpan(text: 'Don\'t have account?'),
+                    TextSpan(text: 'Don\'t have account? '),
                     redirectSpan(
                       context,
                       text: 'Sign up',

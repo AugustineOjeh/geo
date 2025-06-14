@@ -27,9 +27,9 @@ class CustomFields {
   }) => Column(
     mainAxisSize: MainAxisSize.min,
     crossAxisAlignment: CrossAxisAlignment.start,
-    spacing: 16,
+    spacing: 8,
     children: [
-      if (label != null)
+      if (label != null || label!.isNotEmpty)
         Text(
           label,
           style: CustomTextStyle.bodyMedium(context, color: CustomColors.black),
@@ -142,6 +142,8 @@ class CustomFields {
               decoration: InputDecoration(
                 hint: Text(
                   'Email address',
+                  softWrap: false,
+                  overflow: TextOverflow.ellipsis,
                   style: CustomTextStyle.bodyMedium(
                     context,
                     color: CustomColors.foreground.withValues(alpha: 0.3),

@@ -11,16 +11,17 @@ class SectionHeader {
     mainAxisSize: MainAxisSize.min,
     spacing: 4,
     children: [
-      Icon(
-        Icons.keyboard_double_arrow_left,
-        size: 14,
-        color: isWhite ? CustomColors.background : CustomColors.black,
-      ),
+      if (!isWhite)
+        Icon(
+          Icons.keyboard_double_arrow_left,
+          size: 14,
+          color: isWhite ? CustomColors.background : CustomColors.black,
+        ),
       Flexible(
         child: SizedBox(
           child: Text(
             text,
-            style: CustomTextStyle.bodyLarge(
+            style: CustomTextStyle.bodyMedium(
               context,
               color: isWhite ? CustomColors.background : CustomColors.black,
             ),

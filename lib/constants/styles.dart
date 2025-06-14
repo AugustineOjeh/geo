@@ -48,7 +48,7 @@ class CustomTextStyle {
     fontSize: FontSizes.headlineLarge(context),
     fontFamily: CustomFontFamily.sansDisplay,
     fontWeight: CustomFontWeight.medium,
-    letterSpacing: FontSizes.headlineMedium(context) * -0.05,
+    letterSpacing: FontSizes.headlineLarge(context) * -0.05,
     height: 0.9,
     color: CustomColors.black,
   );
