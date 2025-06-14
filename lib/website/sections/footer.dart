@@ -13,9 +13,10 @@ class Footer extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Container(
     constraints: BoxConstraints(maxWidth: 1500),
-    padding: EdgeInsets.symmetric(
-      horizontal: CustomPadding.pageHorizontal(context),
-      vertical: CustomPadding.sectionVertical(context),
+    padding: EdgeInsets.only(
+      left: CustomPadding.pageHorizontal(context),
+      right: CustomPadding.pageHorizontal(context),
+      top: CustomPadding.sectionVertical(context),
     ),
     child: Device.isMobile(context)
         ? _mobileView(context, backToTop: backToTop, navigate: navigate)
@@ -90,79 +91,82 @@ Widget _desktopView(
   BuildContext context, {
   required VoidCallback backToTop,
   required void Function(GlobalKey) navigate,
-}) => Stack(
-  clipBehavior: Clip.none,
-  children: [
-    Container(
-      width: double.infinity,
-      padding: EdgeInsets.fromLTRB(40, 190, 40, 32),
-      margin: EdgeInsets.only(top: Device.isTablet(context) ? 200 : 220),
-      decoration: BoxDecoration(
-        color: CustomColors.black,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(24),
-          topRight: Radius.circular(24),
+}) => Padding(
+  padding: const EdgeInsets.only(top: 200),
+  child: Stack(
+    clipBehavior: Clip.none,
+    children: [
+      Container(
+        width: double.infinity,
+        padding: EdgeInsets.fromLTRB(40, 200, 40, 32),
+        // margin: EdgeInsets.only(top: Device.isTablet(context) ? 200 : 220),
+        decoration: BoxDecoration(
+          color: CustomColors.black,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(24),
+            topRight: Radius.circular(24),
+          ),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          spacing: 40,
+          children: [
+            Row(
+              spacing: 48,
+              children: [
+                _footerLogo(context),
+                Spacer(),
+                NewsletterSubscription(),
+              ],
+            ),
+            Container(
+              width: double.infinity,
+              height: 1,
+              color: CustomColors.background.withValues(alpha: 0.15),
+            ),
+            Row(
+              spacing: 48,
+              children: [
+                Text(
+                  'Copyright © OCCL, ${DateTime.now().year.toString()}',
+                  style: CustomTextStyle.bodyMedium(context),
+                ),
+                Spacer(),
+                GestureDetector(
+                  onTap: backToTop,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    spacing: 12,
+                    children: [
+                      Text(
+                        'Back to top',
+                        style: CustomTextStyle.bodyMedium(context),
+                      ),
+                      CustomButton.icon(
+                        context,
+                        onTap: backToTop,
+                        icon: Icons.arrow_upward,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        spacing: 40,
-        children: [
-          Row(
-            spacing: 48,
-            children: [
-              _footerLogo(context),
-              Spacer(),
-              NewsletterSubscription(),
-            ],
-          ),
-          Container(
-            width: double.infinity,
-            height: 1,
-            color: CustomColors.background.withValues(alpha: 0.15),
-          ),
-          Row(
-            spacing: 48,
-            children: [
-              Text(
-                'Copyright © OCCL, ${DateTime.now().year.toString()}',
-                style: CustomTextStyle.bodyMedium(context),
-              ),
-              Spacer(),
-              GestureDetector(
-                onTap: backToTop,
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  spacing: 12,
-                  children: [
-                    Text(
-                      'Back to top',
-                      style: CustomTextStyle.bodyMedium(context),
-                    ),
-                    CustomButton.icon(
-                      context,
-                      onTap: backToTop,
-                      icon: Icons.arrow_upward,
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ],
+      Positioned(
+        top: Device.isTablet(context) ? -200 : -220,
+        left: 0,
+        right: 0,
+        child: Center(child: _cta(context, navigate: navigate)),
       ),
-    ),
-    Positioned(
-      top: Device.isTablet(context) ? -200 : -220,
-      left: 0,
-      right: 0,
-      child: Center(child: _cta(context, navigate: navigate)),
-    ),
-  ],
+    ],
+  ),
 );
 
 Widget _footerLogo(BuildContext context) => SizedBox(
-  width: 200,
+  width: 240,
   child: Column(
     mainAxisSize: MainAxisSize.min,
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -247,10 +251,13 @@ Widget _cta(
             color: CustomColors.foreground,
           ),
         ),
-        CustomButton.primary(
-          context,
-          label: 'Book the first class 50% OFF',
-          onTap: () => navigate(SectionKeys.bookClass),
+        SizedBox(
+          width: 320,
+          child: CustomButton.primary(
+            context,
+            label: 'Book the first class 50% OFF',
+            onTap: () => navigate(SectionKeys.bookClass),
+          ),
         ),
       ],
     ),
