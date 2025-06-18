@@ -65,9 +65,15 @@ class AppHelper {
     BuildContext context, {
     required String tier,
     required String studentId,
-    required int maxSlots,
+    required int slotsRequired,
+    required num amountPaid,
   }) async {
-    final data = {'tier': tier, 'student_id': studentId, 'max_slots': maxSlots};
+    final data = {
+      'tier': tier,
+      'student_id': studentId,
+      'slots_required': slotsRequired,
+      'amount_paid': amountPaid,
+    };
     final req = supabase
         .schema('occl')
         .from('bookings')
@@ -76,6 +82,36 @@ class AppHelper {
         .single();
     final res = await RequestHandler.req(context, request: () => req);
     return res;
+  }
+
+  static Future<String?> createPaymentIntent(
+    BuildContext context, {
+    required int amountInCents,
+    required String studentId,
+    required String currency,
+    required String tier,
+    required String parentEmail,
+  }) async {
+    final formattedCurrency = currency.toLowerCase();
+    final res = await supabase.functions.invoke(
+      'create-stripe-payment-intent',
+      body: {
+        'name': 'Functions',
+        'amount': amountInCents,
+        'studentId': studentId,
+        'tier': tier,
+        'parentEmail': parentEmail,
+        'currency': formattedCurrency,
+      },
+    );
+    if (200 <= res.status && res.status < 300) {
+      final clientSecret = res.data['clientSecret'];
+      return clientSecret.toString();
+    } else {
+      throw Exception(
+        'Failed to create payment intent: ${(res as FunctionException).details}',
+      );
+    }
   }
 
   static Future<bool> checkStudentQuestionnaire(

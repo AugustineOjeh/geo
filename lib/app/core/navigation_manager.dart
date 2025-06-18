@@ -95,11 +95,7 @@ class CustomRoutes {
       tier: args['tier'],
       bookingCount: args['booking-count'] as int,
     ),
-    PageNames.bookingCompleted: (context, args) => BookingSuccessPage(
-      student: args['student'] as Student,
-      tier: args['tier'],
-      bookingCount: args['booking-count'] as int,
-    ),
+    PageNames.bookingCompleted: (context, args) => BookingSuccessPage(),
     PageNames.questionnaire: (context, args) => QuestionniarePage(
       student: args['student'] as Student,
       tier: args['tier'],

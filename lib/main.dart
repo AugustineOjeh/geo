@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:grace_ogangwu/constants/sizes.dart';
 import 'package:grace_ogangwu/constants/styles.dart';
 import 'package:grace_ogangwu/website/pages/homepage.dart';
@@ -6,6 +7,12 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize Stripe
+  Stripe.publishableKey =
+      'pk_test_51MSNz8JS1oTjHN4lAaGDwSLKaDvHpqG0xYa9MVIs8grg5BPGrNljR73YEt5mCudJwcFhyKSL819Mbu4HiCAxAj5d00sJmNXeuM';
+  await Stripe.instance.applySettings();
+
   await Supabase.initialize(
     url: 'https://tqwdtebugocgxubozcom.supabase.co',
     anonKey:

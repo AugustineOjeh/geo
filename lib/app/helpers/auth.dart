@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:grace_ogangwu/app/core/app_page.dart';
 import 'package:grace_ogangwu/app/core/navigation_manager.dart';
 import 'package:grace_ogangwu/utils/request_handler.dart';
@@ -62,6 +63,7 @@ class AuthHelper {
   static Future<void> signOut(BuildContext context) async {
     final req = supabase.auth.signOut();
     await RequestHandler.req(context, request: () => req);
+    await Stripe.instance.resetPaymentSheetCustomer();
     if (!context.mounted) return;
     Navigator.pushAndRemoveUntil(
       context,
