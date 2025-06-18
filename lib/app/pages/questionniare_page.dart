@@ -6,15 +6,8 @@ import 'package:grace_ogangwu/components/components.dart';
 import 'package:grace_ogangwu/constants/constants.dart';
 
 class QuestionniarePage extends StatefulWidget {
-  const QuestionniarePage({
-    required this.student,
-    required this.tier,
-    required this.bookingCount,
-    super.key,
-  });
+  const QuestionniarePage({required this.student, super.key});
   final Student student;
-  final String tier;
-  final int bookingCount;
 
   @override
   State<QuestionniarePage> createState() => _QuestionniarePageState();
@@ -312,14 +305,7 @@ class _QuestionniarePageState extends State<QuestionniarePage> {
     try {
       final res = await AppHelper.submitQuestionnaire(context, data: data);
       if (!res) return;
-      NavigationManager.pushReplacement(
-        PageNames.bookingCompleted,
-        arguments: {
-          'student': widget.student,
-          'sessions': widget.bookingCount,
-          'tier': widget.tier,
-        },
-      );
+      NavigationManager.pushReplacement(PageNames.bookingCompleted);
     } finally {
       setState(() => _loading = false);
     }

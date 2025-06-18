@@ -71,17 +71,20 @@ class CustomRoutes {
   // Map of routes to page widgets
   static final Map<String, Widget Function(BuildContext, dynamic)> appRoutes = {
     PageNames.booking: (context, args) => BookingPackagesPage(),
+
     PageNames.userOnboarding: (context, args) => UserOnboardingPage(
       tier: args['tier'] as String?,
       tierPrice: args['pricing'] as double?,
       bookingCount: args['booking-count'] as int?,
     ),
+
     PageNames.payment: (context, args) => PaymentPage(
       student: args['student'] as Student?,
       tier: args['tier'] as String?,
       price: args['pricing'] as double?,
       bookingCount: args['booking-count'] as int?,
     ),
+
     PageNames.studentOnboarding: (context, args) => StudentOnboardingPage(
       userFirstName: args['parent-name'] as String? ?? '',
       tier: args['tier'] as String?,
@@ -96,11 +99,10 @@ class CustomRoutes {
       bookingCount: args['booking-count'] as int,
     ),
     PageNames.bookingCompleted: (context, args) => BookingSuccessPage(),
-    PageNames.questionnaire: (context, args) => QuestionniarePage(
-      student: args['student'] as Student,
-      tier: args['tier'],
-      bookingCount: args['booking-count'] as int,
-    ),
+
+    PageNames.questionnaire: (context, args) =>
+        QuestionniarePage(student: args['student'] as Student),
+
     PageNames.chooseStudent: (context, args) => SelectStudentPage(
       price: args['pricing'] as double,
       tier: args['tier'] as String,

@@ -84,6 +84,22 @@ class AppHelper {
     return res;
   }
 
+  static Future<Map<String, dynamic>?> updateBookedSlots(
+    BuildContext context, {
+    required int data,
+    required String bookingId,
+  }) async {
+    final req = supabase
+        .schema('occl')
+        .from('bookings')
+        .update({'slots_booked': data})
+        .eq('id', bookingId)
+        .select('id')
+        .single();
+    final res = await RequestHandler.req(context, request: () => req);
+    return res;
+  }
+
   static Future<String?> createPaymentIntent(
     BuildContext context, {
     required int amountInCents,

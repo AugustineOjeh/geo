@@ -4,6 +4,7 @@ import 'package:grace_ogangwu/app/core/student_model.dart';
 import 'package:grace_ogangwu/app/helpers/app_helper.dart';
 import 'package:grace_ogangwu/components/components.dart';
 import 'package:grace_ogangwu/constants/styles.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class CalendarPage extends StatefulWidget {
   const CalendarPage({
@@ -24,12 +25,119 @@ class CalendarPage extends StatefulWidget {
 
 class _CalendarPageState extends State<CalendarPage> {
   bool _loading = false;
+  bool _loadingPage = false;
   int _bookedSlots = 0;
+  late WebViewController _controller;
 
   @override
   void initState() {
     super.initState();
-    // TODO: Implement calendar webview and updated booked slots with responses.
+    _init();
+  }
+
+  void _init() {
+    setState(() {
+      _loadingPage = true;
+      _controller = WebViewController()
+        ..setJavaScriptMode(JavaScriptMode.unrestricted)
+        ..addJavaScriptChannel(
+          'FlutterWebViewPlugin',
+          onMessageReceived: (message) async {
+            if (message.message == 'event_scheduled') _onSessionBooked();
+          },
+        )
+        ..loadHtmlString(_calendlyEmbedHtml());
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) => SizedBox(
+    width: double.infinity,
+    child: Column(
+      spacing: 32,
+      children: [
+        SectionHeader.full(
+          context,
+          isCentered: true,
+          prefixText: 'Schedule classes',
+          headline: 'Select date and time for class ${_bookedSlots + 1}',
+        ),
+        _loadingPage || _loading
+            ? Center(
+                child: CircularProgressIndicator(
+                  color: CustomColors.primary,
+                  strokeWidth: 2,
+                ),
+              )
+            : SizedBox(child: WebViewWidget(controller: _controller)),
+      ],
+    ),
+  );
+  String _calendlyEmbedHtml() {
+    return '''
+   <!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript"></script>
+  </head>
+  <body>
+    <div id="calendly-container"></div>
+
+    <script type="text/javascript">
+      function loadCalendly() {
+        Calendly.initInlineWidget({
+          url: 'https://calendly.com/g-ogangwu/book-premium-class',
+          parentElement: document.getElementById('calendly-container'),
+          prefill: {},
+          utm: {}
+        });
+      }
+
+      window.addEventListener('message', function(e) {
+        if (e.origin === "https://calendly.com" && e.data.event === "calendly.event_scheduled") {
+          // Send message to Flutter
+          if (window.FlutterWebviewPlugin) {
+            window.FlutterWebviewPlugin.postMessage("event_scheduled");
+          } else if (window.flutter_inappwebview) {
+            window.flutter_inappwebview.callHandler('eventScheduled');
+          } else {
+            window.parent.postMessage("event_scheduled", "*");
+          }
+        }
+      });
+
+      loadCalendly();
+    </script>
+  </body>
+</html>
+    ''';
+  }
+
+  void _onSessionBooked() async {
+    if (_bookedSlots >= widget.bookingCount) {
+      _onBookingCompleted();
+      return;
+    }
+    // _calendlyEmbed();
+    final newSlotCount = _bookedSlots + 1;
+    final res = await AppHelper.updateBookedSlots(
+      context,
+      data: newSlotCount,
+      bookingId: widget.bookingId,
+    );
+    if (res == null && mounted) {
+      CustomSnackbar.main(
+        context,
+        message:
+            'Something went wrong. Continue booking while we rectify things',
+      );
+    }
+    setState(() => _bookedSlots = newSlotCount);
+    _reloadCalendly();
+  }
+
+  void _reloadCalendly() {
+    _controller.runJavaScript('loadCalendly();');
   }
 
   void _onBookingCompleted() async {
@@ -45,46 +153,10 @@ class _CalendarPageState extends State<CalendarPage> {
           arguments: {'student': widget.student},
         );
       } else {
-        NavigationManager.pushReplacement(
-          PageNames.bookingCompleted,
-          arguments: {
-            'student': widget.student,
-            'sessions': widget.bookingCount,
-            'tier': widget.tier,
-          },
-        );
+        NavigationManager.pushReplacement(PageNames.bookingCompleted);
       }
     } finally {
       setState(() => _loading = false);
     }
   }
-
-  @override
-  Widget build(BuildContext context) => SizedBox(
-    width: double.infinity,
-    child: Column(
-      spacing: 32,
-      children: [
-        SectionHeader.full(
-          context,
-          prefixText: widget.bookingCount > 1
-              ? 'Schedule class #${_bookedSlots + 1}'
-              : 'Schedule class',
-          headline: 'Select dates and time',
-        ),
-        _loading
-            ? SizedBox(
-                child: Center(
-                  child: CircularProgressIndicator(
-                    color: CustomColors.primary,
-                    strokeWidth: 2,
-                  ),
-                ),
-              )
-            : SizedBox(
-                // TODO: Implement the Calendly booking UI
-              ),
-      ],
-    ),
-  );
 }
