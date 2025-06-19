@@ -4,8 +4,17 @@ import 'package:grace_ogangwu/components/components.dart';
 import 'package:grace_ogangwu/constants/constants.dart';
 
 class SignUp extends StatefulWidget {
-  const SignUp({required this.switchToSignIn, super.key});
+  const SignUp({
+    required this.switchToSignIn,
+    this.bookingCount,
+    this.price,
+    this.tier,
+    super.key,
+  });
   final VoidCallback switchToSignIn;
+  final String? tier;
+  final int? bookingCount;
+  final double? price;
 
   @override
   State<SignUp> createState() => _SignUpState();
@@ -30,6 +39,9 @@ class _SignUpState extends State<SignUp> {
         context,
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
+        tier: widget.tier,
+        price: widget.price,
+        bookingCount: widget.bookingCount,
       );
     } finally {
       setState(() => _loading = false);

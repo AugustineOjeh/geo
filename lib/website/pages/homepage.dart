@@ -26,17 +26,19 @@ class _HomepageState extends State<Homepage> {
   @override
   void initState() {
     super.initState();
-    final user = Supabase.instance.client.auth.currentUser;
-    if (user != null) {
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(
-          builder: (context) => AppPage(initialPage: PageNames.booking),
-        ),
-        (route) => false,
-      );
-      return;
-    }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final user = Supabase.instance.client.auth.currentUser;
+      if (user != null) {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => AppPage(initialPage: PageNames.booking),
+          ),
+          (route) => false,
+        );
+        return;
+      }
+    });
   }
 
   void _backToTop() => _navigate(SectionKeys.hero);

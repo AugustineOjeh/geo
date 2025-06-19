@@ -36,8 +36,18 @@ class _AuthPageState extends State<AuthPage> {
     body: Center(
       child: SingleChildScrollView(
         child: _showSignUpWidget
-            ? SignUp(switchToSignIn: _toggleWidget)
-            : SignIn(switchToSignUp: _toggleWidget),
+            ? SignUp(
+                switchToSignIn: _toggleWidget,
+                tier: widget.tier,
+                price: widget.tierPrice,
+                bookingCount: widget.bookingCount,
+              )
+            : SignIn(
+                switchToSignUp: _toggleWidget,
+                tier: widget.tier,
+                price: widget.tierPrice,
+                bookingCount: widget.bookingCount,
+              ),
       ),
     ),
   );

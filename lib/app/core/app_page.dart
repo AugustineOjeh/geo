@@ -28,7 +28,9 @@ class _AppPageState extends State<AppPage> {
   @override
   void initState() {
     super.initState();
-    _initialRoute = widget.initialPage;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _initialRoute = widget.initialPage;
+    });
   }
 
   @override
@@ -48,42 +50,39 @@ class _AppPageState extends State<AppPage> {
           child: logo(context, isBlack: true),
         ),
       ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(
-          horizontal: CustomPadding.pageHorizontal(context),
-        ),
-        child: Container(
-          constraints: BoxConstraints(maxWidth: 1500),
-          child: Column(
-            children: [
-              ConstrainedBox(
-                constraints: BoxConstraints(
-                  minHeight: Device.screenHeight(context) - 180,
+      body: Center(
+        child: SingleChildScrollView(
+          padding: EdgeInsets.symmetric(
+            horizontal: CustomPadding.pageHorizontal(context),
+          ),
+          child: Container(
+            constraints: BoxConstraints(maxWidth: 1500),
+            child: Column(
+              children: [
+                Navigator(
+                  key: NavigationManager.navigatorKey,
+                  initialRoute: _initialRoute ?? PageNames.booking,
+                  onGenerateRoute: NavigationManager.generateRoute,
                 ),
-                child: Center(
-                  child: Navigator(
-                    key: NavigationManager.navigatorKey,
-                    initialRoute: _initialRoute,
-                    onGenerateRoute: NavigationManager.generateRoute,
-                  ),
-                ),
-              ),
-              Container(
-                width: double.infinity,
-                padding: EdgeInsets.symmetric(vertical: 24),
-                decoration: BoxDecoration(
-                  border: Border(
-                    top: BorderSide(
-                      width: 1,
-                      color: CustomColors.black.withValues(alpha: 0.2),
+                SizedBox(height: 96),
+                Container(
+                  constraints: BoxConstraints(maxWidth: 1500),
+                  width: double.infinity,
+                  padding: EdgeInsets.symmetric(vertical: 24),
+                  decoration: BoxDecoration(
+                    border: Border(
+                      top: BorderSide(
+                        width: 1,
+                        color: CustomColors.black.withValues(alpha: 0.2),
+                      ),
                     ),
                   ),
+                  child: Device.isMobile(context)
+                      ? _mobileFooter(context)
+                      : _desktopFooter(context),
                 ),
-                child: Device.isMobile(context)
-                    ? _mobileFooter(context)
-                    : _desktopFooter(context),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

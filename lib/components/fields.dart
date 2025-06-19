@@ -64,7 +64,15 @@ class CustomFields {
           contentPadding: EdgeInsets.symmetric(horizontal: 14, vertical: 16),
           isCollapsed: true,
           isDense: true,
-          suffix: suffix,
+          suffix: suffix == null
+              ? null
+              : Container(
+                  padding: EdgeInsets.symmetric(vertical: 2),
+                  child: MouseRegion(
+                    cursor: SystemMouseCursors.click,
+                    child: suffix,
+                  ),
+                ),
           hint: hintText != null
               ? Text(
                   hintText,

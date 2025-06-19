@@ -130,7 +130,7 @@ class AppHelper {
     }
   }
 
-  static Future<bool> checkStudentQuestionnaire(
+  static Future<bool> studentHasAnsweredQuestionnaire(
     BuildContext context, {
     required String studentId,
   }) async {

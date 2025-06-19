@@ -46,12 +46,25 @@ class NavigationManager {
   }
 
   // Generate routes for the navigator
-  static Route<dynamic> generateRoute(RouteSettings settings) =>
-      MaterialPageRoute(
-        builder: (context) =>
-            CustomRoutes.appRoutes[settings.name]!(context, settings.arguments),
+  static Route<dynamic> generateRoute(RouteSettings settings) {
+    final builder = CustomRoutes.appRoutes[settings.name];
+
+    if (builder == null) {
+      // Optionally log or report the missing route
+      return MaterialPageRoute(
+        builder: (context) => CustomRoutes.appRoutes[PageNames.booking]!(
+          context,
+          settings.arguments,
+        ),
         settings: settings,
       );
+    }
+    return MaterialPageRoute(
+      builder: (context) =>
+          CustomRoutes.appRoutes[settings.name]!(context, settings.arguments),
+      settings: settings,
+    );
+  }
 }
 
 class PageNames {

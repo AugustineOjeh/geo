@@ -4,6 +4,7 @@ import 'package:grace_ogangwu/app/core/student_model.dart';
 import 'package:grace_ogangwu/app/helpers/app_helper.dart';
 import 'package:grace_ogangwu/components/components.dart';
 import 'package:grace_ogangwu/constants/styles.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class CalendarPage extends StatefulWidget {
@@ -27,6 +28,7 @@ class _CalendarPageState extends State<CalendarPage> {
   bool _loading = false;
   bool _loadingPage = false;
   int _bookedSlots = 0;
+  late String _email;
   late WebViewController _controller;
 
   @override
@@ -36,8 +38,10 @@ class _CalendarPageState extends State<CalendarPage> {
   }
 
   void _init() {
+    final user = Supabase.instance.client.auth.currentUser;
     setState(() {
       _loadingPage = true;
+      _email = user!.email!;
       _controller = WebViewController()
         ..setJavaScriptMode(JavaScriptMode.unrestricted)
         ..addJavaScriptChannel(
@@ -46,7 +50,14 @@ class _CalendarPageState extends State<CalendarPage> {
             if (message.message == 'event_scheduled') _onSessionBooked();
           },
         )
-        ..loadHtmlString(_calendlyEmbedHtml());
+        ..loadHtmlString(
+          _calendlyEmbedHtml(
+            name: widget.student.name,
+            email: _email,
+            studentId: widget.student.id,
+            bookingId: widget.bookingId,
+          ),
+        );
     });
   }
 
@@ -73,7 +84,12 @@ class _CalendarPageState extends State<CalendarPage> {
       ],
     ),
   );
-  String _calendlyEmbedHtml() {
+  String _calendlyEmbedHtml({
+    required String name,
+    required String email,
+    required String studentId,
+    required String bookingId,
+  }) {
     return '''
    <!DOCTYPE html>
 <html>
@@ -88,8 +104,15 @@ class _CalendarPageState extends State<CalendarPage> {
         Calendly.initInlineWidget({
           url: 'https://calendly.com/g-ogangwu/book-premium-class',
           parentElement: document.getElementById('calendly-container'),
-          prefill: {},
-          utm: {}
+          prefill: {
+            name: "$name",
+            email: "$email",
+            customAnswers: {
+              a1: "student_id: $studentId",
+              a2: "booking_id: $bookingId"
+            }
+          },
+          utm: {},
         });
       }
 
@@ -118,7 +141,6 @@ class _CalendarPageState extends State<CalendarPage> {
       _onBookingCompleted();
       return;
     }
-    // _calendlyEmbed();
     final newSlotCount = _bookedSlots + 1;
     final res = await AppHelper.updateBookedSlots(
       context,
@@ -143,7 +165,7 @@ class _CalendarPageState extends State<CalendarPage> {
   void _onBookingCompleted() async {
     setState(() => _loading = true);
     try {
-      final res = await AppHelper.checkStudentQuestionnaire(
+      final res = await AppHelper.studentHasAnsweredQuestionnaire(
         context,
         studentId: widget.student.id,
       );
