@@ -41,12 +41,11 @@ class _AppPageState extends State<AppPage> {
         automaticallyImplyLeading: false,
         clipBehavior: Clip.none,
         backgroundColor: CustomColors.background,
-        centerTitle: false,
+        centerTitle: true,
         title: Container(
-          padding: EdgeInsets.symmetric(
-            horizontal: CustomPadding.pageHorizontal(context),
-            // vertical: 24,
-          ),
+          constraints: BoxConstraints(maxWidth: 1500),
+          width: double.infinity,
+          alignment: Alignment.centerLeft,
           child: logo(context, isBlack: true),
         ),
       ),

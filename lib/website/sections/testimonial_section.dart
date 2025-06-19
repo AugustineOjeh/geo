@@ -26,6 +26,12 @@ class _TestimonialSectionState extends State<TestimonialSection> {
     _startTimer();
   }
 
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
   void _startTimer() {
     _timer = Timer.periodic(
       Duration(seconds: 15),

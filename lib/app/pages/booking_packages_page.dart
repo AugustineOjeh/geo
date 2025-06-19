@@ -38,6 +38,7 @@ class _BookingPackagesPageState extends State<BookingPackagesPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       spacing: Spacing.medium(context),
       children: [
+        SizedBox(),
         Text(
           'Hello, $_firstName',
           style: CustomTextStyle.headlineMedium(context),
@@ -114,7 +115,7 @@ Widget _tabletView(
   crossAxisAlignment: CrossAxisAlignment.start,
   children: [
     Row(
-      spacing: 32,
+      spacing: 16,
       children: [
         Expanded(
           child: BookingPlan(
@@ -140,7 +141,7 @@ Widget _tabletView(
       ],
     ),
     Row(
-      spacing: 32,
+      spacing: 16,
       children: [
         Expanded(
           child: BookingPlan(
@@ -172,57 +173,51 @@ Widget _tabletView(
 Widget _desktopView(
   BuildContext context,
   void Function(int, double, String) onButtonTap,
-) => Column(
-  spacing: Spacing.extraLarge(context),
-  crossAxisAlignment: CrossAxisAlignment.start,
+) => Row(
+  spacing: 16,
   children: [
-    Row(
-      spacing: 24,
-      children: [
-        Expanded(
-          child: BookingPlan(
-            planName: 'Basic',
-            price: 20,
-            minimumBooking: 1,
-            onButtonTap: onButtonTap,
-            benefits: Offers.basic,
-            benefitPrefix: '50% OFF YOUR FIRST BOOKING',
-          ),
-        ),
-        Expanded(
-          child: BookingPlan(
-            planName: 'Standard',
-            price: 17,
-            discount: 15,
-            minimumBooking: 10,
-            onButtonTap: onButtonTap,
-            benefits: Offers.standard,
-            benefitPrefix: 'Everything in Basic plus:',
-          ),
-        ),
-        Expanded(
-          child: BookingPlan(
-            planName: 'Premium',
-            discount: 25,
-            isPopular: true,
-            price: 15,
-            minimumBooking: 20,
-            onButtonTap: onButtonTap,
-            benefits: Offers.premium,
-            benefitPrefix: 'Everything in Standard plus:',
-          ),
-        ),
-        Expanded(
-          child: BookingPlan(
-            planName: 'Special',
-            price: 0,
-            isCustom: true,
-            onButtonTap: onButtonTap,
-            benefits: Offers.special,
-            benefitPrefix: 'Everything in Premium plus:',
-          ),
-        ),
-      ],
+    Expanded(
+      child: BookingPlan(
+        planName: 'Basic',
+        price: 20,
+        minimumBooking: 1,
+        onButtonTap: onButtonTap,
+        benefits: Offers.basic,
+        benefitPrefix: '50% OFF YOUR FIRST BOOKING',
+      ),
+    ),
+    Expanded(
+      child: BookingPlan(
+        planName: 'Standard',
+        price: 17,
+        discount: 15,
+        minimumBooking: 10,
+        onButtonTap: onButtonTap,
+        benefits: Offers.standard,
+        benefitPrefix: 'Everything in Basic plus:',
+      ),
+    ),
+    Expanded(
+      child: BookingPlan(
+        planName: 'Premium',
+        discount: 25,
+        isPopular: true,
+        price: 15,
+        minimumBooking: 20,
+        onButtonTap: onButtonTap,
+        benefits: Offers.premium,
+        benefitPrefix: 'Everything in Standard plus:',
+      ),
+    ),
+    Expanded(
+      child: BookingPlan(
+        planName: 'Special',
+        price: 0,
+        isCustom: true,
+        onButtonTap: onButtonTap,
+        benefits: Offers.special,
+        benefitPrefix: 'Everything in Premium plus:',
+      ),
     ),
   ],
 );
