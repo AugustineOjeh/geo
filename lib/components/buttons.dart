@@ -146,9 +146,11 @@ class CustomButton {
     required IconData icon,
     Color? color,
     double? size,
+    String? tooltip,
     bool isPrimary = false,
   }) => IconButton(
     onPressed: onTap,
+    tooltip: tooltip,
     style: IconButton.styleFrom(
       shape: CircleBorder(),
       visualDensity: VisualDensity.compact,

@@ -65,73 +65,101 @@ class _PaymentPageState extends State<PaymentPage> {
   }
 
   @override
-  Widget build(BuildContext context) => SizedBox(
-    width: double.infinity,
-    child: Column(
-      spacing: 32,
-      children: [
-        SectionHeader.full(
-          context,
-          prefixText: 'Book classes',
-          headline: 'Complete payment',
-        ),
-        _loadingPage
-            ? SizedBox(
-                child: Center(
-                  child: CircularProgressIndicator(
-                    color: CustomColors.primary,
-                    strokeWidth: 2,
+  Widget build(BuildContext context) => Container(
+    constraints: Device.isMobile(context)
+        ? null
+        : BoxConstraints(maxWidth: 320),
+    child: SizedBox(
+      width: double.infinity,
+      child: Column(
+        spacing: 24,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SectionHeader.app(
+            context,
+            prefixText: 'Book classes',
+            headline: 'Complete payment',
+          ),
+          _loadingPage
+              ? SizedBox(
+                  child: Center(
+                    child: CircularProgressIndicator(
+                      color: CustomColors.primary,
+                      strokeWidth: 2,
+                    ),
                   ),
+                )
+              : Column(
+                  spacing: 32,
+                  children: [
+                    Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.all(24),
+                      decoration: BoxDecoration(
+                        color: CustomColors.foreground,
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        spacing: 24,
+                        children: [
+                          _data(
+                            context,
+                            prefix: 'For:',
+                            info:
+                                '${widget.student!.name} (${widget.student!.age})',
+                          ),
+                          Row(
+                            spacing: 24,
+                            children: [
+                              Expanded(
+                                child: _data(
+                                  context,
+                                  prefix: 'Package',
+                                  info: widget.tier!,
+                                ),
+                              ),
+                              Expanded(
+                                child: _data(
+                                  context,
+                                  prefix: 'Cost per class',
+                                  info: '\$${widget.price!}',
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            spacing: 24,
+                            children: [
+                              Expanded(
+                                child: _data(
+                                  context,
+                                  prefix: 'Classes',
+                                  info: widget.bookingCount.toString(),
+                                ),
+                              ),
+                              Expanded(
+                                child: _data(
+                                  context,
+                                  prefix: 'Amount due',
+                                  info: '\$${_amountDue.toString()}',
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    CustomButton.primary(
+                      context,
+                      label: 'Pay for booking: \$$_amountDue',
+                      isLoading: _processingPayment,
+                      onTap: _handlePayment,
+                    ),
+                  ],
                 ),
-              )
-            : Column(
-                spacing: 32,
-                children: [
-                  Container(
-                    width: double.infinity,
-                    padding: EdgeInsets.all(24),
-                    decoration: BoxDecoration(
-                      color: CustomColors.foreground,
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      spacing: 32,
-                      children: [
-                        _data(
-                          context,
-                          prefix: 'For:',
-                          info:
-                              '${widget.student!.name} (${widget.student!.age})',
-                        ),
-                        _data(context, prefix: 'Package', info: widget.tier!),
-                        _data(
-                          context,
-                          prefix: 'Cost',
-                          info: '\$${widget.price!}/class',
-                        ),
-                        _data(
-                          context,
-                          prefix: 'Classes',
-                          info: widget.bookingCount.toString(),
-                        ),
-                        _data(
-                          context,
-                          prefix: 'Amount due',
-                          info: '\$${_amountDue.toString()}',
-                        ),
-                      ],
-                    ),
-                  ),
-                  CustomButton.primary(
-                    context,
-                    label: 'Pay for booking: \$$_amountDue',
-                    isLoading: _processingPayment,
-                    onTap: _handlePayment,
-                  ),
-                ],
-              ),
-      ],
+        ],
+      ),
     ),
   );
 
@@ -141,7 +169,6 @@ class _PaymentPageState extends State<PaymentPage> {
     required String info,
   }) => Column(
     crossAxisAlignment: CrossAxisAlignment.start,
-    spacing: 12,
     children: [
       Text(prefix, style: CustomTextStyle.bodyMedium(context)),
       Text(info, style: CustomTextStyle.headlineSmall(context)),
@@ -203,6 +230,7 @@ class _PaymentPageState extends State<PaymentPage> {
       }
     } catch (e) {
       if (!mounted) return;
+      print(e);
       CustomSnackbar.main(
         context,
         message: 'Payment failed unexpectedly. Try again.',

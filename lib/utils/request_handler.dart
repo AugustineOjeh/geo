@@ -10,9 +10,7 @@ class RequestHandler {
     required SupabaseCallback<T> request,
   }) async {
     try {
-      final result = await request();
-      print(result);
-      return result;
+      return await request();
     } on PostgrestException catch (e) {
       print(e);
       if (!context.mounted) return null;
@@ -21,7 +19,22 @@ class RequestHandler {
     } on AuthException catch (e) {
       print(e);
       if (!context.mounted) return null;
-      CustomSnackbar.main(context, message: e.message);
+      if (e.code == 'user_already_exists') {
+        CustomSnackbar.main(
+          context,
+          durationInSecs: 5,
+          message: 'You already have an account. Sign in instead',
+        );
+      } else if (e.code == 'invalid_credentials') {
+        CustomSnackbar.main(
+          context,
+          durationInSecs: 5,
+          message:
+              'Wrong email or password. Check your credentials and try again.',
+        );
+      } else {
+        CustomSnackbar.main(context, message: e.message);
+      }
       return null;
     } catch (e) {
       print(e);

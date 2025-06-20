@@ -55,7 +55,7 @@ class _UserOnboardingPageState extends State<UserOnboardingPage> {
       child: Column(
         spacing: 32,
         children: [
-          SectionHeader.full(
+          SectionHeader.app(
             context,
             prefixText: 'Hi, I\'m Grace Ogangwu',
             headline: 'What should I call you?',

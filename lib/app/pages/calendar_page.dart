@@ -67,7 +67,7 @@ class _CalendarPageState extends State<CalendarPage> {
     child: Column(
       spacing: 32,
       children: [
-        SectionHeader.full(
+        SectionHeader.app(
           context,
           isCentered: true,
           prefixText: 'Schedule classes',

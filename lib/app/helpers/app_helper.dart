@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grace_ogangwu/app/core/navigation_manager.dart';
 import 'package:grace_ogangwu/app/core/student_model.dart';
+import 'package:grace_ogangwu/components/components.dart';
 import 'package:grace_ogangwu/utils/request_handler.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -61,6 +62,20 @@ class AppHelper {
     );
   }
 
+  static Future<List<Student>?> fetchStudentsByParent(
+    BuildContext context,
+  ) async {
+    final user = supabase.auth.currentUser;
+    if (user == null) return null;
+    final req = supabase
+        .schema('occl')
+        .from('students')
+        .select()
+        .eq('parent_id', user.id);
+    final res = await RequestHandler.req(context, request: () => req);
+    return res?.map(Student.fromMap).toList();
+  }
+
   static Future<Map<String, dynamic>?> createBooking(
     BuildContext context, {
     required String tier,
@@ -108,6 +123,13 @@ class AppHelper {
     required String tier,
     required String parentEmail,
   }) async {
+    final token = supabase.auth.currentSession?.accessToken;
+    if (token == null) {
+      CustomSnackbar.main(
+        context,
+        message: 'You\'re logged out. Sign in and try again',
+      );
+    }
     final formattedCurrency = currency.toLowerCase();
     final res = await supabase.functions.invoke(
       'create-stripe-payment-intent',
@@ -119,13 +141,17 @@ class AppHelper {
         'parentEmail': parentEmail,
         'currency': formattedCurrency,
       },
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
     );
     if (200 <= res.status && res.status < 300) {
       final clientSecret = res.data['clientSecret'];
       return clientSecret.toString();
     } else {
       throw Exception(
-        'Failed to create payment intent: ${(res as FunctionException).details}',
+        'Failed to create payment intent: ${(res as FunctionException)}',
       );
     }
   }

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:grace_ogangwu/app/core/app_page.dart';
-import 'package:grace_ogangwu/app/core/navigation_manager.dart';
 import 'package:grace_ogangwu/utils/request_handler.dart';
 import 'package:grace_ogangwu/website/pages/homepage.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -23,12 +21,8 @@ class AuthHelper {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (context) => AppPage(
-          initialPage: PageNames.userOnboarding,
-          tier: tier,
-          tierPrice: price,
-          bookingCount: bookingCount,
-        ),
+        builder: (context) =>
+            AppPage(tier: tier, tierPrice: price, bookingCount: bookingCount),
       ),
     );
   }
@@ -50,12 +44,8 @@ class AuthHelper {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (context) => AppPage(
-          initialPage: PageNames.booking,
-          tier: tier,
-          tierPrice: price,
-          bookingCount: bookingCount,
-        ),
+        builder: (context) =>
+            AppPage(tier: tier, tierPrice: price, bookingCount: bookingCount),
       ),
     );
   }
@@ -63,7 +53,6 @@ class AuthHelper {
   static Future<void> signOut(BuildContext context) async {
     final req = supabase.auth.signOut();
     await RequestHandler.req(context, request: () => req);
-    await Stripe.instance.resetPaymentSheetCustomer();
     if (!context.mounted) return;
     Navigator.pushAndRemoveUntil(
       context,

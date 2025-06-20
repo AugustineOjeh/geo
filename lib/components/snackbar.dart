@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:grace_ogangwu/constants/styles.dart';
 
 class CustomSnackbar {
-  static main(BuildContext context, {required String message}) {
+  static main(
+    BuildContext context, {
+    required String message,
+    int? durationInSecs,
+  }) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
@@ -12,7 +16,7 @@ class CustomSnackbar {
             color: CustomColors.foreground,
           ),
         ),
-        duration: Duration(seconds: 4),
+        duration: Duration(seconds: durationInSecs ?? 4),
         elevation: 8,
         behavior: SnackBarBehavior.floating,
         backgroundColor: CustomColors.text,

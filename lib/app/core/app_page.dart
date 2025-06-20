@@ -1,36 +1,57 @@
 import 'package:flutter/material.dart';
 import 'package:grace_ogangwu/app/core/navigation_manager.dart';
+import 'package:grace_ogangwu/app/helpers/auth.dart';
 import 'package:grace_ogangwu/assets/logo.dart';
+import 'package:grace_ogangwu/components/buttons.dart';
 import 'package:grace_ogangwu/constants/constants.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AppPage extends StatefulWidget {
-  const AppPage({
-    required this.initialPage,
-    this.bookingCount,
-    this.tier,
-    this.tierPrice,
-    super.key,
-  });
+  const AppPage({this.bookingCount, this.tier, this.tierPrice, super.key});
   final double? tierPrice;
   final String? tier;
   final int? bookingCount;
-
-  /// Must be a [PageNames] value.
-  final String initialPage;
 
   @override
   State<AppPage> createState() => _AppPageState();
 }
 
 class _AppPageState extends State<AppPage> {
-  String? _initialRoute;
-
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _initialRoute = widget.initialPage;
+      _initPage();
     });
+  }
+
+  void _initPage() {
+    final userData = Supabase.instance.client.auth.currentUser!.userMetadata;
+    if (userData?['first_name'] == null || userData?['last_name'] == null) {
+      NavigationManager.pushReplacement(
+        PageNames.userOnboarding,
+        arguments: {
+          'tier': widget.tier,
+          'pricing': widget.tierPrice,
+          'booking-count': widget.bookingCount,
+        },
+      );
+    } else {
+      if (widget.tier == null ||
+          widget.tierPrice == null ||
+          widget.bookingCount == null) {
+        return;
+      } else {
+        NavigationManager.pushReplacement(
+          PageNames.chooseStudent,
+          arguments: {
+            'tier': widget.tier,
+            'pricing': widget.tierPrice,
+            'booking-count': widget.bookingCount,
+          },
+        );
+      }
+    }
   }
 
   @override
@@ -46,7 +67,19 @@ class _AppPageState extends State<AppPage> {
           constraints: BoxConstraints(maxWidth: 1500),
           width: double.infinity,
           alignment: Alignment.centerLeft,
-          child: logo(context, isBlack: true),
+          child: Row(
+            spacing: 32,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              logo(context, isBlack: true),
+              CustomButton.icon(
+                context,
+                tooltip: 'Log out',
+                onTap: () async => AuthHelper.signOut(context),
+                icon: Icons.logout,
+              ),
+            ],
+          ),
         ),
       ),
       body: Center(
@@ -55,19 +88,24 @@ class _AppPageState extends State<AppPage> {
             horizontal: CustomPadding.pageHorizontal(context),
           ),
           child: Container(
-            constraints: BoxConstraints(maxWidth: 1500),
+            constraints: BoxConstraints(maxWidth: 1400),
             child: Column(
               children: [
-                Navigator(
-                  key: NavigationManager.navigatorKey,
-                  initialRoute: _initialRoute ?? PageNames.booking,
-                  onGenerateRoute: NavigationManager.generateRoute,
+                Container(
+                  constraints: BoxConstraints(
+                    minHeight: Device.screenHeight(context) * 0.80,
+                  ),
+                  child: Center(
+                    child: Navigator(
+                      key: NavigationManager.navigatorKey,
+                      onGenerateRoute: NavigationManager.generateRoute,
+                    ),
+                  ),
                 ),
                 SizedBox(height: 96),
                 Container(
-                  constraints: BoxConstraints(maxWidth: 1500),
                   width: double.infinity,
-                  padding: EdgeInsets.symmetric(vertical: 24),
+                  padding: EdgeInsets.symmetric(vertical: 16),
                   decoration: BoxDecoration(
                     border: Border(
                       top: BorderSide(

@@ -18,7 +18,7 @@ class Student {
       id: map['id'],
       parentId: map['parent_id'],
       age: map['age'],
-      name: map['first_name'],
+      name: map['name'],
       createdAt: DateTime.parse(map['created_at']),
     );
   }

@@ -40,7 +40,7 @@ class _QuestionniarePageState extends State<QuestionniarePage> {
       child: Column(
         spacing: 32,
         children: [
-          SectionHeader.full(
+          SectionHeader.app(
             context,
             prefixText: 'Introductory questionnaire',
             headline:

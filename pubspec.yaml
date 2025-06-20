@@ -40,6 +40,7 @@ dependencies:
   flutter_stripe: ^11.5.0
   flutter_stripe_web: ^6.5.1
   webview_flutter: ^4.13.0
+  http: ^1.4.0
 
 dev_dependencies:
   flutter_test:

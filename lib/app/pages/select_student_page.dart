@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grace_ogangwu/app/core/navigation_manager.dart';
 import 'package:grace_ogangwu/app/core/student_model.dart';
+import 'package:grace_ogangwu/app/helpers/app_helper.dart';
 import 'package:grace_ogangwu/components/components.dart';
 import 'package:grace_ogangwu/constants/constants.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -22,6 +23,24 @@ class SelectStudentPage extends StatefulWidget {
 
 class _SelectStudentPageState extends State<SelectStudentPage> {
   final List<Student> _students = [];
+  bool _loading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchStudents();
+  }
+
+  void _fetchStudents() async {
+    setState(() => _loading = true);
+    try {
+      final res = await AppHelper.fetchStudentsByParent(context);
+      if (res == null) return;
+      setState(() => _students.addAll(res));
+    } finally {
+      setState(() => _loading = false);
+    }
+  }
 
   void _enrolNewStudent() {
     final user = Supabase.instance.client.auth.currentUser;
@@ -45,13 +64,25 @@ class _SelectStudentPageState extends State<SelectStudentPage> {
       width: double.infinity,
       child: Column(
         spacing: 32,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SectionHeader.full(
+          SectionHeader.app(
             context,
             prefixText: 'Book classes',
             headline: 'Who\'s this booking for?',
           ),
-          _students.isEmpty
+          _loading
+              ? Center(
+                  child: SizedBox(
+                    height: 24,
+                    width: 24,
+                    child: CircularProgressIndicator(
+                      color: CustomColors.primary,
+                      strokeWidth: 2,
+                    ),
+                  ),
+                )
+              : _students.isEmpty
               ? Center(
                   child: Column(
                     spacing: 24,
@@ -83,6 +114,7 @@ class _SelectStudentPageState extends State<SelectStudentPage> {
           if (_students.isNotEmpty)
             Center(
               child: RichText(
+                textAlign: TextAlign.center,
                 text: TextSpan(
                   style: CustomTextStyle.bodyMedium(context),
                   children: [
@@ -114,7 +146,7 @@ Widget _studentBox(
     onTap: () => NavigationManager.push(
       PageNames.payment,
       arguments: {
-        'student': student.id,
+        'student': student,
         'tier': tier,
         'pricing': price,
         'booking-count': bookingCount,

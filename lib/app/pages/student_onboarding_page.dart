@@ -62,8 +62,9 @@ class _StudentOnboardingPageState extends State<StudentOnboardingPage> {
       width: double.infinity,
       child: Column(
         spacing: 32,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SectionHeader.full(
+          SectionHeader.app(
             context,
             prefixText: 'Hi, ${widget.userFirstName}',
             headline: 'Add a student',
@@ -128,7 +129,7 @@ Widget _ageCounter(
         ),
         child: Text(
           count.toString(),
-          style: CustomTextStyle.bodyLarge(context),
+          style: CustomTextStyle.bodyLarge(context, color: CustomColors.black),
         ),
       ),
     ),

@@ -221,9 +221,15 @@ Widget _bookingCounter(
         style: CustomTextStyle.bodyMedium(context).copyWith(fontSize: 20),
       ),
     ),
-    CustomButton.icon(context, onTap: decrement, icon: Icons.remove),
     CustomButton.icon(
       context,
+      tooltip: 'Remove a session',
+      onTap: decrement,
+      icon: Icons.remove,
+    ),
+    CustomButton.icon(
+      context,
+      tooltip: 'Add more sessions',
       onTap: increment,
       isPrimary: true,
       icon: Icons.add,
