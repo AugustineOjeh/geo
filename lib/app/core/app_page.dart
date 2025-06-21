@@ -93,7 +93,7 @@ class _AppPageState extends State<AppPage> {
               children: [
                 Container(
                   constraints: BoxConstraints(
-                    minHeight: Device.screenHeight(context) * 0.80,
+                    minHeight: Device.screenHeight(context) - 260,
                   ),
                   child: Center(
                     child: Navigator(

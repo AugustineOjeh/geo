@@ -115,12 +115,19 @@ class AppHelper {
     return res;
   }
 
-  static Future<String?> createPaymentIntent(
+  static Future<String?> createCheckoutSession(
     BuildContext context, {
-    required int amountInCents,
-    required String studentId,
-    required String currency,
     required String tier,
+
+    /// Price per class in cents (i.e. x100)
+    required double tierPrice,
+
+    /// Number of classes being booked
+    required int sessionCount,
+
+    /// usd formatted to lower case
+    required String currency,
+    required String studentId,
     required String parentEmail,
   }) async {
     final token = supabase.auth.currentSession?.accessToken;
@@ -132,12 +139,13 @@ class AppHelper {
     }
     final formattedCurrency = currency.toLowerCase();
     final res = await supabase.functions.invoke(
-      'create-stripe-payment-intent',
+      'create-stripe-checkout-session',
       body: {
         'name': 'Functions',
-        'amount': amountInCents,
-        'studentId': studentId,
         'tier': tier,
+        'tierPrice': tierPrice,
+        'sessionCount': sessionCount,
+        'studentId': studentId,
         'parentEmail': parentEmail,
         'currency': formattedCurrency,
       },
@@ -147,11 +155,37 @@ class AppHelper {
       },
     );
     if (200 <= res.status && res.status < 300) {
-      final clientSecret = res.data['clientSecret'];
+      final clientSecret = res.data['url'];
       return clientSecret.toString();
     } else {
       throw Exception(
-        'Failed to create payment intent: ${(res as FunctionException)}',
+        'Failed to create checkout session: ${(res as FunctionException)}',
+      );
+    }
+  }
+
+  static Future<bool?> confirmCheckoutPayment(
+    BuildContext context, {
+    required String checkoutSessionId,
+  }) async {
+    final token = supabase.auth.currentSession?.accessToken;
+    if (token == null) {
+      CustomSnackbar.main(
+        context,
+        message: 'You\'re logged out. Sign in and try again',
+      );
+    }
+    final res = await supabase.functions.invoke(
+      'create-stripe-checkout-session',
+      method: HttpMethod.get,
+      body: {'name': 'Functions', 'sessionId': checkoutSessionId},
+      headers: {'Authorization': 'Bearer $token'},
+    );
+    if (200 <= res.status && res.status < 300) {
+      return res.data['paid'] as bool;
+    } else {
+      throw Exception(
+        'Failed to create checkout session: ${(res as FunctionException)}',
       );
     }
   }

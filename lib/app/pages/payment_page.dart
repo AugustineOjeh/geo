@@ -1,5 +1,9 @@
+import 'dart:async';
+import 'dart:js_interop';
+import 'dart:js_interop_unsafe';
+import 'package:grace_ogangwu/app/widgets/payment_in_progress_card.dart';
+import 'package:web/web.dart' as web;
 import 'package:flutter/material.dart';
-import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:grace_ogangwu/app/core/navigation_manager.dart';
 import 'package:grace_ogangwu/app/core/student_model.dart';
 import 'package:grace_ogangwu/app/helpers/app_helper.dart';
@@ -25,15 +29,26 @@ class PaymentPage extends StatefulWidget {
 }
 
 class _PaymentPageState extends State<PaymentPage> {
+  StreamSubscription<web.MessageEvent>? _messageSubscription;
   Map<String, dynamic>? _booking;
   double? _amountDue;
   bool _loadingPage = false;
   bool _processingPayment = false;
+  bool _showPaymentCard = false;
+  bool _confirmingPayment = false;
+  bool _showPaymentCancelledMessage = false;
 
   @override
   void initState() {
     super.initState();
     _init();
+    _listenForStripePayment();
+  }
+
+  @override
+  void dispose() {
+    _messageSubscription?.cancel();
+    super.dispose();
   }
 
   void _init() async {
@@ -65,102 +80,117 @@ class _PaymentPageState extends State<PaymentPage> {
   }
 
   @override
-  Widget build(BuildContext context) => Container(
-    constraints: Device.isMobile(context)
-        ? null
-        : BoxConstraints(maxWidth: 320),
-    child: SizedBox(
-      width: double.infinity,
-      child: Column(
-        spacing: 24,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SectionHeader.app(
-            context,
-            prefixText: 'Book classes',
-            headline: 'Complete payment',
+  Widget build(BuildContext context) => Stack(
+    children: [
+      Container(
+        constraints: Device.isMobile(context)
+            ? null
+            : BoxConstraints(maxWidth: 320),
+        child: SizedBox(
+          width: double.infinity,
+          child: Column(
+            spacing: 24,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SectionHeader.app(
+                context,
+                prefixText: 'Book classes',
+                headline: 'Complete payment',
+              ),
+              _loadingPage
+                  ? SizedBox(
+                      child: Center(
+                        child: CircularProgressIndicator(
+                          color: CustomColors.primary,
+                          strokeWidth: 2,
+                        ),
+                      ),
+                    )
+                  : Column(
+                      spacing: 32,
+                      children: [
+                        Container(
+                          width: double.infinity,
+                          padding: EdgeInsets.all(24),
+                          decoration: BoxDecoration(
+                            color: CustomColors.foreground,
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            spacing: 24,
+                            children: [
+                              _data(
+                                context,
+                                prefix: 'For:',
+                                info:
+                                    '${widget.student!.name} (${widget.student!.age})',
+                              ),
+                              Row(
+                                spacing: 24,
+                                children: [
+                                  Expanded(
+                                    child: _data(
+                                      context,
+                                      prefix: 'Package',
+                                      info: widget.tier!,
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: _data(
+                                      context,
+                                      prefix: 'Cost per class',
+                                      info: '\$${widget.price!}',
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                spacing: 24,
+                                children: [
+                                  Expanded(
+                                    child: _data(
+                                      context,
+                                      prefix: 'Classes',
+                                      info: widget.bookingCount.toString(),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: _data(
+                                      context,
+                                      prefix: 'Amount due',
+                                      info: '\$${_amountDue.toString()}',
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        CustomButton.primary(
+                          context,
+                          label: 'Pay for booking: \$$_amountDue',
+                          isLoading: _processingPayment,
+                          onTap: _handlePayment,
+                        ),
+                        if (_showPaymentCancelledMessage)
+                          Text(
+                            'Looks like you cancelled the payment. You can try again.',
+                            style: CustomTextStyle.bodyMedium(
+                              context,
+                              color: Colors.redAccent,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                      ],
+                    ),
+            ],
           ),
-          _loadingPage
-              ? SizedBox(
-                  child: Center(
-                    child: CircularProgressIndicator(
-                      color: CustomColors.primary,
-                      strokeWidth: 2,
-                    ),
-                  ),
-                )
-              : Column(
-                  spacing: 32,
-                  children: [
-                    Container(
-                      width: double.infinity,
-                      padding: EdgeInsets.all(24),
-                      decoration: BoxDecoration(
-                        color: CustomColors.foreground,
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        spacing: 24,
-                        children: [
-                          _data(
-                            context,
-                            prefix: 'For:',
-                            info:
-                                '${widget.student!.name} (${widget.student!.age})',
-                          ),
-                          Row(
-                            spacing: 24,
-                            children: [
-                              Expanded(
-                                child: _data(
-                                  context,
-                                  prefix: 'Package',
-                                  info: widget.tier!,
-                                ),
-                              ),
-                              Expanded(
-                                child: _data(
-                                  context,
-                                  prefix: 'Cost per class',
-                                  info: '\$${widget.price!}',
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            spacing: 24,
-                            children: [
-                              Expanded(
-                                child: _data(
-                                  context,
-                                  prefix: 'Classes',
-                                  info: widget.bookingCount.toString(),
-                                ),
-                              ),
-                              Expanded(
-                                child: _data(
-                                  context,
-                                  prefix: 'Amount due',
-                                  info: '\$${_amountDue.toString()}',
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    CustomButton.primary(
-                      context,
-                      label: 'Pay for booking: \$$_amountDue',
-                      isLoading: _processingPayment,
-                      onTap: _handlePayment,
-                    ),
-                  ],
-                ),
-        ],
+        ),
       ),
-    ),
+      if (_showPaymentCard)
+        PaymentInProgressCard(confirmingPayment: _confirmingPayment),
+    ],
   );
 
   Widget _data(
@@ -178,56 +208,31 @@ class _PaymentPageState extends State<PaymentPage> {
   void _handlePayment() async {
     setState(() => _processingPayment = true);
     try {
-      final amountInCents = widget.price! * widget.bookingCount! * 100;
       // Fetch parent email from auth
       final user = Supabase.instance.client.auth.currentUser;
       if (user == null) {
         CustomSnackbar.main(context, message: 'User is not signed in');
         return;
       }
-      // 1. Create Payment Intent
-      final clientSecret = await AppHelper.createPaymentIntent(
+      // 1. Create Checkout Session
+      final sessionUrl = await AppHelper.createCheckoutSession(
         context,
-        amountInCents: int.parse(amountInCents.toString()),
+        tierPrice: widget.price!,
         studentId: widget.student!.id,
         currency: 'usd',
+        sessionCount: widget.bookingCount!,
         tier: widget.tier!,
         parentEmail: user.email!,
       );
-      if (clientSecret == null && mounted) {
-        CustomSnackbar.main(
-          context,
-          message: 'Failed to initialize payment. Try again!',
-        );
+      if (sessionUrl == null) {
+        if (mounted) {
+          CustomSnackbar.main(context, message: 'Checkout failed. Try again!');
+        }
         return;
       }
-      // 2. Initialize payment
-      await Stripe.instance.initPaymentSheet(
-        paymentSheetParameters: SetupPaymentSheetParameters(
-          paymentIntentClientSecret: clientSecret,
-          merchantDisplayName: 'Pay Grace Ogangwu',
-          style: ThemeMode.light,
-        ),
-      );
-      // 3. Present the payment sheet
-      final payment = await Stripe.instance.presentPaymentSheet();
-      if (payment == null || !mounted) return;
-      // 4. Create booking
-      final booking = await _createBooking();
-      if (!booking) return;
-      _onPaymentCompleted();
-    } on StripeException catch (e) {
-      print(e.error);
-      if (!mounted) return;
-      if (e.error.localizedMessage == null ||
-          e.error.localizedMessage!.isEmpty) {
-        CustomSnackbar.main(
-          context,
-          message: 'Payment failed unexpectedly. Try again.',
-        );
-      } else {
-        CustomSnackbar.main(context, message: e.error.localizedMessage!);
-      }
+      // 2. Open checkout window
+      web.window.open(sessionUrl, 'Stripe Checkout');
+      _showPaymentInProgressCard();
     } catch (e) {
       if (!mounted) return;
       print(e);
@@ -240,6 +245,44 @@ class _PaymentPageState extends State<PaymentPage> {
     }
   }
 
+  void _listenForStripePayment() {
+    _messageSubscription?.cancel();
+
+    _messageSubscription = web.window.onMessage.listen((
+      web.MessageEvent event,
+    ) {
+      try {
+        final jsData = event.data;
+        if (jsData != null) {
+          final jsObject = jsData as JSObject;
+
+          // Access properties directly
+          final typeJS = jsObject.getProperty('type'.toJS);
+          final sessionIdJS = jsObject.getProperty('sessionId'.toJS);
+
+          if (typeJS != null) {
+            final type = (typeJS as JSString).toDart;
+
+            if (type == 'payment_success') {
+              if (sessionIdJS != null) {
+                final sessionId = (sessionIdJS as JSString).toDart;
+                if (mounted) _confirmPayment(context, sessionId);
+              }
+            } else if (type == 'payment_cancelled') {
+              if (mounted) setState(() => _showPaymentCancelledMessage = true);
+            }
+          }
+        }
+      } catch (e) {
+        print('Error processing message: $e');
+      }
+    });
+  }
+
+  void _showPaymentInProgressCard() => setState(() => _showPaymentCard = true);
+
+  void _hidePaymentCard() => setState(() => _showPaymentCard = false);
+
   Future<bool> _createBooking() async {
     final amount = widget.price! * widget.bookingCount! * 100;
     final res = await AppHelper.createBooking(
@@ -251,6 +294,36 @@ class _PaymentPageState extends State<PaymentPage> {
     );
     setState(() => _booking = res);
     return res == null ? false : true;
+  }
+
+  void _confirmPayment(BuildContext context, String sessionId) async {
+    setState(() => _confirmingPayment = true);
+    try {
+      final paymentConfirmed = await AppHelper.confirmCheckoutPayment(
+        context,
+        checkoutSessionId: sessionId,
+      );
+      if (paymentConfirmed == true) {
+        final booking = await _createBooking();
+        if (!booking) {
+          if (context.mounted) {
+            CustomSnackbar.main(
+              context,
+              message:
+                  'Booking record not created. Continue, we\'ll fix that on our end.',
+            );
+          }
+        }
+        _onPaymentCompleted();
+        return;
+      } else {
+        _hidePaymentCard();
+        setState(() => _showPaymentCancelledMessage = true);
+        return;
+      }
+    } finally {
+      setState(() => _confirmingPayment = false);
+    }
   }
 
   void _onPaymentCompleted() {
