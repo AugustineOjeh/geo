@@ -189,7 +189,9 @@ class _PaymentPageState extends State<PaymentPage> {
         ),
       ),
       if (_showPaymentCard)
-        PaymentInProgressCard(confirmingPayment: _confirmingPayment),
+        Positioned.fill(
+          child: PaymentInProgressCard(confirmingPayment: _confirmingPayment),
+        ),
     ],
   );
 
@@ -214,12 +216,25 @@ class _PaymentPageState extends State<PaymentPage> {
         CustomSnackbar.main(context, message: 'User is not signed in');
         return;
       }
-      // 1. Create Checkout Session
+      // 1. Create Booking record
+      final booking = await _createBooking();
+      if (!booking) {
+        if (!mounted) return;
+        CustomSnackbar.main(
+          context,
+          message: 'Failed to create booking. Try again',
+        );
+        return;
+      }
+      // 2. Create Checkout Session
+      if (!mounted) return;
       final sessionUrl = await AppHelper.createCheckoutSession(
         context,
-        tierPrice: widget.price!,
+        tierPrice: (widget.price! * 100),
         studentId: widget.student!.id,
+        userId: user.id,
         currency: 'usd',
+        bookingId: _booking!['id'],
         sessionCount: widget.bookingCount!,
         tier: widget.tier!,
         parentEmail: user.email!,
@@ -230,16 +245,16 @@ class _PaymentPageState extends State<PaymentPage> {
         }
         return;
       }
-      // 2. Open checkout window
+      // 3. Open checkout window
       web.window.open(sessionUrl, 'Stripe Checkout');
       _showPaymentInProgressCard();
     } catch (e) {
       if (!mounted) return;
-      print(e);
       CustomSnackbar.main(
         context,
         message: 'Payment failed unexpectedly. Try again.',
       );
+      rethrow;
     } finally {
       setState(() => _processingPayment = false);
     }
@@ -247,7 +262,6 @@ class _PaymentPageState extends State<PaymentPage> {
 
   void _listenForStripePayment() {
     _messageSubscription?.cancel();
-
     _messageSubscription = web.window.onMessage.listen((
       web.MessageEvent event,
     ) {
@@ -259,22 +273,25 @@ class _PaymentPageState extends State<PaymentPage> {
           // Access properties directly
           final typeJS = jsObject.getProperty('type'.toJS);
           final sessionIdJS = jsObject.getProperty('sessionId'.toJS);
-
+          print('Now listening for payment response');
           if (typeJS != null) {
             final type = (typeJS as JSString).toDart;
-
             if (type == 'payment_success') {
+              print('Payment success message received');
               if (sessionIdJS != null) {
                 final sessionId = (sessionIdJS as JSString).toDart;
-                if (mounted) _confirmPayment(context, sessionId);
+                print('Checkout SessionID = $sessionId');
+                if (mounted) _confirmPayment(sessionId);
               }
             } else if (type == 'payment_cancelled') {
+              print('Payment cancelled message received');
+              _hidePaymentCard();
               if (mounted) setState(() => _showPaymentCancelledMessage = true);
             }
           }
         }
       } catch (e) {
-        print('Error processing message: $e');
+        throw 'Error processing message: $e';
       }
     });
   }
@@ -290,13 +307,13 @@ class _PaymentPageState extends State<PaymentPage> {
       tier: widget.tier!,
       studentId: widget.student!.id,
       slotsRequired: widget.bookingCount!,
-      amountPaid: int.parse(amount.toString()),
+      amount: int.parse(amount.toString()),
     );
     setState(() => _booking = res);
     return res == null ? false : true;
   }
 
-  void _confirmPayment(BuildContext context, String sessionId) async {
+  void _confirmPayment(String sessionId) async {
     setState(() => _confirmingPayment = true);
     try {
       final paymentConfirmed = await AppHelper.confirmCheckoutPayment(
@@ -304,15 +321,13 @@ class _PaymentPageState extends State<PaymentPage> {
         checkoutSessionId: sessionId,
       );
       if (paymentConfirmed == true) {
-        final booking = await _createBooking();
-        if (!booking) {
-          if (context.mounted) {
-            CustomSnackbar.main(
-              context,
-              message:
-                  'Booking record not created. Continue, we\'ll fix that on our end.',
-            );
-          }
+        final data = {'paid': true};
+        if (mounted) {
+          await AppHelper.updateBooking(
+            context,
+            data: data,
+            bookingId: _booking!['id'],
+          );
         }
         _onPaymentCompleted();
         return;

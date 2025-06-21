@@ -81,13 +81,13 @@ class AppHelper {
     required String tier,
     required String studentId,
     required int slotsRequired,
-    required num amountPaid,
+    required num amount,
   }) async {
     final data = {
       'tier': tier,
       'student_id': studentId,
       'slots_required': slotsRequired,
-      'amount_paid': amountPaid,
+      'amount': amount,
     };
     final req = supabase
         .schema('occl')
@@ -99,15 +99,15 @@ class AppHelper {
     return res;
   }
 
-  static Future<Map<String, dynamic>?> updateBookedSlots(
+  static Future<Map<String, dynamic>?> updateBooking(
     BuildContext context, {
-    required int data,
+    required Map<String, dynamic> data,
     required String bookingId,
   }) async {
     final req = supabase
         .schema('occl')
         .from('bookings')
-        .update({'slots_booked': data})
+        .update(data)
         .eq('id', bookingId)
         .select('id')
         .single();
@@ -125,9 +125,13 @@ class AppHelper {
     /// Number of classes being booked
     required int sessionCount,
 
+    /// For [client_reference_id] param in Stripe
+    required String userId,
+
     /// usd formatted to lower case
     required String currency,
     required String studentId,
+    required String bookingId,
     required String parentEmail,
   }) async {
     final token = supabase.auth.currentSession?.accessToken;
@@ -146,6 +150,7 @@ class AppHelper {
         'tierPrice': tierPrice,
         'sessionCount': sessionCount,
         'studentId': studentId,
+        'userId': userId,
         'parentEmail': parentEmail,
         'currency': formattedCurrency,
       },

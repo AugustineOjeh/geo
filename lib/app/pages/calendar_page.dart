@@ -141,10 +141,12 @@ class _CalendarPageState extends State<CalendarPage> {
       _onBookingCompleted();
       return;
     }
+
     final newSlotCount = _bookedSlots + 1;
-    final res = await AppHelper.updateBookedSlots(
+    final data = {'slots_booked': newSlotCount};
+    final res = await AppHelper.updateBooking(
       context,
-      data: newSlotCount,
+      data: data,
       bookingId: widget.bookingId,
     );
     if (res == null && mounted) {

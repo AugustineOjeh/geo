@@ -22,6 +22,7 @@ class PaymentInProgressCard extends StatelessWidget {
       constraints: Device.isMobile(context)
           ? null
           : BoxConstraints(maxWidth: 320),
+      alignment: Alignment.center,
       padding: EdgeInsets.symmetric(horizontal: 24, vertical: 32),
       decoration: BoxDecoration(
         color: CustomColors.foreground,
@@ -33,6 +34,7 @@ class PaymentInProgressCard extends StatelessWidget {
       ),
       child: Column(
         spacing: 16,
+        mainAxisSize: MainAxisSize.min,
         children: [
           Text(
             confirmingPayment
@@ -53,10 +55,13 @@ class PaymentInProgressCard extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           SizedBox(height: 16),
-          CircularProgressIndicator(
-            color: CustomColors.primary,
-            constraints: BoxConstraints(maxHeight: 24, maxWidth: 24),
-            strokeWidth: 2,
+          SizedBox(
+            height: 24,
+            width: 24,
+            child: CircularProgressIndicator(
+              color: CustomColors.primary,
+              strokeWidth: 2,
+            ),
           ),
           SizedBox(height: 16),
           Text(
