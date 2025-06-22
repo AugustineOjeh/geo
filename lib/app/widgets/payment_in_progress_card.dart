@@ -10,18 +10,11 @@ class PaymentInProgressCard extends StatelessWidget {
   Widget build(BuildContext context) => Container(
     width: double.infinity,
     height: Device.screenHeight(context) - 240,
-
     decoration: BoxDecoration(
       color: CustomColors.background.withValues(alpha: 0.7),
     ),
-    padding: EdgeInsets.symmetric(
-      horizontal: CustomPadding.pageHorizontal(context),
-      vertical: 32,
-    ),
     child: Container(
-      constraints: Device.isMobile(context)
-          ? null
-          : BoxConstraints(maxWidth: 320),
+      width: double.infinity,
       alignment: Alignment.center,
       padding: EdgeInsets.symmetric(horizontal: 24, vertical: 32),
       decoration: BoxDecoration(
@@ -56,8 +49,8 @@ class PaymentInProgressCard extends StatelessWidget {
           ),
           SizedBox(height: 16),
           SizedBox(
-            height: 24,
-            width: 24,
+            height: 18,
+            width: 18,
             child: CircularProgressIndicator(
               color: CustomColors.primary,
               strokeWidth: 2,

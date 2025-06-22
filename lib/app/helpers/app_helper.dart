@@ -181,16 +181,16 @@ class AppHelper {
       );
     }
     final res = await supabase.functions.invoke(
-      'create-stripe-checkout-session',
+      'confirm-stripe-checkout-session',
       method: HttpMethod.get,
-      body: {'name': 'Functions', 'sessionId': checkoutSessionId},
+      queryParameters: {'sessionId': checkoutSessionId},
       headers: {'Authorization': 'Bearer $token'},
     );
     if (200 <= res.status && res.status < 300) {
       return res.data['paid'] as bool;
     } else {
       throw Exception(
-        'Failed to create checkout session: ${(res as FunctionException)}',
+        'Failed to confirm session: ${(res as FunctionException)}',
       );
     }
   }

@@ -321,6 +321,7 @@ class _PaymentPageState extends State<PaymentPage> {
         checkoutSessionId: sessionId,
       );
       if (paymentConfirmed == true) {
+        print('Payment confirmed');
         final data = {'paid': true};
         if (mounted) {
           await AppHelper.updateBooking(
