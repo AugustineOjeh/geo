@@ -109,6 +109,7 @@ class CustomRoutes {
       student: args['student'] as Student,
       bookingId: args['booking-id'] as String,
       tier: args['tier'],
+      email: args['email'],
       bookingCount: args['booking-count'] as int,
     ),
     PageNames.bookingCompleted: (context, args) => BookingSuccessPage(),

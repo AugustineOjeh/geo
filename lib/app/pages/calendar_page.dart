@@ -4,8 +4,8 @@ import 'package:grace_ogangwu/app/core/student_model.dart';
 import 'package:grace_ogangwu/app/helpers/app_helper.dart';
 import 'package:grace_ogangwu/app/widgets/calendly_iframe.dart';
 import 'package:grace_ogangwu/components/components.dart';
+import 'package:grace_ogangwu/constants/sizes.dart';
 import 'package:grace_ogangwu/constants/styles.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 class CalendarPage extends StatefulWidget {
   const CalendarPage({
@@ -13,11 +13,13 @@ class CalendarPage extends StatefulWidget {
     required this.bookingId,
     required this.tier,
     required this.bookingCount,
+    required this.email,
     super.key,
   });
   final Student student;
   final String bookingId;
   final String tier;
+  final String email;
   final int bookingCount;
 
   @override
@@ -27,25 +29,14 @@ class CalendarPage extends StatefulWidget {
 class _CalendarPageState extends State<CalendarPage> {
   bool _loading = false;
   int _bookedSlots = 0;
-  late String _calendlyUrl;
 
   @override
   void initState() {
     super.initState();
-    _init();
-  }
-
-  void _init() {
-    final user = Supabase.instance.client.auth.currentUser;
-    setState(
-      () => _calendlyUrl =
-          'https://calendly.com/g-ogangwu/book-premium-class?email=${user!.email}&name=${widget.student.name}&a1=student_${widget.student.id}&a2=booking_${widget.bookingId}&hide_email=1&hide_name=1',
-    );
   }
 
   @override
   Widget build(BuildContext context) => SizedBox(
-    width: double.infinity,
     child: Column(
       spacing: 32,
       children: [
@@ -53,30 +44,56 @@ class _CalendarPageState extends State<CalendarPage> {
           context,
           isCentered: true,
           prefixText: 'Schedule classes',
-          headline: 'Select date and time for class ${_bookedSlots + 1}',
+          headline: 'Select date and time for class #${_bookedSlots + 1}',
         ),
-        _loading
-            ? Center(
-                child: CircularProgressIndicator(
-                  color: CustomColors.primary,
-                  strokeWidth: 2,
+        SizedBox(
+          height: Device.screenHeight(context) - 200,
+          width: double.infinity,
+          child: _loading
+              ? Center(
+                  child: CircularProgressIndicator(
+                    color: CustomColors.primary,
+                    strokeWidth: 2,
+                  ),
+                )
+              : Column(
+                  spacing: 16,
+                  children: [
+                    ConstrainedBox(
+                      constraints: BoxConstraints(
+                        maxWidth: 1400,
+                        maxHeight: Device.screenHeight(context),
+                      ),
+
+                      child: CalendlyIframe(
+                        iframeUrl:
+                            'https://calendly.com/g-ogangwu/book-premium-class?email=${widget.email}&name=${widget.student.name}&a1=student-${widget.student.id}&a2=booking-${widget.bookingId}&hide_email=1&hide_name=1&a3=slot-${_bookedSlots + 1}',
+                        width: Device.isMobile(context)
+                            ? double.infinity
+                            : 1400,
+                        height: Device.screenHeight(context) - 300,
+                        onEventScheduled: _onSessionBooked,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 240,
+                      child: CustomButton.primary(
+                        context,
+                        label: (_bookedSlots + 1 >= widget.bookingCount)
+                            ? 'Continue'
+                            : 'Schedule class #${_bookedSlots + 2}',
+                        onTap: _onSessionBooked,
+                      ),
+                    ),
+                    SizedBox(),
+                  ],
                 ),
-              )
-            : SizedBox(
-                child: CalendlyIframe(
-                  iframeUrl: _calendlyUrl,
-                  onEventScheduled: _onSessionBooked,
-                ),
-              ),
+        ),
       ],
     ),
   );
 
   void _onSessionBooked() async {
-    if (_bookedSlots >= widget.bookingCount) {
-      _onBookingCompleted();
-      return;
-    }
     setState(() {
       _loading = true;
       _bookedSlots++;
@@ -94,6 +111,7 @@ class _CalendarPageState extends State<CalendarPage> {
               'Something went wrong. Continue booking while we rectify things',
         );
       }
+      if (_bookedSlots >= widget.bookingCount) _onBookingCompleted();
     } finally {
       setState(() => _loading = false);
     }

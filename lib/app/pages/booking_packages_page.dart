@@ -57,6 +57,7 @@ class _BookingPackagesPageState extends State<BookingPackagesPage> {
             ),
           ],
         ),
+        SizedBox(),
       ],
     );
   }

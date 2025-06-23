@@ -118,7 +118,7 @@ Widget _mobileProposition(BuildContext context) => Column(
     ),
     _uvp(
       context,
-      number: 3,
+      number: 4,
       title: '5+',
       description: [
         TextSpan(text: 'Teaches students across'),
@@ -199,7 +199,7 @@ Widget _tabletProposition(BuildContext context) => SizedBox(
             child: SizedBox(
               child: _uvp(
                 context,
-                number: 3,
+                number: 4,
                 title: '5+',
                 description: [
                   TextSpan(text: 'Teaches students across'),
@@ -269,7 +269,7 @@ Widget _desktopProposition(BuildContext context) => SizedBox(
       Flexible(
         child: _uvp(
           context,
-          number: 3,
+          number: 4,
           title: '5+',
           description: [
             TextSpan(text: 'Teaches students across'),

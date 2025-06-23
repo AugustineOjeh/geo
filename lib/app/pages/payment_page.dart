@@ -171,7 +171,8 @@ class _PaymentPageState extends State<PaymentPage> {
                           context,
                           label: 'Pay for booking: \$$_amountDue',
                           isLoading: _processingPayment,
-                          onTap: _handlePayment,
+                          onTap:
+                              _onPaymentCompleted, // TODO: Change to _handlePayment,
                         ),
                         if (_showPaymentCancelledMessage)
                           Text(
@@ -343,13 +344,15 @@ class _PaymentPageState extends State<PaymentPage> {
   }
 
   void _onPaymentCompleted() {
+    final user = Supabase.instance.client.auth.currentUser;
     NavigationManager.pushReplacement(
       PageNames.calendar,
       arguments: {
-        'student': Student.fromMap(_booking?['students']),
+        'student': widget.student,
         'booking-count': widget.bookingCount,
         'tier': widget.tier,
-        'booking-id': _booking?['id'],
+        'email': user!.email,
+        'booking-id': 'booking_1234555', // _booking?['id'],
       },
     );
   }
