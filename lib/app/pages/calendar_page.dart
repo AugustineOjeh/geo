@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:grace_ogangwu/app/core/navigation_manager.dart';
 import 'package:grace_ogangwu/app/core/student_model.dart';
 import 'package:grace_ogangwu/app/helpers/app_helper.dart';
+import 'package:grace_ogangwu/app/widgets/calendly_iframe.dart';
 import 'package:grace_ogangwu/components/components.dart';
 import 'package:grace_ogangwu/constants/styles.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 class CalendarPage extends StatefulWidget {
   const CalendarPage({
@@ -26,10 +26,8 @@ class CalendarPage extends StatefulWidget {
 
 class _CalendarPageState extends State<CalendarPage> {
   bool _loading = false;
-  bool _loadingPage = false;
   int _bookedSlots = 0;
-  late String _email;
-  late WebViewController _controller;
+  late String _calendlyUrl;
 
   @override
   void initState() {
@@ -39,26 +37,10 @@ class _CalendarPageState extends State<CalendarPage> {
 
   void _init() {
     final user = Supabase.instance.client.auth.currentUser;
-    setState(() {
-      _loadingPage = true;
-      _email = user!.email!;
-      _controller = WebViewController()
-        ..setJavaScriptMode(JavaScriptMode.unrestricted)
-        ..addJavaScriptChannel(
-          'FlutterWebViewPlugin',
-          onMessageReceived: (message) async {
-            if (message.message == 'event_scheduled') _onSessionBooked();
-          },
-        )
-        ..loadHtmlString(
-          _calendlyEmbedHtml(
-            name: widget.student.name,
-            email: _email,
-            studentId: widget.student.id,
-            bookingId: widget.bookingId,
-          ),
-        );
-    });
+    setState(
+      () => _calendlyUrl =
+          'https://calendly.com/g-ogangwu/book-premium-class?email=${user!.email}&name=${widget.student.name}&a1=student_${widget.student.id}&a2=booking_${widget.bookingId}&hide_email=1&hide_name=1',
+    );
   }
 
   @override
@@ -73,95 +55,48 @@ class _CalendarPageState extends State<CalendarPage> {
           prefixText: 'Schedule classes',
           headline: 'Select date and time for class ${_bookedSlots + 1}',
         ),
-        _loadingPage || _loading
+        _loading
             ? Center(
                 child: CircularProgressIndicator(
                   color: CustomColors.primary,
                   strokeWidth: 2,
                 ),
               )
-            : SizedBox(child: WebViewWidget(controller: _controller)),
+            : SizedBox(
+                child: CalendlyIframe(
+                  iframeUrl: _calendlyUrl,
+                  onEventScheduled: _onSessionBooked,
+                ),
+              ),
       ],
     ),
   );
-  String _calendlyEmbedHtml({
-    required String name,
-    required String email,
-    required String studentId,
-    required String bookingId,
-  }) {
-    return '''
-   <!DOCTYPE html>
-<html>
-  <head>
-    <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript"></script>
-  </head>
-  <body>
-    <div id="calendly-container"></div>
-
-    <script type="text/javascript">
-      function loadCalendly() {
-        Calendly.initInlineWidget({
-          url: 'https://calendly.com/g-ogangwu/book-premium-class',
-          parentElement: document.getElementById('calendly-container'),
-          prefill: {
-            name: "$name",
-            email: "$email",
-            customAnswers: {
-              a1: "student_id: $studentId",
-              a2: "booking_id: $bookingId"
-            }
-          },
-          utm: {},
-        });
-      }
-
-      window.addEventListener('message', function(e) {
-        if (e.origin === "https://calendly.com" && e.data.event === "calendly.event_scheduled") {
-          // Send message to Flutter
-          if (window.FlutterWebviewPlugin) {
-            window.FlutterWebviewPlugin.postMessage("event_scheduled");
-          } else if (window.flutter_inappwebview) {
-            window.flutter_inappwebview.callHandler('eventScheduled');
-          } else {
-            window.parent.postMessage("event_scheduled", "*");
-          }
-        }
-      });
-
-      loadCalendly();
-    </script>
-  </body>
-</html>
-    ''';
-  }
 
   void _onSessionBooked() async {
     if (_bookedSlots >= widget.bookingCount) {
       _onBookingCompleted();
       return;
     }
-
-    final newSlotCount = _bookedSlots + 1;
-    final data = {'slots_booked': newSlotCount};
-    final res = await AppHelper.updateBooking(
-      context,
-      data: data,
-      bookingId: widget.bookingId,
-    );
-    if (res == null && mounted) {
-      CustomSnackbar.main(
+    setState(() {
+      _loading = true;
+      _bookedSlots++;
+    });
+    try {
+      final res = await AppHelper.updateBooking(
         context,
-        message:
-            'Something went wrong. Continue booking while we rectify things',
+        data: {'slots_booked': _bookedSlots},
+        bookingId: widget.bookingId,
       );
+      if (res == null && mounted) {
+        CustomSnackbar.main(
+          context,
+          message:
+              'Something went wrong. Continue booking while we rectify things',
+        );
+      }
+    } finally {
+      setState(() => _loading = false);
     }
-    setState(() => _bookedSlots = newSlotCount);
-    _reloadCalendly();
-  }
-
-  void _reloadCalendly() {
-    _controller.runJavaScript('loadCalendly();');
   }
 
   void _onBookingCompleted() async {
