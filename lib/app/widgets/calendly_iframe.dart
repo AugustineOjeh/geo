@@ -73,8 +73,6 @@ class _CalendlyIframeState extends State<CalendlyIframe> {
       final eventType = data.getProperty('event'.toJS);
       final payload = data.getProperty('payload'.toJS);
 
-      print('Calendly Event: $eventType');
-
       if (eventType != null) {
         final type = (eventType as JSString).toDart;
         if (type == 'calendly.event_scheduled') {
@@ -88,7 +86,6 @@ class _CalendlyIframeState extends State<CalendlyIframe> {
   }
 
   void _onEventScheduled(dynamic payload) {
-    print('Event scheduled! Payload: $payload');
     widget.onEventScheduled();
     _reRenderIframe();
   }
@@ -119,7 +116,6 @@ class _CalendlyIframeState extends State<CalendlyIframe> {
     );
     // Recreate iframe element for fresh state
     _createIframe();
-    print('Iframe re-rendered for next booking.');
   }
 
   @override

@@ -92,7 +92,7 @@ class CustomRoutes {
     ),
 
     PageNames.payment: (context, args) => PaymentPage(
-      student: args['student'] as Student?,
+      student: args['student'] as Student,
       tier: args['tier'] as String?,
       price: args['pricing'] as double?,
       bookingCount: args['booking-count'] as int?,

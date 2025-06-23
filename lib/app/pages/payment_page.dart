@@ -171,8 +171,7 @@ class _PaymentPageState extends State<PaymentPage> {
                           context,
                           label: 'Pay for booking: \$$_amountDue',
                           isLoading: _processingPayment,
-                          onTap:
-                              _onPaymentCompleted, // TODO: Change to _handlePayment,
+                          onTap: _handlePayment,
                         ),
                         if (_showPaymentCancelledMessage)
                           Text(
@@ -274,18 +273,14 @@ class _PaymentPageState extends State<PaymentPage> {
           // Access properties directly
           final typeJS = jsObject.getProperty('type'.toJS);
           final sessionIdJS = jsObject.getProperty('sessionId'.toJS);
-          print('Now listening for payment response');
           if (typeJS != null) {
             final type = (typeJS as JSString).toDart;
             if (type == 'payment_success') {
-              print('Payment success message received');
               if (sessionIdJS != null) {
                 final sessionId = (sessionIdJS as JSString).toDart;
-                print('Checkout SessionID = $sessionId');
                 if (mounted) _confirmPayment(sessionId);
               }
             } else if (type == 'payment_cancelled') {
-              print('Payment cancelled message received');
               _hidePaymentCard();
               if (mounted) setState(() => _showPaymentCancelledMessage = true);
             }
@@ -322,7 +317,6 @@ class _PaymentPageState extends State<PaymentPage> {
         checkoutSessionId: sessionId,
       );
       if (paymentConfirmed == true) {
-        print('Payment confirmed');
         final data = {'paid': true};
         if (mounted) {
           await AppHelper.updateBooking(

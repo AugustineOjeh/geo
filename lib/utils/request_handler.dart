@@ -11,13 +11,12 @@ class RequestHandler {
   }) async {
     try {
       return await request();
-    } on PostgrestException catch (e) {
-      print(e);
-      if (!context.mounted) return null;
-      CustomSnackbar.main(context, message: e.message);
-      return null;
+    } on PostgrestException {
+      rethrow;
+      // if (!context.mounted) return null;
+      // CustomSnackbar.main(context, message: e.message);
+      // return null;
     } on AuthException catch (e) {
-      print(e);
       if (!context.mounted) return null;
       if (e.code == 'user_already_exists') {
         CustomSnackbar.main(
@@ -32,15 +31,10 @@ class RequestHandler {
           message:
               'Wrong email or password. Check your credentials and try again.',
         );
-      } else {
-        CustomSnackbar.main(context, message: e.message);
       }
-      return null;
+      rethrow;
     } catch (e) {
-      print(e);
-      if (!context.mounted) return null;
-      CustomSnackbar.main(context, message: e.toString());
-      return null;
+      rethrow;
     }
   }
 }

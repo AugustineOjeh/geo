@@ -62,6 +62,23 @@ class AppHelper {
     );
   }
 
+  static Future<bool> updateStudentData(
+    BuildContext context, {
+    required Student data,
+  }) async {
+    final user = supabase.auth.currentUser;
+    if (user == null) return false;
+    final req = supabase
+        .schema('occl')
+        .from('students')
+        .update(data.toMap())
+        .eq('id', data.id)
+        .select()
+        .single();
+    final res = await RequestHandler.req(context, request: () => req);
+    return res == null ? false : true;
+  }
+
   static Future<List<Student>?> fetchStudentsByParent(
     BuildContext context,
   ) async {
@@ -203,7 +220,9 @@ class AppHelper {
         .schema('occl')
         .from('questionnaires')
         .select('id')
-        .eq('student_id', studentId);
+        .eq('student_id', studentId)
+        .limit(1)
+        .maybeSingle();
     final res = await RequestHandler.req(context, request: () => req);
     return res == null || res.isEmpty ? false : true;
   }
